@@ -9,6 +9,8 @@
 - Run the following commands in the terminal/command line:
   - `git clone https://github.com/fabsgc/TweedeFramework.git`
   - `cd TweedeFramework`
+  - `mkdir Build`
+  - `cd Build`
   - `cmake -G "$generator$" ..`
     - Where *$generator$* should be replaced with any of the supported generators. Some common ones:
 	  - `Visual Studio 15 2017 Win64` - Visual Studio 2017 (64-bit build)

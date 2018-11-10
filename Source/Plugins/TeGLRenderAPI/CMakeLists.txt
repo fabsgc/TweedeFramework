@@ -39,6 +39,6 @@ target_link_libraries (TeGLRenderAPI PUBLIC tef)
 set_property (TARGET TeGLRenderAPI PROPERTY FOLDER Plugins)
 
 # Install
-if (RENDER_API_MODULE MATCHES "OpenGL")
+if (RENDER_API_MODULE MATCHES "OpenGL" AND !WIN32)
     install_tef_target (TeGLRenderAPI)
 endif()

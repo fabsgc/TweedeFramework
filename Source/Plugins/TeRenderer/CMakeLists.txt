@@ -18,4 +18,6 @@ target_link_libraries (TeRenderer tef)
 set_property (TARGET TeRenderer PROPERTY FOLDER Plugins)
 
 # Install
-install_tef_target (TeRenderer)
+if (!WIN32)
+    install_tef_target (TeRenderer)
+endif ()

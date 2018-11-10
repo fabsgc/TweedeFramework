@@ -39,20 +39,22 @@ add_subdirectory (Framework)
 
 ## Plugins
 if (INCLUDE_ALL_IN_WORKFLOW AND MSVC)
-	add_subdirectory (Plugins/TeD3D11RenderAPI)
-	add_subdirectory (Plugins/TeGLRenderAPI)
+    add_subdirectory (Plugins/TeD3D11RenderAPI)
+    add_subdirectory (Plugins/TeGLRenderAPI)
 else () # Otherwise include only chosen ones
-	if (RENDER_API_MODULE MATCHES "DirectX 11")
-		add_subdirectory (Plugins/TeD3D11RenderAPI)
-	else ()
-		add_subdirectory (Plugins/TeGLRenderAPI)
-	endif ()
+    if (RENDER_API_MODULE MATCHES "DirectX 11")
+        add_subdirectory (Plugins/TeD3D11RenderAPI)
+    else ()
+        add_subdirectory (Plugins/TeGLRenderAPI)
+    endif ()
 endif ()
 
 add_subdirectory (Plugins/TeRenderer)
 
 # Install
-install (
-	DIRECTORY ../Data
-	DESTINATION bin/
-)
+if (!WIN32)
+    install (
+        DIRECTORY ${PROJECT_SOURCE_DIR}/Data
+        DESTINATION ${PROJECT_SOURCE_DIR}/bin/
+    )
+endif ()

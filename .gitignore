@@ -9,6 +9,7 @@ lib/
 .vs/
 x64/
 x86/
+Build/
 
 *.vcxproj
 *.vcxproj.filters
