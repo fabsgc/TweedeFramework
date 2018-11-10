@@ -1,0 +1,104 @@
+# Source files and their filters
+include (Core/CMakeSources.cmake)
+include (Utility/CMakeSources.cmake)
+
+if (LINUX)
+	find_package (X11 REQUIRED)
+	find_package (LibUUID REQUIRED)
+	find_package (LibICU REQUIRED)
+
+	if (NOT X11_Xcursor_FOUND)
+		message (FATAL_ERROR "Could not find XCursor library.")
+	endif()
+
+	if (NOT X11_Xrandr_FOUND)
+		message (FATAL_ERROR "Could not find XRandR library.")
+	endif()
+
+	if (NOT X11_Xi_FOUND)
+		message (FATAL_ERROR "Could not find Xi (XInput) library.")
+	endif()
+elseif (APPLE)
+	find_package (LibUUID REQUIRED)
+endif ()
+
+# Third party (non-package) libraries
+add_library (ThirdParty INTERFACE)
+target_include_directories (ThirdParty INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/Utility/ThirdParty")
+
+# Target
+add_library (tef SHARED ${TE_UTILITY_SRC} ${TE_CORE_SRC})
+
+# Includes
+target_include_directories (tef PUBLIC "TeUtility" "TeCore")
+
+# Defines
+target_compile_definitions (tef PRIVATE 
+	-DTE_EXPORTS
+	-DTE_CORE_EXPORTS
+	-DTE_UTILITY_EXPORTS
+	$<$<CONFIG:Debug>:TE_CONFIG=BS_CONFIG_DEBUG>
+	$<$<CONFIG:RelWithDebInfo>:TE_CONFIG=BS_CONFIG_RELWITHDEBINFO>
+	$<$<CONFIG:MinSizeRel>:TE_CONFIG=BS_CONFIG_MINSIZEREL>
+	$<$<CONFIG:Release>:TE_CONFIG=BS_CONFIG_RELEASE>)
+
+## External libs: Header only libraries
+target_link_libraries (tef PUBLIC ThirdParty)
+
+if (LINUX)
+	## External lib: X11, LibUUID, LibICU
+	target_link_libraries (tef PUBLIC ${X11_LIBRARIES} ${X11_Xcursor_LIB} ${X11_Xrandr_LIB} ${X11_Xi_LIB})
+	target_link_libraries (tef PRIVATE ${LibUUID_LIBRARIES})
+	target_link_libraries (tef PRIVATE ${LibICU_LIBRARIES})
+endif ()
+
+if (APPLE)
+	## External lib: LibUUID
+	target_link_libraries (tef PRIVATE ${LibUUID_LIBRARIES})
+endif ()
+
+## OS libs
+if (WIN32)
+	target_link_libraries (tef PRIVATE Winmm dinput8 xinput9_1_0 dxguid.lib)
+	target_link_libraries (tef PRIVATE DbgHelp IPHLPAPI Rpcrt4)
+elseif (LINUX)
+	target_link_libraries(tef PRIVATE dl pthread)
+elseif (APPLE) # MacOS
+	target_link_framework(tef CoreServices)
+	target_link_framework(tef IOKit)
+	target_link_framework(tef AppKit)
+	target_link_framework(tef Carbon)
+endif ()
+
+# IDE specific
+set_property (TARGET tef PROPERTY FOLDER Framework)
+
+# Install
+install (
+	DIRECTORY Utility
+	DESTINATION include
+	FILES_MATCHING 
+	PATTERN "*.h"
+	PATTERN "*.hpp"
+	PATTERN "Private" EXCLUDE
+)
+
+install (
+	DIRECTORY Core 
+	DESTINATION include
+	FILES_MATCHING 
+	PATTERN "*.h"
+	PATTERN "*.hpp"
+	PATTERN "Private" EXCLUDE
+)
+
+install (
+	DIRECTORY Engine
+	DESTINATION include
+	FILES_MATCHING 
+	PATTERN "*.h"
+	PATTERN "*.hpp"
+	PATTERN "Private" EXCLUDE
+)
+
+install_tef_target(tef)
