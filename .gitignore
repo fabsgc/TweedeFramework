@@ -3,26 +3,14 @@
 *~
 *.suo
 *.opensdf
-bin/
-obj/
-lib/
-.vs/
-x64/
-x86/
-Build/
+/bin/
+/lib/
+/Build/
 
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
 *.sln
-
-*.so
-*.a
-*.lib
-*.dll
-*.exp
-*.ilk
-*.pbd
 
 CMakeFiles/
 cmake_install.cmake
