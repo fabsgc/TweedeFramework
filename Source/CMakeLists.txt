@@ -50,7 +50,7 @@ include (${CMAKE_MODULE_PATH}/Findogg.cmake)
 include (${CMAKE_MODULE_PATH}/Findvorbis.cmake)
 
 ## Copy librairies into bin folder
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${APP_ROOT_DIR}/Dependencies/bin ${PROJECT_SOURCE_DIR}/bin) 
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${APP_ROOT_DIR}/Dependencies/binairies ${PROJECT_SOURCE_DIR}/bin) 
 
 # Sub-directories
 ## Framework
