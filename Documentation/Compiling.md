@@ -89,3 +89,9 @@ The following dependencies will need to be installed manually. Which ones are re
     - `brew install ossp-uuid`
 
 **All OS**
+  - **FMOD Low Level Programmer API 1.08.02** (Optional)
+    - Only needed if you selected the FMOD audio module during build configuration
+    - http://www.fmod.org/download/
+    - If CMake complains it cannot find FMOD, manually set the FMOD_INSTALL_DIRS to your installation directory 
+    - Copy the dynamic libraries (.dll) from {INSTALLDIR}/api/lowlevel/lib into /bin folder in bs::framework source code folder
+      - Use logging libraries for the Debug builds, and non-logging for RelWithDebInfo and Release builds

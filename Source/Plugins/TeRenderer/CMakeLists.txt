@@ -5,7 +5,7 @@ include(CMakeSources.cmake)
 add_library (TeRenderer SHARED ${TE_RENDERER_SRC})
 
 # Defines
-target_compile_definitions (TeRenderer PRIVATE -DTE_RSRND_EXPORTS)
+target_compile_definitions (TeRenderer PRIVATE -DTE_RND_EXPORTS)
 
 # Includes
 target_include_directories (TeRenderer PRIVATE "./")

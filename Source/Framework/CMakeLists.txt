@@ -74,33 +74,31 @@ endif ()
 set_property (TARGET tef PROPERTY FOLDER Framework)
 
 # Install
-if (!WIN32)
-    install (
-        DIRECTORY Utility
-        DESTINATION include
-        FILES_MATCHING 
-        PATTERN "*.h"
-        PATTERN "*.hpp"
-        PATTERN "Private" EXCLUDE
-    )
+install (
+    DIRECTORY Utility
+    DESTINATION include
+    FILES_MATCHING 
+    PATTERN "*.h"
+    PATTERN "*.hpp"
+    PATTERN "Private" EXCLUDE
+)
 
-    install (
-        DIRECTORY Core 
-        DESTINATION include
-        FILES_MATCHING 
-        PATTERN "*.h"
-        PATTERN "*.hpp"
-        PATTERN "Private" EXCLUDE
-    )
+install (
+    DIRECTORY Core 
+    DESTINATION include
+    FILES_MATCHING 
+    PATTERN "*.h"
+    PATTERN "*.hpp"
+    PATTERN "Private" EXCLUDE
+)
 
-    install (
-        DIRECTORY Engine
-        DESTINATION include
-        FILES_MATCHING 
-        PATTERN "*.h"
-        PATTERN "*.hpp"
-        PATTERN "Private" EXCLUDE
-    )
+install (
+    DIRECTORY Engine
+    DESTINATION include
+    FILES_MATCHING 
+    PATTERN "*.h"
+    PATTERN "*.hpp"
+    PATTERN "Private" EXCLUDE
+)
 
 install_tef_target(tef)
-endif ()

@@ -11,7 +11,7 @@ endif()
 add_library (TeGLRenderAPI SHARED ${TE_GLRENDERAPI_SRC})
 
 # Defines
-target_compile_definitions (TeGLRenderAPI PRIVATE -DTE_RSGL_EXPORTS)
+target_compile_definitions (TeGLRenderAPI PRIVATE -DTE_GL_EXPORTS)
 
 # Includes
 target_include_directories (TeGLRenderAPI PRIVATE "./")

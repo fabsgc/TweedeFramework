@@ -1,11 +1,11 @@
 # Source files and their filters
-include(CMakeSources.cmake)
+include (CMakeSources.cmake)
     
 # Target
 add_library (TeD3D11RenderAPI SHARED ${TE_D3D11RENDERAPI_SRC})
 
 # Defines
-target_compile_definitions (TeD3D11RenderAPI PRIVATE -DTE_RSD3D11_EXPORTS)
+target_compile_definitions (TeD3D11RenderAPI PRIVATE -DTE_D3D11_EXPORTS)
 
 # Includes
 target_include_directories (TeD3D11RenderAPI PRIVATE "./")
