@@ -16,7 +16,7 @@ else ()
 	set (OpenAL_LIBNAME openal)
 endif ()
 
-find_imported_includes (OpenAL al.h)
+find_imported_includes (OpenAL AL/al.h)
 
 if (APPLE)
 	find_imported_library (OpenAL ${OpenAL_LIBNAME})

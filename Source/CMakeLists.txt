@@ -48,9 +48,7 @@ include (${CMAKE_MODULE_PATH}/Findfreetype.cmake)
 include (${CMAKE_MODULE_PATH}/Findfreeimg.cmake)
 include (${CMAKE_MODULE_PATH}/Findogg.cmake)
 include (${CMAKE_MODULE_PATH}/Findvorbis.cmake)
-
-## Copy librairies into bin folder
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${APP_ROOT_DIR}/Dependencies/binairies ${PROJECT_SOURCE_DIR}/bin) 
+include (${CMAKE_MODULE_PATH}/FindFlac.cmake)
 
 # Sub-directories
 ## Framework
@@ -70,11 +68,25 @@ endif ()
 
 add_subdirectory (Plugins/TeRenderer)
 add_subdirectory (Plugins/TeOpenAudio)
+add_subdirectory (Plugins/TeFontImporter)
+add_subdirectory (Plugins/TeFreeImgImporter)
 
 add_subdirectory (Examples)
 
-# Install
+## Install
 install (
     DIRECTORY ../Data
     DESTINATION bin/
 )
+
+## Copy data elements inside bin directory
+if (TE_64BIT)
+    set (PLATFORM_DATA "x64")
+else ()
+    set (PLATFORM_DATA "x86")
+endif ()
+
+execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/Release/Data/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/RelWithDebInfo/Data/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/MinSizeRel/Data/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/Debug/Data/")

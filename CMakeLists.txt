@@ -12,7 +12,6 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif ()
 
 include (Source/CMake/Properties.cmake)
-include (Source/CMake/FindPackageOrBuild.cmake)
 include (Source/CMake/HelperMethods.cmake)
 
 add_subdirectory (Source)

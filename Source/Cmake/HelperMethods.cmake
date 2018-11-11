@@ -220,36 +220,34 @@ MACRO (install_dependency_binaries FOLDER_NAME)
                 set (PLATFORM "x86")
             endif ()
             
-            set (RELEASE_FILENAME ${RELEASE_FILENAME}.dll)
-            set (DEBUG_FILENAME ${DEBUG_FILENAME}.dll)
-        
-            set (SRC_RELEASE "${PROJECT_SOURCE_DIR}/Dependencies/bin/${PLATFORM}/Release/${RELEASE_FILENAME}")
-            set (SRC_DEBUG "${PROJECT_SOURCE_DIR}/Dependencies//bin/${PLATFORM}/Debug/${DEBUG_FILENAME}")
+            if (RELEASE_FILENAME STREQUAL libFLAC)
+                set (RELEASE_FILENAME libFLAC_dynamic.dll)
+                set (DEBUG_FILENAME libFLAC_dynamic.dll)
+            else ()
+                set (RELEASE_FILENAME ${RELEASE_FILENAME}.dll)
+                set (DEBUG_FILENAME ${DEBUG_FILENAME}.dll)
+            endif ()
+            
+            set (SRC_RELEASE "${PROJECT_SOURCE_DIR}/Dependencies/binaries/${PLATFORM}/Release/${RELEASE_FILENAME}")
+            set (SRC_DEBUG "${PROJECT_SOURCE_DIR}/Dependencies/binaries/${PLATFORM}/Debug/${DEBUG_FILENAME}")
             set (DESTINATION_DIR bin/)
         else ()
             set (RELEASE_FILENAME ${RELEASE_FILENAME}.so)
-            set (DEBUG_FILENAME ${DEBUG_FILENAME}.so)        
+            set (DEBUG_FILENAME ${DEBUG_FILENAME}.so)
+
             set (SRC_RELEASE ${${LOOP_ENTRY}_LIBRARY_RELEASE})
             set (SRC_DEBUG ${${LOOP_ENTRY}_LIBRARY_DEBUG})
             set (DESTINATION_DIR lib/)
         endif ()
 
-        message (${SRC_RELEASE})
-        message (${DESTINATION_DIR})
-        message (${RELEASE_FILENAME})
-        
-        install (
-            FILES ${SRC_RELEASE}
-            DESTINATION ${DESTINATION_DIR}
-            CONFIGURATIONS Release RelWithDebInfo MinSizeRel
-            RENAME ${RELEASE_FILENAME}
-            OPTIONAL)
-            
-        install (
-            FILES ${SRC_DEBUG}
-            DESTINATION ${DESTINATION_DIR}
-            CONFIGURATIONS Debug
-            RENAME ${DEBUG_FILENAME}
-            OPTIONAL)
+        execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/Release/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/RelWithDebInfo/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/MinSizeRel/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/Debug/")
+
+        execute_process (COMMAND ${CMAKE_COMMAND} -E copy ${SRC_RELEASE} "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/Release/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E copy ${SRC_RELEASE} "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/RelWithDebInfo/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E copy ${SRC_RELEASE} "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/MinSizeRel/")
+        execute_process (COMMAND ${CMAKE_COMMAND} -E copy ${SRC_DEBUG}   "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/Debug/")
     endforeach ()
 ENDMACRO ()
