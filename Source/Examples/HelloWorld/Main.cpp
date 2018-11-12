@@ -1,9 +1,15 @@
 #include <iostream>
-
-using namespace std;
+#include "Prerequisites/TePrerequisitesUtility.h"
+#include "String/TeString.h"
 
 int main()
 {
-    cout << "Hello World !" << endl;
+    te::String hello = "Hello World ";
+    hello.append("my friend !");
+
+    std::cout << hello << std::endl;
+
+    TE_SLEEP(2000);
+
     return 0;
 }

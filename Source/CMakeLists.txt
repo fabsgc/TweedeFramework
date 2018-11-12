@@ -92,3 +92,8 @@ execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${
 execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/RelWithDebInfo/Data/")
 execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/MinSizeRel/Data/")
 execute_process (COMMAND ${CMAKE_COMMAND} -E copy_directory "../Data" "../bin/${PLATFORM_DATA}/Debug/Data/")
+
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "../bin/${PLATFORM_DATA}/Release/Log/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "../bin/${PLATFORM_DATA}/RelWithDebInfo/Log/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "../bin/${PLATFORM_DATA}/MinSizeRel/Log/")
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "../bin/${PLATFORM_DATA}/Debug/Log/")

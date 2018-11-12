@@ -30,7 +30,7 @@ target_include_directories (ThirdParty INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/Ut
 add_library (tef SHARED ${TE_UTILITY_SRC} ${TE_CORE_SRC})
 
 # Includes
-target_include_directories (tef PUBLIC "TeUtility" "TeCore")
+target_include_directories (tef PUBLIC "Utility" "Core")
 
 # Defines
 target_compile_definitions (tef PRIVATE 
