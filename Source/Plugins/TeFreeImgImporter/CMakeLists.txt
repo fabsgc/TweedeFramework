@@ -11,6 +11,9 @@ target_compile_definitions (TeFreeImgImporter PRIVATE -DTE_FREEIMG_EXPORTS)
 target_include_directories (TeFreeImgImporter PRIVATE "./")
 
 # Libraries
+## External libs: FLAC, Vorbis, Ogg, OpenAL
+target_link_libraries(TeFreeImgImporter ${freeimg_LIBRARIES})
+
 ## Local libs
 target_link_libraries (TeFreeImgImporter tef)
 

@@ -11,6 +11,9 @@ target_compile_definitions (TeFontImporter PRIVATE -DTE_FONT_EXPORTS)
 target_include_directories (TeFontImporter PRIVATE "./")
 
 # Libraries
+## External libs: FLAC, Vorbis, Ogg, OpenAL
+target_link_libraries(TeFontImporter ${freetype_LIBRARIES})
+
 ## Local libs
 target_link_libraries (TeFontImporter tef)
 

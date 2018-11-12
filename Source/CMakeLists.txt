@@ -43,6 +43,7 @@ set(INCLUDE_ALL_IN_WORKFLOW true CACHE BOOL "If true, all libraries (even those 
 configure_file("${TE_SOURCE_DIR}/CMake/TeEngineConfig.h.in" "${TE_SOURCE_DIR}/Framework/Core/TeEngineConfig.h")
 
 ## External libs
+include (${CMAKE_MODULE_PATH}/Findassimp.cmake)
 include (${CMAKE_MODULE_PATH}/FindOpenAL.cmake)
 include (${CMAKE_MODULE_PATH}/Findfreetype.cmake)
 include (${CMAKE_MODULE_PATH}/Findfreeimg.cmake)
@@ -69,6 +70,7 @@ endif ()
 add_subdirectory (Plugins/TeRenderer)
 add_subdirectory (Plugins/TeOpenAudio)
 add_subdirectory (Plugins/TeFontImporter)
+add_subdirectory (Plugins/TeObjectImporter)
 add_subdirectory (Plugins/TeFreeImgImporter)
 
 add_subdirectory (Examples)
