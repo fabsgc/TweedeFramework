@@ -39,7 +39,7 @@ Additionally, if the dependency structure still isn't clear, download one of the
 **freetype**
 - Freetype 2.3.5
 - https://github.com/BearishSun/freetype (branch *banshee*)
-- Required by bsfFontImporter
+- Required by TeFontImporter
 - Compile as a static library
 
 **freeimg**
@@ -47,13 +47,13 @@ Additionally, if the dependency structure still isn't clear, download one of the
 - http://freeimage.sourceforge.net
 - **macOS only**
   - Make sure to to build with `./configure —-without-zlib`
-- Required by bsfFreeImgImporter
+- Required by TeFreeImgImporter
 - Compile as a static library
 
 **OpenAL**
 - OpenAL Soft 1.17.2
 - https://github.com/kcat/openal-soft
-- Required by bsfOpenAudio
+- Required by TeOpenAudio
 - **Linux only**
   - Make sure to get audio backend libraries before compiling: PulseAudio, OSS, ALSA and JACK
   - On Debian/Ubuntu run: `apt-get install libpulse libasound2-dev libjack-dev`
@@ -63,7 +63,7 @@ Additionally, if the dependency structure still isn't clear, download one of the
 **libogg**
 - libogg v1.3.2
 - https://xiph.org/downloads/
-- Required by bsfOpenAudio and bsfFMOD
+- Required by TeOpenAudio
 - Compile as a static library
   - Switch runtime library to dynamic to avoid linker warnings when adding it to bs::f
   - This is also required when compiling libvorbis and libflac (below). See readme files included with those libraries.
@@ -71,7 +71,7 @@ Additionally, if the dependency structure still isn't clear, download one of the
 **libvorbis**
 - libvorbis commit:8a8f8589e19c5016f6548d877a8fda231fce4f93
 - https://git.xiph.org/?p=vorbis.git
-- Required by bsfOpenAudio and bsfFMOD
+- Required by TeOpenAudio
 - Compile as a dynamic library on Windows, static library on Linux/macOS (default)
   - Requires libogg, as described in its readme file.
   - When compiling as static library on Linux, make sure to specify `-DCMAKE_POSITION_INDEPENDENT_CODE=ON` to CMake, otherwise it will fail to link
@@ -79,7 +79,12 @@ Additionally, if the dependency structure still isn't clear, download one of the
 **libFLAC**
 - libflac commit: f7cd466c24fb5d1966943f3ea36a1f4a37858597
 - https://git.xiph.org/?p=flac.git
-- Required by bsfOpenAudio
+- Required by TeOpenAudio
 - Compile as a dynamic library on Windows (default), static library on Linux/macOS
   - Provide `--disable-shared --enable-static` flags to `configure` to force it to compile as a static library
   - Requires libogg, as described in its readme file.
+
+**Assimp**
+- assimp 3.1.1
+- http://www.assimp.org/
+- Required by TeObjectImpoter
