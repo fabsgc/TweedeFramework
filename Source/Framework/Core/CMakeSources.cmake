@@ -1,22 +1,50 @@
 set (TE_CORE_INC_RENDERAPI
     "Core/RenderAPI/TeRenderAPI.h"
 )
-
 set (TE_CORE_SRC_RENDERAPI
     "Core/RenderAPI/TeRenderAPI.cpp"
 )
 
-source_group("RenderAPI" FILES ${TE_CORE_INC_RENDERAPI} ${TE_CORE_SRC_RENDERAPI})
-
-set(TE_CORE_SRC
-	${TE_CORE_SRC_RENDERAPI}
-	${TE_CORE_INC_RENDERAPI}
+set (TE_CORE_INC_PLATFORM_WIN32
+    "Core/Private/Win32/TeWin32Window.h"
+)
+set (TE_CORE_SRC_PLATFORM_WIN32
+    "Core/Private/Win32/TeWin32Window.cpp"
 )
 
+set (TE_CORE_INC_PLATFORM_LINUX
+    "Core/Private/Linux/TeWin32Window.h"
+)
+set (TE_CORE_SRC_PLATFORM_LINUX
+    "Core/Private/Linux/TeWin32Window.cpp"
+)
+
+set (TE_CORE_INC_PLATFORM_MACOS
+    "Core/Private/MacOS/TeWin32Window.h"
+)
+set (TE_CORE_SRC_PLATFORM_MACOS
+    "Core/Private/MacOS/TeWin32Window.cpp"
+)
+
+set(TE_CORE_INC_PLATFORM)
+
 if (WIN32)
-
+    list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_WIN32})
+    list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_WIN32})
+elseif (LINUX)
+    list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_LINUX})
+    list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_LINUX})
+elseif (APPLE)
+    list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_MACOS})
+    list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_MACOS})
 endif ()
 
-if (UNIX)
+source_group("Core\\RenderAPI" FILES ${TE_CORE_INC_RENDERAPI} ${TE_CORE_SRC_RENDERAPI})
+source_group("Core\\Platform" FILES ${TE_CORE_INC_PLATFORM} ${TE_CORE_SRC_PLATFORM})
 
-endif ()
+set(TE_CORE_SRC
+    ${TE_CORE_SRC_RENDERAPI}
+    ${TE_CORE_INC_RENDERAPI}
+    ${TE_CORE_SRC_PLATFORM}
+    ${TE_CORE_INC_PLATFORM}
+)

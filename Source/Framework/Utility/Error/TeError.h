@@ -1,8 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <fstream>
+
 #if TE_DEBUG_MODE == 1
 #   ifndef TE_ERROR_FILE
-#       define TE_ERROR_FILE "log/Errors.log"
+#       define TE_ERROR_FILE "Log/Errors.log"
 #   endif
 
 #   ifndef TE_ASSERT_ERROR

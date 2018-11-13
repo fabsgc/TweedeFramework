@@ -100,6 +100,8 @@
 #			endif
 #		endif
 #	endif
+#
+#   
 #define TE_UTILITY_HIDDEN
 #else // Linux/Mac settings
 #	define TE_UTILITY_EXPORT __attribute__ ((visibility ("default")))

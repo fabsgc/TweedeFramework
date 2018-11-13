@@ -42,6 +42,16 @@ target_compile_definitions (tef PRIVATE
     $<$<CONFIG:MinSizeRel>:TE_CONFIG=BS_CONFIG_MINSIZEREL>
     $<$<CONFIG:Release>:TE_CONFIG=BS_CONFIG_RELEASE>)
 
+if (WIN32)
+    if (${CMAKE_SYSTEM_VERSION} EQUAL 6.1) # Windows 7
+        target_compile_definitions (tef PRIVATE -DTE_WIN_SDK_7)
+    elseif (${CMAKE_SYSTEM_VERSION} EQUAL 6.2) # Windows 8
+        target_compile_definitions (tef PRIVATE -DTE_WIN_SDK_8)
+    elseif (${CMAKE_SYSTEM_VERSION} EQUAL 10.0) # Windows 10
+        target_compile_definitions (tef PRIVATE -DTE_WIN_SDK_10)
+    endif ()
+endif ()
+
 ## External libs: Header only libraries
 target_link_libraries (tef PUBLIC ThirdParty)
 

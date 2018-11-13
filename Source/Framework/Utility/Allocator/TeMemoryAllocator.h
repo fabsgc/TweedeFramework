@@ -5,6 +5,10 @@
 #include <cstdint>
 #include <utility>
 
+#pragma once
+#undef min
+#undef max
+
 #if TE_PLATFORM == TE_PLATFORM_LINUX
 #  include <malloc.h>
 #endif
@@ -161,3 +165,8 @@ namespace te
         void construct(U* p, Args&&... args) { new(p) U(std::forward<Args>(args)...); }
     };
 }
+
+#include "Allocator/TeBasicAllocator.h"
+#include "Allocator/TeLinearAllocator.h"
+#include "Allocator/TeStackAllocator.h"
+#include "Allocator/TePoolAllocator.h"

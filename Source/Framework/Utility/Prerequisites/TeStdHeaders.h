@@ -74,7 +74,6 @@ extern "C" {
 extern "C" {
 #   include <unistd.h>
 #   include <sys/param.h>
-#   include <CoreFoundation/CoreFoundation.h>
 }
 #endif
 

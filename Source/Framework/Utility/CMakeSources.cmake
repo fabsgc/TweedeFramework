@@ -9,10 +9,52 @@ set(TE_UTILITY_SRC_THIRDPARTY
 )
 
 set(TE_UTILITY_INC_MATH
+    "Utility/Math/TeAABox.h"
+    "Utility/Math/TeBounds.h"
+    "Utility/Math/TeVector2.h"
     "Utility/Math/TeVector2I.h"
+    "Utility/Math/TeVector3.h"
+    "Utility/Math/TeVector3I.h"
+    "Utility/Math/TeVector4.h"
+    "Utility/Math/TeVector4I.h"
+    "Utility/Math/TeMatrix3.h"
+    "Utility/Math/TeMatrix4.h"
+    "Utility/Math/TeRect2.h"
+    "Utility/Math/TeRect2I.h"
+    "Utility/Math/TeRect3.h"
+    "Utility/Math/TeQuaternion.h"
+    "Utility/Math/TeDegree.h"
+    "Utility/Math/TeRadian.h"
+    "Utility/Math/TePlane.h"
+    "Utility/Math/TeSphere.h"
+    "Utility/Math/TeRay.h"
+    "Utility/Math/TeMath.h"
+    "Utility/Math/TeLineSegment3.h"
+    "Utility/Math/TeLine2.h"
 )
 set(TE_UTILITY_SRC_MATH
+    "Utility/Math/TeAABox.cpp"
+    "Utility/Math/TeBounds.cpp"
+    "Utility/Math/TeVector2.cpp"
     "Utility/Math/TeVector2I.cpp"
+    "Utility/Math/TeVector3.cpp"
+    "Utility/Math/TeVector3I.cpp"
+    "Utility/Math/TeVector4.cpp"
+    "Utility/Math/TeVector4I.cpp"
+    "Utility/Math/TeMatrix3.cpp"
+    "Utility/Math/TeMatrix4.cpp"
+    "Utility/Math/TeRect2.cpp"
+    "Utility/Math/TeRect2I.cpp"
+    "Utility/Math/TeRect3.cpp"
+    "Utility/Math/TeQuaternion.cpp"
+    "Utility/Math/TeDegree.cpp"
+    "Utility/Math/TeRadian.cpp"
+    "Utility/Math/TePlane.cpp"
+    "Utility/Math/TeSphere.cpp"
+    "Utility/Math/TeRay.cpp"
+    "Utility/Math/TeMath.cpp"
+    "Utility/Math/TeLineSegment3.cpp"
+    "Utility/Math/TeLine2.cpp"
 )
 
 set(TE_UTILITY_INC_PREPREQUISITES
@@ -28,9 +70,14 @@ set(TE_UTILITY_SRC_PREPREQUISITES
 set(TE_UTILITY_INC_ALLOCATOR
     "Utility/Allocator/TeMemoryAllocator.h"
     "Utility/Allocator/TeBasicAllocator.h"
+    "Utility/Allocator/TeLinearAllocator.h"
+    "Utility/Allocator/TePoolAllocator.h"
+    "Utility/Allocator/TeStackAllocator.h"
 )
 set(TE_UTILITY_SRC_ALLOCATOR
     "Utility/Allocator/TeBasicAllocator.cpp"
+    "Utility/Allocator/TeLinearAllocator.cpp"
+    "Utility/Allocator/TeStackAllocator.cpp"
 )
 
 set(TE_UTILITY_INC_ERROR
@@ -74,14 +121,14 @@ set(TE_UTILITY_INC_THREADING
 set(TE_UTILITY_SRC_THREADING
 )
 
-source_group("ThirdParty" FILES ${TE_UTILITY_INC_THIRDPARTY} ${TE_UTILITY_SRC_THIRDPARTY})
-source_group("Math" FILES ${TE_UTILITY_INC_MATH} ${TE_UTILITY_SRC_MATH})
-source_group("Prerequisites" FILES ${TE_UTILITY_INC_PREPREQUISITES} ${TE_UTILITY_SRC_PREPREQUISITES})
-source_group("Allocator" FILES ${TE_UTILITY_INC_ALLOCATOR} ${TE_UTILITY_SRC_ALLOCATOR})
-source_group("Error" FILES ${TE_UTILITY_INC_ERROR} ${TE_UTILITY_SRC_ERROR})
-source_group("String" FILES ${TE_UTILITY_INC_STRING} ${TE_UTILITY_SRC_STRING})
-source_group("Utility" FILES ${TE_UTILITY_INC_UTILITY} ${TE_UTILITY_SRC_UTILITY})
-source_group("Threading" FILES ${TE_UTILITY_INC_THREADING} ${TE_UTILITY_SRC_THREADING})
+source_group("Utility\\ThirdParty" FILES ${TE_UTILITY_INC_THIRDPARTY} ${TE_UTILITY_SRC_THIRDPARTY})
+source_group("Utility\\Math" FILES ${TE_UTILITY_INC_MATH} ${TE_UTILITY_SRC_MATH})
+source_group("Utility\\Prerequisites" FILES ${TE_UTILITY_INC_PREPREQUISITES} ${TE_UTILITY_SRC_PREPREQUISITES})
+source_group("Utility\\Allocator" FILES ${TE_UTILITY_INC_ALLOCATOR} ${TE_UTILITY_SRC_ALLOCATOR})
+source_group("Utility\\Error" FILES ${TE_UTILITY_INC_ERROR} ${TE_UTILITY_SRC_ERROR})
+source_group("Utility\\String" FILES ${TE_UTILITY_INC_STRING} ${TE_UTILITY_SRC_STRING})
+source_group("Utility\\Utility" FILES ${TE_UTILITY_INC_UTILITY} ${TE_UTILITY_SRC_UTILITY})
+source_group("Utility\\Threading" FILES ${TE_UTILITY_INC_THREADING} ${TE_UTILITY_SRC_THREADING})
 
 set(TE_UTILITY_SRC
     ${TE_UTILITY_SRC_MATH}

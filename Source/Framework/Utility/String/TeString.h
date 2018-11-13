@@ -198,4 +198,9 @@ namespace te
     * \brief Checks the WString is a valid number value.
     */
     TE_UTILITY_EXPORT bool IsNumber(const WString& val);
+
+    /**
+    * \brief Split string according to delimiter
+    */
+    TE_UTILITY_EXPORT Vector<String> Split(const String& s, char delimiter);
 }
