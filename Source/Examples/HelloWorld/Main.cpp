@@ -1,7 +1,3 @@
-#include <iostream>
-#include "Prerequisites/TePrerequisitesUtility.h"
-#include "String/TeString.h"
-
 #include "TeCoreApplication.h"
 
 #if TE_PLATFORM == TE_PLATFORM_WIN32
@@ -17,11 +13,6 @@ int CALLBACK WinMain(
 int main()
 #endif
 {
-    te::String hello = "Hello World ";
-    hello.append("my friend !");
-
-    std::cout << hello << std::endl;
-
     te::START_UP_DESC desc;
 
     te::CoreApplication::StartUp(desc);
