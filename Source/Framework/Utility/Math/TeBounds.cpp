@@ -6,37 +6,37 @@
 namespace te
 {
     Bounds::Bounds(const AABox& box, const Sphere& sphere)
-        :mBox(box), mSphere(sphere)
+        :_box(box), _sphere(sphere)
     { }
 
-    void Bounds::setBounds(const AABox& box, const Sphere& sphere)
+    void Bounds::SetBounds(const AABox& box, const Sphere& sphere)
     {
-        mBox = box;
-        mSphere = sphere;
+        _box = box;
+        _sphere = sphere;
     }
 
-    void Bounds::merge(const Bounds& rhs)
+    void Bounds::Merge(const Bounds& rhs)
     {
-        mBox.merge(rhs.mBox);
-        mSphere.merge(rhs.mSphere);
+        _box.Merge(rhs._box);
+        _sphere.Merge(rhs._sphere);
     }
 
-    void Bounds::merge(const Vector3& point)
+    void Bounds::Merge(const Vector3& point)
     {
-        mBox.merge(point);
-        mSphere.merge(point);
+        _box.Merge(point);
+        _sphere.Merge(point);
     }
 
-    void Bounds::transform(const Matrix4& matrix)
+    void Bounds::Transform(const Matrix4& matrix)
     {
-        mBox.transform(matrix);
-        mSphere.transform(matrix);
+        _box.Transform(matrix);
+        _sphere.Transform(matrix);
     }
 
-    void Bounds::transformAffine(const Matrix4& matrix)
+    void Bounds::TransformAffine(const Matrix4& matrix)
     {
-        mBox.transformAffine(matrix);
-        mSphere.transform(matrix);
+        _box.TransformAffine(matrix);
+        _sphere.Transform(matrix);
     }
 }
 

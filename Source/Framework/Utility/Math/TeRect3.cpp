@@ -4,10 +4,10 @@
 
 namespace te
 {
-    std::pair<std::array<Vector3, 2>, float> Rect3::getNearestPoint(const Ray& ray) const
+    std::pair<std::array<Vector3, 2>, float> Rect3::GetNearestPoint(const Ray& ray) const
     {
-        const Vector3& org = ray.getOrigin();
-        const Vector3& dir = ray.getDirection();
+        const Vector3& org = ray.GetOrigin();
+        const Vector3& dir = ray.GetDirection();
 
         bool foundNearest = false;
         float t = 0.0f;
@@ -15,7 +15,7 @@ namespace te
         float distance = 0.0f;
 
         // Check if Ray intersects the rectangle
-        auto intersectResult = intersects(ray);
+        auto intersectResult = Intersects(ray);
         if (intersectResult.first)
         {
             t = intersectResult.second;
@@ -30,8 +30,8 @@ namespace te
         if (!foundNearest)
         {
             Vector3 scaledAxes[2];
-            scaledAxes[0] = mExtentHorz * mAxisHorz;
-            scaledAxes[1] = mExtentVert * mAxisVert;;
+            scaledAxes[0] = _extentHorz * _axisHorz;
+            scaledAxes[1] = _extentVert * _axisVert;;
 
             distance = std::numeric_limits<float>::max();
             for (UINT32 i = 0; i < 2; i++)
@@ -39,12 +39,12 @@ namespace te
                 for (UINT32 j = 0; j < 2; j++)
                 {
                     float sign = (float)(2 * j - 1);
-                    Vector3 segCenter = mCenter + sign * scaledAxes[i];
+                    Vector3 segCenter = _center + sign * scaledAxes[i];
                     Vector3 segStart = segCenter - scaledAxes[1 - i];
                     Vector3 segEnd = segCenter + scaledAxes[1 - i];
 
                     LineSegment3 segment(segStart, segEnd);
-                    auto segResult = segment.getNearestPoint(ray);
+                    auto segResult = segment.GetNearestPoint(ray);
 
                     if (segResult.second < distance)
                     {
@@ -62,7 +62,7 @@ namespace te
         }
         else // Rectangle is behind the ray origin, find nearest point to origin
         {
-            auto nearestPointToOrg = getNearestPoint(org);
+            auto nearestPointToOrg = GetNearestPoint(org);
 
             nearestPoints[0] = org;
             nearestPoints[1] = nearestPointToOrg.first;
@@ -72,25 +72,25 @@ namespace te
         return std::make_pair(nearestPoints, distance);
     }
 
-    std::pair<Vector3, float> Rect3::getNearestPoint(const Vector3& point) const
+    std::pair<Vector3, float> Rect3::GetNearestPoint(const Vector3& point) const
     {
-        Vector3 diff = mCenter - point;
-        float b0 = diff.dot(mAxisHorz);
-        float b1 = diff.dot(mAxisVert);
+        Vector3 diff = _center - point;
+        float b0 = diff.Dot(_axisHorz);
+        float b1 = diff.Dot(_axisVert);
         float s0 = -b0, s1 = -b1;
-        float sqrDistance = diff.dot(diff);
+        float sqrDistance = diff.Dot(diff);
 
-        if (s0 < -mExtentHorz)
-            s0 = -mExtentHorz;
-        else if (s0 > mExtentHorz)
-            s0 = mExtentHorz;
+        if (s0 < -_extentHorz)
+            s0 = -_extentHorz;
+        else if (s0 > _extentHorz)
+            s0 = _extentHorz;
 
         sqrDistance += s0 * (s0 + 2.0f*b0);
 
-        if (s1 < -mExtentVert)
-            s1 = -mExtentVert;
-        else if (s1 > mExtentVert)
-            s1 = mExtentVert;
+        if (s1 < -_extentVert)
+            s1 = -_extentVert;
+        else if (s1 > _extentVert)
+            s1 = _extentVert;
 
         sqrDistance += s1 * (s1 + 2.0f*b1);
 
@@ -98,42 +98,42 @@ namespace te
             sqrDistance = 0.0f;
 
         float dist = std::sqrt(sqrDistance);
-        Vector3 nearestPoint = mCenter + s0 * mAxisHorz + s1 * mAxisVert;
+        Vector3 nearestPoint = _center + s0 * _axisHorz + s1 * _axisVert;
 
         return std::make_pair(nearestPoint, dist);
     }
 
-    std::pair<bool, float> Rect3::intersects(const Ray& ray) const
+    std::pair<bool, float> Rect3::Intersects(const Ray& ray) const
     {
-        const Vector3& org = ray.getOrigin();
-        const Vector3& dir = ray.getDirection();
+        const Vector3& org = ray.GetOrigin();
+        const Vector3& dir = ray.GetDirection();
 
-        Vector3 normal = mAxisHorz.cross(mAxisVert);
-        float NdotD = normal.dot(dir);
+        Vector3 normal = _axisHorz.Cross(_axisVert);
+        float NdotD = normal.Dot(dir);
         if (fabs(NdotD) > 0.0f)
         {
-            Vector3 diff = org - mCenter;
+            Vector3 diff = org - _center;
             Vector3 basis[3];
 
             basis[0] = dir;
-            basis[0].orthogonalComplement(basis[1], basis[2]);
+            basis[0].OrthogonalComplement(basis[1], basis[2]);
 
-            float UdD0 = basis[1].dot(mAxisHorz);
-            float UdD1 = basis[1].dot(mAxisVert);
-            float UdPmC = basis[1].dot(diff);
-            float VdD0 = basis[2].dot(mAxisHorz);
-            float VdD1 = basis[2].dot(mAxisVert);
-            float VdPmC = basis[2].dot(diff);
+            float UdD0 = basis[1].Dot(_axisHorz);
+            float UdD1 = basis[1].Dot(_axisVert);
+            float UdPmC = basis[1].Dot(diff);
+            float VdD0 = basis[2].Dot(_axisHorz);
+            float VdD1 = basis[2].Dot(_axisVert);
+            float VdPmC = basis[2].Dot(diff);
             float invDet = 1.0f / (UdD0*VdD1 - UdD1 * VdD0);
 
             float s0 = (VdD1*UdPmC - UdD1 * VdPmC)*invDet;
             float s1 = (UdD0*VdPmC - VdD0 * UdPmC)*invDet;
 
-            if (fabs(s0) <= mExtentHorz && fabs(s1) <= mExtentVert)
+            if (fabs(s0) <= _extentHorz && fabs(s1) <= _extentVert)
             {
-                float DdD0 = dir.dot(mAxisHorz);
-                float DdD1 = dir.dot(mAxisVert);
-                float DdDiff = dir.dot(diff);
+                float DdD0 = dir.Dot(_axisHorz);
+                float DdD1 = dir.Dot(_axisVert);
+                float DdDiff = dir.Dot(diff);
 
                 float t = s0 * DdD0 + s1 * DdD1 - DdDiff;
 

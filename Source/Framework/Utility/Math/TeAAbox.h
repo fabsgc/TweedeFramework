@@ -40,31 +40,31 @@ namespace te
         ~AABox() = default;
 
         /** Gets the corner of the box with minimum values (opposite to maximum corner). */
-        const Vector3& getMin() const { return mMinimum; }
+        const Vector3& GetMin() const { return _minimum; }
 
         /** Gets the corner of the box with maximum values (opposite to minimum corner). */
-        const Vector3& getMax() const { return mMaximum; }
+        const Vector3& GetMax() const { return _maximum; }
 
         /** Sets the corner of the box with minimum values (opposite to maximum corner). */
-        void setMin(const Vector3& vec) { mMinimum = vec; }
+        void SetMin(const Vector3& vec) { _minimum = vec; }
 
         /** Sets the corner of the box with maximum values (opposite to minimum corner). */
-        void setMax(const Vector3& vec) { mMaximum = vec; }
+        void SetMax(const Vector3& vec) { _maximum = vec; }
 
         /** Sets the minimum and maximum corners. */
-        void setExtents(const Vector3& min, const Vector3& max);
+        void SetExtents(const Vector3& min, const Vector3& max);
 
         /** Scales the box around the center by multiplying its extents with the provided scale. */
-        void scale(const Vector3& s);
+        void Scale(const Vector3& s);
 
         /** Returns the coordinates of a specific corner. */
-        Vector3 getCorner(Corner cornerToGet) const;
+        Vector3 GetCorner(Corner cornerToGet) const;
 
         /** Merges the two boxes, creating a new bounding box that encapsulates them both. */
-        void merge(const AABox& rhs);
+        void Merge(const AABox& rhs);
 
         /** Expands the bounding box so it includes the provided point. */
-        void merge(const Vector3& point);
+        void Merge(const Vector3& point);
 
         /**
          * Transforms the bounding box by the given matrix.
@@ -74,7 +74,7 @@ namespace te
          * is instead created by encompassing the transformed oriented bounding box.
          * Retrieving the value as an actual OBB would provide a tighter fit.
          */
-        void transform(const Matrix4& matrix);
+        void Transform(const Matrix4& matrix);
 
         /**
          * Transforms the bounding box by the given matrix.
@@ -87,43 +87,43 @@ namespace te
          * @note
          * Provided matrix must be affine.
          */
-        void transformAffine(const Matrix4& matrix);
+        void TransformAffine(const Matrix4& matrix);
 
         /** Returns true if this and the provided box intersect. */
-        bool intersects(const AABox& b2) const;
+        bool Intersects(const AABox& b2) const;
 
         /** Returns true if the sphere intersects the bounding box. */
-        bool intersects(const Sphere& s) const;
+        bool Intersects(const Sphere& s) const;
 
         /** Returns true if the plane intersects the bounding box. */
-        bool intersects(const Plane& p) const;
+        bool Intersects(const Plane& p) const;
 
         /** Ray / box intersection, returns a boolean result and nearest distance to intersection. */
-        std::pair<bool, float> intersects(const Ray& ray) const;
+        std::pair<bool, float> Intersects(const Ray& ray) const;
 
         /** Ray / box intersection, returns boolean result and near and far intersection distance. */
-        bool intersects(const Ray& ray, float& d1, float& d2) const;
+        bool Intersects(const Ray& ray, float& d1, float& d2) const;
 
         /** Center of the box. */
-        Vector3 getCenter() const;
+        Vector3 GetCenter() const;
 
         /** Size of the box (difference between minimum and maximum corners) */
-        Vector3 getSize() const;
+        Vector3 GetSize() const;
 
         /** Extents of the box (distance from center to one of the corners) */
-        Vector3 getHalfSize() const;
+        Vector3 GetHalfSize() const;
 
         /** Radius of a sphere that fully encompasses the box. */
-        float getRadius() const;
+        float GetRadius() const;
 
         /** Size of the volume in the box. */
-        float getVolume() const;
+        float GetVolume() const;
 
         /** Returns true if the provided point is inside the bounding box. */
-        bool contains(const Vector3& v) const;
+        bool Contains(const Vector3& v) const;
 
         /** Returns true if the provided bounding box is completely inside the bounding box. */
-        bool contains(const AABox& other) const;
+        bool Contains(const AABox& other) const;
 
         bool operator== (const AABox& rhs) const;
         bool operator!= (const AABox& rhs) const;
@@ -139,7 +139,7 @@ namespace te
         static const UINT32 CUBE_INDICES[36];
 
     protected:
-        Vector3 mMinimum{ Vector3::ZERO };
-        Vector3 mMaximum{ Vector3::ONE };
+        Vector3 _minimum{ Vector3::ZERO };
+        Vector3 _maximum{ Vector3::ONE };
     };
 }

@@ -13,41 +13,41 @@ namespace te
         Sphere() = default;
 
         Sphere(const Vector3& center, float radius)
-            :mRadius(radius), mCenter(center)
+            : _radius(radius), _center(center)
         { }
 
         /** Returns the radius of the sphere. */
-        float getRadius() const { return mRadius; }
+        float GetRadius() const { return _radius; }
 
         /** Sets the radius of the sphere. */
-        void setRadius(float radius) { mRadius = radius; }
+        void SetRadius(float radius) { _radius = radius; }
 
         /** Returns the center point of the sphere. */
-        const Vector3& getCenter() const { return mCenter; }
+        const Vector3& GetCenter() const { return _center; }
 
         /** Sets the center point of the sphere. */
-        void setCenter(const Vector3& center) { mCenter = center; }
+        void SetCenter(const Vector3& center) { _center = center; }
 
         /** Merges the two spheres, creating a new sphere that encapsulates them both. */
-        void merge(const Sphere& rhs);
+        void Merge(const Sphere& rhs);
 
         /** Expands the sphere so it includes the provided point. */
-        void merge(const Vector3& point);
+        void Merge(const Vector3& point);
 
         /** Transforms the sphere by the given matrix. */
-        void transform(const Matrix4& matrix);
+        void Transform(const Matrix4& matrix);
 
         /** Returns whether or not this sphere contains the provided point. */
-        inline bool contains(const Vector3& v) const;
+        inline bool Contains(const Vector3& v) const;
 
         /** Returns whether or not this sphere intersects another sphere. */
-        bool intersects(const Sphere& s) const;
+        bool Intersects(const Sphere& s) const;
 
         /** Returns whether or not this sphere intersects a box. */
-        bool intersects(const AABox& box) const;
+        bool Intersects(const AABox& box) const;
 
         /** Returns whether or not this sphere intersects a plane. */
-        bool intersects(const Plane& plane) const;
+        bool Intersects(const Plane& plane) const;
 
         /**
          * Ray/sphere intersection, returns boolean result and distance to nearest intersection.
@@ -56,10 +56,10 @@ namespace te
          * @param[in]	discardInside	(optional) If true the intersection will be discarded if ray origin
          * 								is located within the sphere.
          */
-        std::pair<bool, float> intersects(const Ray& ray, bool discardInside = true) const;
+        std::pair<bool, float> Intersects(const Ray& ray, bool discardInside = true) const;
 
     private:
-        float mRadius = 1.0f;
-        Vector3 mCenter{ Vector3::ZERO };
+        float _radius = 1.0f;
+        Vector3 _center { Vector3::ZERO };
     };
 }

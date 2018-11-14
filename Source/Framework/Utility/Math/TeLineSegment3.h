@@ -20,13 +20,13 @@ namespace te
          *
          * @note	If segment and ray are parallel the set of points at the segment origin are returned.
          */
-        std::pair<std::array<Vector3, 2>, float> getNearestPoint(const Ray& ray) const;
+        std::pair<std::array<Vector3, 2>, float> GetNearestPoint(const Ray& ray) const;
 
         /** Returns the length of the line segment. */
-        float getLength() const { return start.distance(end); }
+        float GetLength() const { return start.Distance(end); }
 
         /** Returns the center point along the line segment. */
-        Vector3 getCenter() const { return start + (end - start) * 0.5f; }
+        Vector3 GetCenter() const { return start + (end - start) * 0.5f; }
 
         Vector3 start = TeZero;
         Vector3 end = TeZero;

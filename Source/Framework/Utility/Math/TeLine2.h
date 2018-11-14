@@ -12,32 +12,32 @@ namespace te
         Line2() = default;
 
         Line2(const Vector2& origin, const Vector2& direction)
-            :mOrigin(origin), mDirection(direction)
+            : _origin(origin), _direction(direction)
         { }
 
-        void setOrigin(const Vector2& origin) { mOrigin = origin; }
-        const Vector2& getOrigin(void) const { return mOrigin; }
+        void SetOrigin(const Vector2& origin) { _origin = origin; }
+        const Vector2& GetOrigin(void) const { return _origin; }
 
-        void setDirection(const Vector2& dir) { mDirection = dir; }
-        const Vector2& getDirection(void) const { return mDirection; }
+        void SetDirection(const Vector2& dir) { _direction = dir; }
+        const Vector2& GetDirection(void) const { return _direction; }
 
         /** Gets the position of a point t units along the line. */
-        Vector2 getPoint(float t) const
+        Vector2 GetPoint(float t) const
         {
-            return Vector2(mOrigin + (mDirection * t));
+            return Vector2(_origin + (_direction * t));
         }
 
         /** Gets the position of a point t units along the line. */
         Vector2 operator*(float t) const
         {
-            return getPoint(t);
+            return GetPoint(t);
         }
 
         /** Line/Line intersection, returns boolean result and distance to intersection point. */
-        std::pair<bool, float> intersects(const Line2& line) const;
+        std::pair<bool, float> Intersects(const Line2& line) const;
 
     protected:
-        Vector2 mOrigin = Vector2::ZERO;
-        Vector2 mDirection = Vector2::UNIT_X;
+        Vector2 _origin = Vector2::ZERO;
+        Vector2 _direction = Vector2::UNIT_X;
     };
 }

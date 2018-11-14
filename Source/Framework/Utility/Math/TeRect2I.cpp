@@ -7,7 +7,7 @@ namespace te
 {
     const Rect2I Rect2I::EMPTY;
 
-    bool Rect2I::contains(const Vector2I& point) const
+    bool Rect2I::Contains(const Vector2I& point) const
     {
         if (point.x >= x && point.x < (x + (INT32)width))
         {
@@ -18,7 +18,7 @@ namespace te
         return false;
     }
 
-    bool Rect2I::overlaps(const Rect2I& other) const
+    bool Rect2I::Overlaps(const Rect2I& other) const
     {
         INT32 otherRight = other.x + (INT32)other.width;
         INT32 myRight = x + (INT32)width;
@@ -33,7 +33,7 @@ namespace te
         return false;
     }
 
-    void Rect2I::encapsulate(const Rect2I& other)
+    void Rect2I::Encapsulate(const Rect2I& other)
     {
         int myRight = x + (INT32)width;
         int myBottom = y + (INT32)height;
@@ -57,7 +57,7 @@ namespace te
             height = myBottom - y;
     }
 
-    void Rect2I::clip(const Rect2I& clipRect)
+    void Rect2I::Clip(const Rect2I& clipRect)
     {
         int newLeft = std::max(x, clipRect.x);
         int newTop = std::max(y, clipRect.y);
@@ -71,7 +71,7 @@ namespace te
         height = std::max(0, newBottom - newTop);
     }
 
-    void Rect2I::cut(const Rect2I& cutRect, Vector<Rect2I>& pieces)
+    void Rect2I::Cut(const Rect2I& cutRect, Vector<Rect2I>& pieces)
     {
         UINT32 initialPieces = (UINT32)pieces.size();
 
@@ -140,7 +140,7 @@ namespace te
         }
     }
 
-    void Rect2I::cut(const Vector<Rect2I>& cutRects, Vector<Rect2I>& pieces)
+    void Rect2I::Cut(const Vector<Rect2I>& cutRects, Vector<Rect2I>& pieces)
     {
         Vector<Rect2I> tempPieces[2];
         UINT32 bufferIdx = 0;
@@ -155,13 +155,13 @@ namespace te
             tempPieces[bufferIdx].clear();
 
             for (auto& rect : tempPieces[currentBufferIdx])
-                rect.cut(cutRect, tempPieces[bufferIdx]);
+                rect.Cut(cutRect, tempPieces[bufferIdx]);
         }
 
         pieces = tempPieces[bufferIdx];
     }
 
-    void Rect2I::transform(const Matrix4& matrix)
+    void Rect2I::Transform(const Matrix4& matrix)
     {
         Vector4 verts[4];
         verts[0] = Vector4((float)x, (float)y, 0.0f, 1.0f);
@@ -170,7 +170,7 @@ namespace te
         verts[3] = Vector4((float)x + width, (float)y + height, 0.0f, 1.0f);
 
         for (UINT32 i = 0; i < 4; i++)
-            verts[i] = matrix.multiply(verts[i]);
+            verts[i] = matrix.Multiply(verts[i]);
 
         float minX = std::numeric_limits<float>::max();
         float maxX = std::numeric_limits<float>::min();
@@ -192,9 +192,9 @@ namespace te
                 maxY = verts[i].y;
         }
 
-        x = Math::floorToInt(minX);
-        y = Math::floorToInt(minY);
-        width = (UINT32)Math::ceilToInt(maxX) - x;
-        height = (UINT32)Math::ceilToInt(maxY) - y;
+        x = Math::FloorToInt(minX);
+        y = Math::FloorToInt(minY);
+        width = (UINT32)Math::CeilToInt(maxX) - x;
+        height = (UINT32)Math::CeilToInt(maxY) - y;
     }
 }

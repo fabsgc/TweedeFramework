@@ -7,14 +7,14 @@ namespace te
     const Matrix3 Matrix3::ZERO{ TE_ZERO() };
     const Matrix3 Matrix3::IDENTITY{ TE_IDENTITY() };
 
-    Vector3 Matrix3::getColumn(UINT32 col) const
+    Vector3 Matrix3::GetColumn(UINT32 col) const
     {
         assert(col < 3);
 
         return Vector3(m[0][col], m[1][col], m[2][col]);
     }
 
-    void Matrix3::setColumn(UINT32 col, const Vector3& vec)
+    void Matrix3::SetColumn(UINT32 col, const Vector3& vec)
     {
         assert(col < 3);
 
@@ -23,11 +23,11 @@ namespace te
         m[2][col] = vec.z;
     }
 
-    void Matrix3::fromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
+    void Matrix3::FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
     {
-        setColumn(0, xAxis);
-        setColumn(1, yAxis);
-        setColumn(2, zAxis);
+        SetColumn(0, xAxis);
+        SetColumn(1, yAxis);
+        SetColumn(2, zAxis);
     }
 
     bool Matrix3::operator== (const Matrix3& rhs) const
@@ -129,7 +129,7 @@ namespace te
         return prod;
     }
 
-    Vector3 Matrix3::multiply(const Vector3& vec) const
+    Vector3 Matrix3::Multiply(const Vector3& vec) const
     {
         Vector3 prod;
         for (UINT32 row = 0; row < 3; row++)
@@ -143,7 +143,7 @@ namespace te
         return prod;
     }
 
-    Matrix3 Matrix3::transpose() const
+    Matrix3 Matrix3::Transpose() const
     {
         Matrix3 matTranspose;
         for (UINT32 row = 0; row < 3; row++)
@@ -155,7 +155,7 @@ namespace te
         return matTranspose;
     }
 
-    bool Matrix3::inverse(Matrix3& matInv, float tolerance) const
+    bool Matrix3::Inverse(Matrix3& matInv, float tolerance) const
     {
         matInv[0][0] = m[1][1] * m[2][2] - m[1][2] * m[2][1];
         matInv[0][1] = m[0][2] * m[2][1] - m[0][1] * m[2][2];
@@ -169,7 +169,7 @@ namespace te
 
         float det = m[0][0] * matInv[0][0] + m[0][1] * matInv[1][0] + m[0][2] * matInv[2][0];
 
-        if (Math::abs(det) <= tolerance)
+        if (Math::Abs(det) <= tolerance)
             return false;
 
         float invDet = 1.0f / det;
@@ -182,14 +182,14 @@ namespace te
         return true;
     }
 
-    Matrix3 Matrix3::inverse(float tolerance) const
+    Matrix3 Matrix3::Inverse(float tolerance) const
     {
         Matrix3 matInv = Matrix3::ZERO;
-        inverse(matInv, tolerance);
+        Inverse(matInv, tolerance);
         return matInv;
     }
 
-    float Matrix3::determinant() const
+    float Matrix3::Determinant() const
     {
         float cofactor00 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
         float cofactor10 = m[1][2] * m[2][0] - m[1][0] * m[2][2];
@@ -200,14 +200,14 @@ namespace te
         return det;
     }
 
-    void Matrix3::bidiagonalize(Matrix3& matA, Matrix3& matL, Matrix3& matR)
+    void Matrix3::Bidiagonalize(Matrix3& matA, Matrix3& matL, Matrix3& matR)
     {
         float v[3], w[3];
         float length, sign, t1, invT1, t2;
         bool bIdentity;
 
         // Map first column to (*,0,0)
-        length = Math::sqrt(matA[0][0] * matA[0][0] + matA[1][0] * matA[1][0] + matA[2][0] * matA[2][0]);
+        length = Math::Sqrt(matA[0][0] * matA[0][0] + matA[1][0] * matA[1][0] + matA[2][0] * matA[2][0]);
         if (length > 0.0f)
         {
             sign = (matA[0][0] > 0.0f ? 1.0f : -1.0f);
@@ -243,7 +243,7 @@ namespace te
         }
 
         // Map first row to (*,*,0)
-        length = Math::sqrt(matA[0][1] * matA[0][1] + matA[0][2] * matA[0][2]);
+        length = Math::Sqrt(matA[0][1] * matA[0][1] + matA[0][2] * matA[0][2]);
         if (length > 0.0)
         {
             sign = (matA[0][1] > 0.0f ? 1.0f : -1.0f);
@@ -273,7 +273,7 @@ namespace te
         }
 
         // Map second column to (*,*,0)
-        length = Math::sqrt(matA[1][1] * matA[1][1] + matA[2][1] * matA[2][1]);
+        length = Math::Sqrt(matA[1][1] * matA[1][1] + matA[2][1] * matA[2][1]);
         if (length > 0.0)
         {
             sign = (matA[1][1] > 0.0f ? 1.0f : -1.0f);
@@ -313,21 +313,21 @@ namespace te
         }
     }
 
-    void Matrix3::golubKahanStep(Matrix3& matA, Matrix3& matL, Matrix3& matR)
+    void Matrix3::GolubKahanStep(Matrix3& matA, Matrix3& matL, Matrix3& matR)
     {
         float f11 = matA[0][1] * matA[0][1] + matA[1][1] * matA[1][1];
         float t22 = matA[1][2] * matA[1][2] + matA[2][2] * matA[2][2];
         float t12 = matA[1][1] * matA[1][2];
         float trace = f11 + t22;
         float diff = f11 - t22;
-        float discr = Math::sqrt(diff*diff + 4.0f*t12*t12);
+        float discr = Math::Sqrt(diff*diff + 4.0f*t12*t12);
         float root1 = 0.5f*(trace + discr);
         float root2 = 0.5f*(trace - discr);
 
         // Adjust right
-        float y = matA[0][0] - (Math::abs(root1 - t22) <= Math::abs(root2 - t22) ? root1 : root2);
+        float y = matA[0][0] - (Math::Abs(root1 - t22) <= Math::Abs(root2 - t22) ? root1 : root2);
         float z = matA[0][1];
-        float invLength = Math::invSqrt(y*y + z * z);
+        float invLength = Math::InvSqrt(y*y + z * z);
         float sin = z * invLength;
         float cos = -y * invLength;
 
@@ -350,7 +350,7 @@ namespace te
         // Adjust left
         y = matA[0][0];
         z = matA[1][0];
-        invLength = Math::invSqrt(y*y + z * z);
+        invLength = Math::InvSqrt(y*y + z * z);
         sin = z * invLength;
         cos = -y * invLength;
 
@@ -374,7 +374,7 @@ namespace te
         // Adjust right
         y = matA[0][1];
         z = matA[0][2];
-        invLength = Math::invSqrt(y*y + z * z);
+        invLength = Math::InvSqrt(y*y + z * z);
         sin = z * invLength;
         cos = -y * invLength;
 
@@ -397,7 +397,7 @@ namespace te
         // Adjust left
         y = matA[1][1];
         z = matA[2][1];
-        invLength = Math::invSqrt(y*y + z * z);
+        invLength = Math::InvSqrt(y*y + z * z);
         sin = z * invLength;
         cos = -y * invLength;
 
@@ -416,12 +416,12 @@ namespace te
         }
     }
 
-    void Matrix3::singularValueDecomposition(Matrix3& matL, Vector3& matS, Matrix3& matR) const
+    void Matrix3::SingularValueDecomposition(Matrix3& matL, Vector3& matS, Matrix3& matR) const
     {
         UINT32 row, col;
 
         Matrix3 mat = *this;
-        bidiagonalize(mat, matL, matR);
+        Bidiagonalize(mat, matL, matR);
 
         for (unsigned int i = 0; i < SVD_MAX_ITERS; i++)
         {
@@ -429,8 +429,8 @@ namespace te
             float sin0, cos0, tan0;
             float sin1, cos1, tan1;
 
-            bool test1 = (Math::abs(mat[0][1]) <= SVD_EPSILON * (Math::abs(mat[0][0]) + Math::abs(mat[1][1])));
-            bool test2 = (Math::abs(mat[1][2]) <= SVD_EPSILON * (Math::abs(mat[1][1]) + Math::abs(mat[2][2])));
+            bool test1 = (Math::Abs(mat[0][1]) <= SVD_EPSILON * (Math::Abs(mat[0][0]) + Math::Abs(mat[1][1])));
+            bool test2 = (Math::Abs(mat[1][2]) <= SVD_EPSILON * (Math::Abs(mat[1][1]) + Math::Abs(mat[2][2])));
 
             if (test1)
             {
@@ -445,8 +445,8 @@ namespace te
                 {
                     // 2x2 closed form factorization
                     tmp = (mat[1][1] * mat[1][1] - mat[2][2] * mat[2][2] + mat[1][2] * mat[1][2]) / (mat[1][2] * mat[2][2]);
-                    tan0 = 0.5f*(tmp + Math::sqrt(tmp*tmp + 4.0f));
-                    cos0 = Math::invSqrt(1.0f + tan0 * tan0);
+                    tan0 = 0.5f*(tmp + Math::Sqrt(tmp*tmp + 4.0f));
+                    cos0 = Math::InvSqrt(1.0f + tan0 * tan0);
                     sin0 = tan0 * cos0;
 
                     for (col = 0; col < 3; col++)
@@ -458,7 +458,7 @@ namespace te
                     }
 
                     tan1 = (mat[1][2] - mat[2][2] * tan0) / mat[1][1];
-                    cos1 = Math::invSqrt(1.0f + tan1 * tan1);
+                    cos1 = Math::InvSqrt(1.0f + tan1 * tan1);
                     sin1 = -tan1 * cos1;
 
                     for (row = 0; row < 3; row++)
@@ -481,8 +481,8 @@ namespace te
                 {
                     // 2x2 closed form factorization
                     tmp = (mat[0][0] * mat[0][0] + mat[1][1] * mat[1][1] - mat[0][1] * mat[0][1]) / (mat[0][1] * mat[1][1]);
-                    tan0 = 0.5f*(-tmp + Math::sqrt(tmp*tmp + 4.0f));
-                    cos0 = Math::invSqrt(1.0f + tan0 * tan0);
+                    tan0 = 0.5f*(-tmp + Math::Sqrt(tmp*tmp + 4.0f));
+                    cos0 = Math::InvSqrt(1.0f + tan0 * tan0);
                     sin0 = tan0 * cos0;
 
                     for (col = 0; col < 3; col++)
@@ -494,7 +494,7 @@ namespace te
                     }
 
                     tan1 = (mat[0][1] - mat[1][1] * tan0) / mat[0][0];
-                    cos1 = Math::invSqrt(1.0f + tan1 * tan1);
+                    cos1 = Math::InvSqrt(1.0f + tan1 * tan1);
                     sin1 = -tan1 * cos1;
 
                     for (row = 0; row < 3; row++)
@@ -512,7 +512,7 @@ namespace te
                 }
                 else
                 {
-                    golubKahanStep(mat, matL, matR);
+                    GolubKahanStep(mat, matL, matR);
                 }
             }
         }
@@ -529,10 +529,10 @@ namespace te
         }
     }
 
-    void Matrix3::orthonormalize()
+    void Matrix3::Orthonormalize()
     {
         // Compute q0
-        float invLength = Math::invSqrt(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
+        float invLength = Math::InvSqrt(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
 
         m[0][0] *= invLength;
         m[1][0] *= invLength;
@@ -545,7 +545,7 @@ namespace te
         m[1][1] -= dot0 * m[1][0];
         m[2][1] -= dot0 * m[2][0];
 
-        invLength = Math::invSqrt(m[0][1] * m[0][1] + m[1][1] * m[1][1] + m[2][1] * m[2][1]);
+        invLength = Math::InvSqrt(m[0][1] * m[0][1] + m[1][1] * m[1][1] + m[2][1] * m[2][1]);
 
         m[0][1] *= invLength;
         m[1][1] *= invLength;
@@ -559,14 +559,14 @@ namespace te
         m[1][2] -= dot0 * m[1][0] + dot1 * m[1][1];
         m[2][2] -= dot0 * m[2][0] + dot1 * m[2][1];
 
-        invLength = Math::invSqrt(m[0][2] * m[0][2] + m[1][2] * m[1][2] + m[2][2] * m[2][2]);
+        invLength = Math::InvSqrt(m[0][2] * m[0][2] + m[1][2] * m[1][2] + m[2][2] * m[2][2]);
 
         m[0][2] *= invLength;
         m[1][2] *= invLength;
         m[2][2] *= invLength;
     }
 
-    void Matrix3::decomposition(Quaternion& rotation, Vector3& scale) const
+    void Matrix3::Decomposition(Quaternion& rotation, Vector3& scale) const
     {
         Matrix3 matQ;
         Vector3 vecU;
@@ -578,7 +578,7 @@ namespace te
     void Matrix3::QDUDecomposition(Matrix3& matQ, Vector3& vecD, Vector3& vecU) const
     {
         // Build orthogonal matrix Q
-        float invLength = Math::invSqrt(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
+        float invLength = Math::InvSqrt(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
         matQ[0][0] = m[0][0] * invLength;
         matQ[1][0] = m[1][0] * invLength;
         matQ[2][0] = m[2][0] * invLength;
@@ -588,7 +588,7 @@ namespace te
         matQ[1][1] = m[1][1] - dot * matQ[1][0];
         matQ[2][1] = m[2][1] - dot * matQ[2][0];
 
-        invLength = Math::invSqrt(matQ[0][1] * matQ[0][1] + matQ[1][1] * matQ[1][1] + matQ[2][1] * matQ[2][1]);
+        invLength = Math::InvSqrt(matQ[0][1] * matQ[0][1] + matQ[1][1] * matQ[1][1] + matQ[2][1] * matQ[2][1]);
         matQ[0][1] *= invLength;
         matQ[1][1] *= invLength;
         matQ[2][1] *= invLength;
@@ -603,7 +603,7 @@ namespace te
         matQ[1][2] -= dot * matQ[1][1];
         matQ[2][2] -= dot * matQ[2][1];
 
-        invLength = Math::invSqrt(matQ[0][2] * matQ[0][2] + matQ[1][2] * matQ[1][2] + matQ[2][2] * matQ[2][2]);
+        invLength = Math::InvSqrt(matQ[0][2] * matQ[0][2] + matQ[1][2] * matQ[1][2] + matQ[2][2] * matQ[2][2]);
         matQ[0][2] *= invLength;
         matQ[1][2] *= invLength;
         matQ[2][2] *= invLength;
@@ -647,11 +647,11 @@ namespace te
         vecU[2] = matRight[1][2] / vecD[1];
     }
 
-    void Matrix3::toAxisAngle(Vector3& axis, Radian& radians) const
+    void Matrix3::ToAxisAngle(Vector3& axis, Radian& radians) const
     {
         float trace = m[0][0] + m[1][1] + m[2][2];
         float cos = 0.5f*(trace - 1.0f);
-        radians = Math::acos(cos);  // In [0, PI]
+        radians = Math::Acos(cos);  // In [0, PI]
 
         if (radians > Radian(0.0f))
         {
@@ -660,7 +660,7 @@ namespace te
                 axis.x = m[2][1] - m[1][2];
                 axis.y = m[0][2] - m[2][0];
                 axis.z = m[1][0] - m[0][1];
-                axis.normalize();
+                axis.Normalize();
             }
             else
             {
@@ -672,7 +672,7 @@ namespace te
                     if (m[0][0] >= m[2][2])
                     {
                         // r00 is maximum diagonal term
-                        axis.x = 0.5f*Math::sqrt(m[0][0] - m[1][1] - m[2][2] + 1.0f);
+                        axis.x = 0.5f*Math::Sqrt(m[0][0] - m[1][1] - m[2][2] + 1.0f);
                         fHalfInverse = 0.5f / axis.x;
                         axis.y = fHalfInverse * m[0][1];
                         axis.z = fHalfInverse * m[0][2];
@@ -680,7 +680,7 @@ namespace te
                     else
                     {
                         // r22 is maximum diagonal term
-                        axis.z = 0.5f*Math::sqrt(m[2][2] - m[0][0] - m[1][1] + 1.0f);
+                        axis.z = 0.5f*Math::Sqrt(m[2][2] - m[0][0] - m[1][1] + 1.0f);
                         fHalfInverse = 0.5f / axis.z;
                         axis.x = fHalfInverse * m[0][2];
                         axis.y = fHalfInverse * m[1][2];
@@ -692,7 +692,7 @@ namespace te
                     if (m[1][1] >= m[2][2])
                     {
                         // r11 is maximum diagonal term
-                        axis.y = 0.5f*Math::sqrt(m[1][1] - m[0][0] - m[2][2] + 1.0f);
+                        axis.y = 0.5f*Math::Sqrt(m[1][1] - m[0][0] - m[2][2] + 1.0f);
                         fHalfInverse = 0.5f / axis.y;
                         axis.x = fHalfInverse * m[0][1];
                         axis.z = fHalfInverse * m[1][2];
@@ -700,7 +700,7 @@ namespace te
                     else
                     {
                         // r22 is maximum diagonal term
-                        axis.z = 0.5f*Math::sqrt(m[2][2] - m[0][0] - m[1][1] + 1.0f);
+                        axis.z = 0.5f*Math::Sqrt(m[2][2] - m[0][0] - m[1][1] + 1.0f);
                         fHalfInverse = 0.5f / axis.z;
                         axis.x = fHalfInverse * m[0][2];
                         axis.y = fHalfInverse * m[1][2];
@@ -718,10 +718,10 @@ namespace te
         }
     }
 
-    void Matrix3::fromAxisAngle(const Vector3& axis, const Radian& angle)
+    void Matrix3::FromAxisAngle(const Vector3& axis, const Radian& angle)
     {
-        float cos = Math::cos(angle);
-        float sin = Math::sin(angle);
+        float cos = Math::Cos(angle);
+        float sin = Math::Sin(angle);
         float oneMinusCos = 1.0f - cos;
         float x2 = axis.x*axis.x;
         float y2 = axis.y*axis.y;
@@ -744,25 +744,25 @@ namespace te
         m[2][2] = z2 * oneMinusCos + cos;
     }
 
-    void Matrix3::toQuaternion(Quaternion& quat) const
+    void Matrix3::ToQuaternion(Quaternion& quat) const
     {
-        quat.fromRotationMatrix(*this);
+        quat.FromRotationMatrix(*this);
     }
 
-    void Matrix3::fromQuaternion(const Quaternion& quat)
+    void Matrix3::FromQuaternion(const Quaternion& quat)
     {
-        quat.toRotationMatrix(*this);
+        quat.ToRotationMatrix(*this);
     }
 
-    bool Matrix3::toEulerAngles(Radian& xAngle, Radian& yAngle, Radian& zAngle) const
+    bool Matrix3::ToEulerAngles(Radian& xAngle, Radian& yAngle, Radian& zAngle) const
     {
-        xAngle = -Radian(Math::asin(m[1][2]));
+        xAngle = -Radian(Math::Asin(m[1][2]));
         if (xAngle < Radian(Math::HALF_PI))
         {
             if (xAngle > Radian(-Math::HALF_PI))
             {
-                yAngle = Math::atan2(m[0][2], m[2][2]);
-                zAngle = Math::atan2(m[1][0], m[1][1]);
+                yAngle = Math::Atan2(m[0][2], m[2][2]);
+                zAngle = Math::Atan2(m[1][0], m[1][1]);
 
                 return true;
             }
@@ -770,7 +770,7 @@ namespace te
             {
                 // Note: Not an unique solution.
                 xAngle = Radian(-Math::HALF_PI);
-                yAngle = Math::atan2(-m[0][1], m[0][0]);
+                yAngle = Math::Atan2(-m[0][1], m[0][0]);
                 zAngle = Radian(0.0f);
 
                 return false;
@@ -780,23 +780,23 @@ namespace te
         {
             // Note: Not an unique solution.
             xAngle = Radian(Math::HALF_PI);
-            yAngle = Math::atan2(m[0][1], m[0][0]);
+            yAngle = Math::Atan2(m[0][1], m[0][0]);
             zAngle = Radian(0.0f);
 
             return false;
         }
     }
 
-    void Matrix3::fromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle)
+    void Matrix3::FromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle)
     {
-        float cx = Math::cos(xAngle);
-        float sx = Math::sin(xAngle);
+        float cx = Math::Cos(xAngle);
+        float sx = Math::Sin(xAngle);
 
-        float cy = Math::cos(yAngle);
-        float sy = Math::sin(yAngle);
+        float cy = Math::Cos(yAngle);
+        float sy = Math::Sin(yAngle);
 
-        float cz = Math::cos(zAngle);
-        float sz = Math::sin(zAngle);
+        float cz = Math::Cos(zAngle);
+        float sz = Math::Sin(zAngle);
 
         m[0][0] = cy * cz + sx * sy * sz;
         m[0][1] = cz * sx * sy - cy * sz;
@@ -811,7 +811,7 @@ namespace te
         m[2][2] = cx * cy;
     }
 
-    void Matrix3::fromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle, EulerAngleOrder order)
+    void Matrix3::FromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle, EulerAngleOrder order)
     {
         // Euler angle conversions
         static constexpr const EulerAngleOrderData EA_LOOKUP[6] =
@@ -821,22 +821,22 @@ namespace te
         const EulerAngleOrderData& l = EA_LOOKUP[(int)order];
 
         Matrix3 mats[3];
-        float cx = Math::cos(xAngle);
-        float sx = Math::sin(xAngle);
+        float cx = Math::Cos(xAngle);
+        float sx = Math::Sin(xAngle);
         mats[0] = Matrix3(
             1.0f, 0.0f, 0.0f,
             0.0f, cx, -sx,
             0.0f, sx, cx);
 
-        float cy = Math::cos(yAngle);
-        float sy = Math::sin(yAngle);
+        float cy = Math::Cos(yAngle);
+        float sy = Math::Sin(yAngle);
         mats[1] = Matrix3(
             cy, 0.0f, sy,
             0.0f, 1.0f, 0.0f,
             -sy, 0.0f, cy);
 
-        float cz = Math::cos(zAngle);
-        float sz = Math::sin(zAngle);
+        float cz = Math::Cos(zAngle);
+        float sz = Math::Sin(zAngle);
         mats[2] = Matrix3(
             cz, -sz, 0.0f,
             sz, cz, 0.0f,
@@ -845,7 +845,7 @@ namespace te
         *this = mats[l.c] * (mats[l.b] * mats[l.a]);
     }
 
-    void Matrix3::tridiagonal(float diag[3], float subDiag[3])
+    void Matrix3::Tridiagonal(float diag[3], float subDiag[3])
     {
         // Householder reduction T = Q^t M Q
         //   Input:
@@ -864,9 +864,9 @@ namespace te
 
         diag[0] = fA;
         subDiag[2] = 0.0;
-        if (Math::abs(fC) >= EPSILON)
+        if (Math::Abs(fC) >= EPSILON)
         {
-            float length = Math::sqrt(fB*fB + fC * fC);
+            float length = Math::Sqrt(fB*fB + fC * fC);
             float invLength = 1.0f / length;
             fB *= invLength;
             fC *= invLength;
@@ -916,9 +916,9 @@ namespace te
                 int j;
                 for (j = i; j <= 1; j++)
                 {
-                    float sum = Math::abs(diag[j]) + Math::abs(diag[j + 1]);
+                    float sum = Math::Abs(diag[j]) + Math::Abs(diag[j + 1]);
 
-                    if (Math::abs(subDiag[j]) + sum == sum)
+                    if (Math::Abs(subDiag[j]) + sum == sum)
                         break;
                 }
 
@@ -926,7 +926,7 @@ namespace te
                     break;
 
                 float tmp0 = (diag[i + 1] - diag[i]) / (2.0f*subDiag[i]);
-                float tmp1 = Math::sqrt(tmp0*tmp0 + 1.0f);
+                float tmp1 = Math::Sqrt(tmp0*tmp0 + 1.0f);
 
                 if (tmp0 < 0.0f)
                     tmp0 = diag[j] - diag[i] + subDiag[i] / (tmp0 - tmp1);
@@ -941,10 +941,10 @@ namespace te
                     float tmp3 = sin * subDiag[k];
                     float tmp4 = cos * subDiag[k];
 
-                    if (Math::abs(tmp3) >= Math::abs(tmp0))
+                    if (Math::Abs(tmp3) >= Math::Abs(tmp0))
                     {
                         cos = tmp0 / tmp3;
-                        tmp1 = Math::sqrt(cos*cos + 1.0f);
+                        tmp1 = Math::Sqrt(cos*cos + 1.0f);
                         subDiag[k + 1] = tmp3 * tmp1;
                         sin = 1.0f / tmp1;
                         cos *= sin;
@@ -952,7 +952,7 @@ namespace te
                     else
                     {
                         sin = tmp3 / tmp0;
-                        tmp1 = Math::sqrt(sin*sin + 1.0f);
+                        tmp1 = Math::Sqrt(sin*sin + 1.0f);
                         subDiag[k + 1] = tmp0 * tmp1;
                         cos = 1.0f / tmp1;
                         sin *= cos;
@@ -987,11 +987,11 @@ namespace te
         return true;
     }
 
-    void Matrix3::eigenSolveSymmetric(float eigenValues[3], Vector3 eigenVectors[3]) const
+    void Matrix3::EigenSolveSymmetric(float eigenValues[3], Vector3 eigenVectors[3]) const
     {
         Matrix3 mat = *this;
         float subDiag[3];
-        mat.tridiagonal(eigenValues, subDiag);
+        mat.Tridiagonal(eigenValues, subDiag);
         mat.QLAlgorithm(eigenValues, subDiag);
 
         for (UINT32 i = 0; i < 3; i++)
@@ -1002,8 +1002,8 @@ namespace te
         }
 
         // Make eigenvectors form a right--handed system
-        Vector3 cross = eigenVectors[1].cross(eigenVectors[2]);
-        float det = eigenVectors[0].dot(cross);
+        Vector3 cross = eigenVectors[1].Cross(eigenVectors[2]);
+        float det = eigenVectors[0].Dot(cross);
         if (det < 0.0f)
         {
             eigenVectors[2][0] = -eigenVectors[2][0];

@@ -22,7 +22,7 @@ namespace te
         { }
 
         /** Exchange the contents of this vector with another. */
-        void swap(Vector2& other)
+        void Swap(Vector2& other)
         {
             std::swap(x, other.x);
             std::swap(y, other.y);
@@ -215,39 +215,39 @@ namespace te
         }
 
         /** Returns the length (magnitude) of the vector. */
-        float length() const
+        float Length() const
         {
-            return Math::sqrt(x * x + y * y);
+            return Math::Sqrt(x * x + y * y);
         }
 
         /** Returns the square of the length(magnitude) of the vector. */
-        float squaredLength() const
+        float SquaredLength() const
         {
             return x * x + y * y;
         }
 
         /** Returns the distance to another vector. */
-        float distance(const Vector2& rhs) const
+        float Distance(const Vector2& rhs) const
         {
-            return (*this - rhs).length();
+            return (*this - rhs).Length();
         }
 
         /** Returns the square of the distance to another vector. */
-        float sqrdDistance(const Vector2& rhs) const
+        float SqrdDistance(const Vector2& rhs) const
         {
-            return (*this - rhs).squaredLength();
+            return (*this - rhs).SquaredLength();
         }
 
         /** Calculates the dot (scalar) product of this vector with another. */
-        float dot(const Vector2& vec) const
+        float Dot(const Vector2& vec) const
         {
             return x * vec.x + y * vec.y;
         }
 
         /** Normalizes the vector. */
-        float normalize()
+        float Normalize()
         {
-            float len = Math::sqrt(x * x + y * y);
+            float len = Math::Sqrt(x * x + y * y);
 
             // Will also work for zero-sized vectors, but will change nothing
             if (len > 1e-08f)
@@ -261,7 +261,7 @@ namespace te
         }
 
         /** Generates a vector perpendicular to this vector. */
-        Vector2 perpendicular() const
+        Vector2 Perpendicular() const
         {
             return Vector2(-y, x);
         }
@@ -270,52 +270,52 @@ namespace te
          * Calculates the 2 dimensional cross-product of 2 vectors, which results in a single floating point value which
          * is 2 times the area of the triangle.
          */
-        float cross(const Vector2& other) const
+        float Cross(const Vector2& other) const
         {
             return x * other.y - y * other.x;
         }
 
         /** Sets this vector's components to the minimum of its own and the ones of the passed in vector. */
-        void floor(const Vector2& cmp)
+        void Floor(const Vector2& cmp)
         {
             if (cmp.x < x) x = cmp.x;
             if (cmp.y < y) y = cmp.y;
         }
 
         /** Sets this vector's components to the maximum of its own and the ones of the passed in vector. */
-        void ceil(const Vector2& cmp)
+        void Ceil(const Vector2& cmp)
         {
             if (cmp.x > x) x = cmp.x;
             if (cmp.y > y) y = cmp.y;
         }
 
         /** Returns true if this vector is zero length. */
-        bool isZeroLength() const
+        bool IsZeroLength() const
         {
             float sqlen = (x * x) + (y * y);
             return (sqlen < (1e-06f * 1e-06f));
         }
 
         /** Calculates a reflection vector to the plane with the given normal. */
-        Vector2 reflect(const Vector2& normal) const
+        Vector2 Reflect(const Vector2& normal) const
         {
-            return Vector2(*this - (2 * this->dot(normal) * normal));
+            return Vector2(*this - (2 * this->Dot(normal) * normal));
         }
 
         /** Performs Gram-Schmidt orthonormalization. */
-        static void orthonormalize(Vector2& u, Vector2& v)
+        static void Orthonormalize(Vector2& u, Vector2& v)
         {
-            u.normalize();
+            u.Normalize();
 
-            float dot = u.dot(v);
+            float dot = u.Dot(v);
             v -= u * dot;
-            v.normalize();
+            v.Normalize();
         }
 
         /** Normalizes the provided vector and returns a new normalized instance. */
-        static Vector2 normalize(const Vector2& val)
+        static Vector2 Normalize(const Vector2& val)
         {
-            float len = Math::sqrt(val.x * val.x + val.y * val.y);
+            float len = Math::Sqrt(val.x * val.x + val.y * val.y);
 
             // Will also work for zero-sized vectors, but will change nothing
             Vector2 normalizedVec = val;
@@ -330,19 +330,19 @@ namespace te
         }
 
         /** Checks are any of the vector components NaN. */
-        bool isNaN() const
+        bool IsNaN() const
         {
-            return Math::isNaN(x) || Math::isNaN(y);
+            return Math::IsNaN(x) || Math::IsNaN(y);
         }
 
         /** Returns the minimum of all the vector components as a new vector. */
-        static Vector2 min(const Vector2& a, const Vector2& b)
+        static Vector2 Min(const Vector2& a, const Vector2& b)
         {
             return Vector2(std::min(a.x, b.x), std::min(a.y, b.y));
         }
 
         /** Returns the maximum of all the vector components as a new vector. */
-        static Vector2 max(const Vector2& a, const Vector2& b)
+        static Vector2 Max(const Vector2& a, const Vector2& b)
         {
             return Vector2(std::max(a.x, b.x), std::max(a.y, b.y));
         }

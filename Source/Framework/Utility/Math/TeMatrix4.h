@@ -56,7 +56,7 @@ namespace te
         { }
 
         /** Swaps the contents of this matrix with another. */
-        void swap(Matrix4& other)
+        void Swap(Matrix4& other)
         {
             std::swap(m[0][0], other.m[0][0]);
             std::swap(m[0][1], other.m[0][1]);
@@ -199,7 +199,7 @@ namespace te
         }
 
         /** Returns the specified column of the matrix, ignoring the last row. */
-        Vector3 getColumn(UINT32 col) const
+        Vector3 GetColumn(UINT32 col) const
         {
             assert(col < 4);
 
@@ -207,7 +207,7 @@ namespace te
         }
 
         /** Returns the specified column of the matrix. */
-        Vector4 getColumn4D(UINT32 col) const
+        Vector4 GetColumn4D(UINT32 col) const
         {
             assert(col < 4);
 
@@ -215,7 +215,7 @@ namespace te
         }
 
         /** Returns a transpose of the matrix (switched columns and rows). */
-        Matrix4 transpose() const
+        Matrix4 Transpose() const
         {
             return Matrix4(m[0][0], m[1][0], m[2][0], m[3][0],
                 m[0][1], m[1][1], m[2][1], m[3][1],
@@ -224,7 +224,7 @@ namespace te
         }
 
         /** Assigns the vector to a column of the matrix. */
-        void setColumn(UINT32 idx, const Vector4& column)
+        void SetColumn(UINT32 idx, const Vector4& column)
         {
             m[0][idx] = column.x;
             m[1][idx] = column.y;
@@ -233,7 +233,7 @@ namespace te
         }
 
         /** Assigns the vector to a row of the matrix. */
-        void setRow(UINT32 idx, const Vector4& column)
+        void SetRow(UINT32 idx, const Vector4& column)
         {
             m[idx][0] = column.x;
             m[idx][1] = column.y;
@@ -242,7 +242,7 @@ namespace te
         }
 
         /** Returns the rotation/scaling part of the matrix as a 3x3 matrix. */
-        Matrix3 get3x3() const
+        Matrix3 Get3x3() const
         {
             Matrix3 m3x3;
             m3x3.m[0][0] = m[0][0];
@@ -259,30 +259,30 @@ namespace te
         }
 
         /** Calculates the adjoint of the matrix. */
-        Matrix4 adjoint() const;
+        Matrix4 Adjoint() const;
 
         /** Calculates the determinant of the matrix. */
-        float determinant() const;
+        float Determinant() const;
 
         /** Calculates the determinant of the 3x3 sub-matrix. */
-        float determinant3x3() const;
+        float Determinant3x3() const;
 
         /** Calculates the inverse of the matrix. */
-        Matrix4 inverse() const;
+        Matrix4 Inverse() const;
 
         /**
          * Creates a matrix from translation, rotation and scale.
          *
          * @note	The transformation are applied in scale->rotation->translation order.
          */
-        void setTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
+        void SetTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
 
         /**
          * Creates a matrix from inverse translation, rotation and scale.
          *
          * @note	This is cheaper than setTRS() and then performing inverse().
          */
-        void setInverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
+        void SetInverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
 
         /**
          * Decompose a Matrix4 to translation, rotation and scale.
@@ -293,17 +293,17 @@ namespace te
          *  - Plain TRS matrices (that aren't composed with other matrices) can always be decomposed
          *  - Composed TRS matrices can be decomposed ONLY if the scaling factor is uniform
          */
-        void decomposition(Vector3& position, Quaternion& rotation, Vector3& scale) const;
+        void Decomposition(Vector3& position, Quaternion& rotation, Vector3& scale) const;
 
         /** Extracts the translation (position) part of the matrix. */
-        Vector3 getTranslation() const { return Vector3(m[0][3], m[1][3], m[2][3]); }
+        Vector3 GetTranslation() const { return Vector3(m[0][3], m[1][3], m[2][3]); }
 
         /**
          * Check whether or not the matrix is affine matrix.
          *
          * @note	An affine matrix is a 4x4 matrix with row 3 equal to (0, 0, 0, 1), meaning no projective coefficients.
          */
-        bool isAffine() const
+        bool IsAffine() const
         {
             return m[3][0] == 0 && m[3][1] == 0 && m[3][2] == 0 && m[3][3] == 1;
         }
@@ -313,14 +313,14 @@ namespace te
          *
          * @note	Matrix must be affine.
          */
-        Matrix4 inverseAffine() const;
+        Matrix4 InverseAffine() const;
 
         /**
          * Concatenate two affine matrices.
          *
          * @note	Both matrices must be affine.
          */
-        Matrix4 concatenateAffine(const Matrix4 &other) const
+        Matrix4 ConcatenateAffine(const Matrix4 &other) const
         {
             return Matrix4(
                 m[0][0] * other.m[0][0] + m[0][1] * other.m[1][0] + m[0][2] * other.m[2][0],
@@ -346,17 +346,17 @@ namespace te
          *
          * @note	Matrix must be affine.
          */
-        Plane multiplyAffine(const Plane& p) const
+        Plane MultiplyAffine(const Plane& p) const
         {
             Vector4 localNormal(p.normal.x, p.normal.y, p.normal.z, 0.0f);
             Vector4 localPoint = localNormal * p.d;
             localPoint.w = 1.0f;
 
-            Matrix4 itMat = inverse().transpose();
-            Vector4 worldNormal = itMat.multiplyAffine(localNormal);
-            Vector4 worldPoint = multiplyAffine(localPoint);
+            Matrix4 itMat = Inverse().Transpose();
+            Vector4 worldNormal = itMat.MultiplyAffine(localNormal);
+            Vector4 worldPoint = MultiplyAffine(localPoint);
 
-            float d = worldNormal.dot(worldPoint);
+            float d = worldNormal.Dot(worldPoint);
 
             return Plane(worldNormal.x, worldNormal.y, worldNormal.z, d);
         }
@@ -366,7 +366,7 @@ namespace te
          *
          * @note	Matrix must be affine, if it is not use multiply() method.
          */
-        Vector3 multiplyAffine(const Vector3& v) const
+        Vector3 MultiplyAffine(const Vector3& v) const
         {
             return Vector3(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3],
@@ -379,7 +379,7 @@ namespace te
          *
          * @note	Matrix must be affine, if it is not use multiply() method.
          */
-        Vector4 multiplyAffine(const Vector4& v) const
+        Vector4 MultiplyAffine(const Vector4& v) const
         {
             return Vector4(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w,
@@ -389,7 +389,7 @@ namespace te
         }
 
         /** Transform a 3D direction by this matrix. */
-        Vector3 multiplyDirection(const Vector3& v) const
+        Vector3 MultiplyDirection(const Vector3& v) const
         {
             return Vector3(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z,
@@ -406,7 +406,7 @@ namespace te
          * @note
          * If your matrix doesn't contain projection components use multiplyAffine() method as it is faster.
          */
-        Vector3 multiply(const Vector3& v) const
+        Vector3 Multiply(const Vector3& v) const
         {
             Vector3 r(TeZero);
 
@@ -424,7 +424,7 @@ namespace te
          *
          * @note	If your matrix doesn't contain projection components use multiplyAffine() method as it is faster.
          */
-        Vector4 multiply(const Vector4& v) const
+        Vector4 Multiply(const Vector4& v) const
         {
             return Vector4(
                 m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w,
@@ -435,26 +435,26 @@ namespace te
         }
 
         /** Creates a view matrix and applies optional reflection. */
-        void makeView(const Vector3& position, const Quaternion& orientation);
+        void MakeView(const Vector3& position, const Quaternion& orientation);
 
         /**
          * Creates an ortographic projection matrix that scales the part of the view bounded by @p left, @p right,
          * @p top and @p bottom into [-1, 1] range. If @p far is non-zero the matrix will also transform the depth into
          * [-1, 1] range, otherwise it will leave it as-is.
          */
-        void makeProjectionOrtho(float left, float right, float top, float bottom, float near, float far);
+        void MakeProjectionOrtho(float left, float right, float top, float bottom, float near, float far);
 
         /** Creates a 4x4 transformation matrix that performs translation. */
-        static Matrix4 translation(const Vector3& translation);
+        static Matrix4 Translation(const Vector3& translation);
 
         /** Creates a 4x4 transformation matrix that performs scaling. */
-        static Matrix4 scaling(const Vector3& scale);
+        static Matrix4 Scaling(const Vector3& scale);
 
         /** Creates a 4x4 transformation matrix that performs uniform scaling. */
-        static Matrix4 scaling(float scale);
+        static Matrix4 Scaling(float scale);
 
         /** Creates a 4x4 transformation matrix that performs rotation. */
-        static Matrix4 rotation(const Quaternion& rotation);
+        static Matrix4 Rotation(const Quaternion& rotation);
 
         /**
          * Creates a 4x4 perspective projection matrix.
@@ -466,14 +466,14 @@ namespace te
          * @param[in]	positiveZ	If true the matrix will project geometry as if its looking along the positive Z axis.
          *							Otherwise it projects along the negative Z axis (default).
          */
-        static Matrix4 projectionPerspective(const Degree& horzFOV, float aspect, float near, float far,
+        static Matrix4 ProjectionPerspective(const Degree& horzFOV, float aspect, float near, float far,
             bool positiveZ = false);
 
         /** @copydoc makeProjectionOrtho() */
-        static Matrix4 projectionOrthographic(float left, float right, float top, float bottom, float near, float far);
+        static Matrix4 ProjectionOrthographic(float left, float right, float top, float bottom, float near, float far);
 
         /** Creates a view matrix. */
-        static Matrix4 view(const Vector3& position, const Quaternion& orientation);
+        static Matrix4 View(const Vector3& position, const Quaternion& orientation);
 
         /**
          * Creates a matrix from translation, rotation and scale.
@@ -487,7 +487,7 @@ namespace te
          *
          * @note	This is cheaper than setTRS() and then performing inverse().
          */
-        static Matrix4 inverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
+        static Matrix4 InverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
 
         static const Matrix4 ZERO;
         static const Matrix4 IDENTITY;

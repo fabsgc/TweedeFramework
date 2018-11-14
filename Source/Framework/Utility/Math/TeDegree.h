@@ -26,13 +26,13 @@ namespace te
         Degree& operator= (const Radian& r);
 
         /** Returns the value of the angle in degrees. */
-        constexpr float valueDegrees() const { return _deg; }
+        constexpr float ValueDegrees() const { return _deg; }
 
         /** Returns the value of the angle in radians. */
-        float valueRadians() const;
+        float ValueRadians() const;
 
         /** Wraps the angle in [0, 360) range */
-        Degree wrap();
+        Degree Wrap();
 
         const Degree& operator+ () const { return *this; }
         Degree operator+ (const Degree& d) const { return Degree(_deg + d._deg); }

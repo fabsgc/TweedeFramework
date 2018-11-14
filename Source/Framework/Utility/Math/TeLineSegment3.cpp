@@ -9,19 +9,19 @@ namespace te
 
     }
 
-    std::pair<std::array<Vector3, 2>, float>  LineSegment3::getNearestPoint(const Ray& ray) const
+    std::pair<std::array<Vector3, 2>, float>  LineSegment3::GetNearestPoint(const Ray& ray) const
     {
-        const Vector3& org = ray.getOrigin();
-        const Vector3& dir = ray.getDirection();
+        const Vector3& org = ray.GetOrigin();
+        const Vector3& dir = ray.GetDirection();
 
         Vector3 segDir = end - start;
-        float segExtent = segDir.normalize() * 0.5f;
+        float segExtent = segDir.Normalize() * 0.5f;
         Vector3 segCenter = start + segDir * segExtent;
 
         Vector3 diff = org - segCenter;
-        float a01 = -dir.dot(segDir);
-        float b0 = diff.dot(dir);
-        float c = diff.dot(diff);
+        float a01 = -dir.Dot(segDir);
+        float b0 = diff.Dot(dir);
+        float c = diff.Dot(diff);
         float det = fabs(1.0f - a01 * a01);
 
         float s0, s1;
@@ -29,7 +29,7 @@ namespace te
         if (det > 0.0f) // Not parallel
         {
 
-            float b1 = -diff.dot(segDir);
+            float b1 = -diff.Dot(segDir);
             s1 = a01 * b0 - b1;
             float extDet = segExtent * det;
 

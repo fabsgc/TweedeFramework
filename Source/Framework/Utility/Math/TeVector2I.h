@@ -23,14 +23,14 @@ namespace te
         { }
 
         /** Exchange the contents of this vector with another. */
-        void swap(Vector2I& other)
+        void Swap(Vector2I& other)
         {
             std::swap(x, other.x);
             std::swap(y, other.y);
         }
 
         /** Returns the manhattan distance between this and another point. */
-        UINT32 manhattanDist(const Vector2I& other) const
+        UINT32 ManhattanDist(const Vector2I& other) const
         {
             return (UINT32)std::abs(other.x - x) + (UINT32)std::abs(other.y - y);
         }
@@ -182,13 +182,13 @@ namespace te
         }
 
         /** Returns the square of the length(magnitude) of the vector. */
-        INT32 squaredLength() const
+        INT32 SquaredLength() const
         {
             return x * x + y * y;
         }
 
         /** Calculates the dot (scalar) product of this vector with another. */
-        INT32 dot(const Vector2I& vec) const
+        INT32 Dot(const Vector2I& vec) const
         {
             return x * vec.x + y * vec.y;
         }

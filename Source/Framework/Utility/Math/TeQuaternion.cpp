@@ -9,7 +9,7 @@ namespace te
     const Quaternion Quaternion::ZERO{ TE_ZERO() };
     const Quaternion Quaternion::IDENTITY{ TE_IDENTITY() };
 
-    void Quaternion::fromRotationMatrix(const Matrix3& mat)
+    void Quaternion::FromRotationMatrix(const Matrix3& mat)
     {
         // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
         // article "Quaternion Calculus and Fast Animation".
@@ -20,7 +20,7 @@ namespace te
         if (trace > 0.0f)
         {
             // |w| > 1/2, may as well choose w > 1/2
-            root = Math::sqrt(trace + 1.0f);  // 2w
+            root = Math::Sqrt(trace + 1.0f);  // 2w
             w = 0.5f*root;
             root = 0.5f / root;  // 1/(4w)
             x = (mat[2][1] - mat[1][2])*root;
@@ -42,7 +42,7 @@ namespace te
             UINT32 j = nextLookup[i];
             UINT32 k = nextLookup[j];
 
-            root = Math::sqrt(mat[i][i] - mat[j][j] - mat[k][k] + 1.0f);
+            root = Math::Sqrt(mat[i][i] - mat[j][j] - mat[k][k] + 1.0f);
 
             float* cmpntLookup[3] = { &x, &y, &z };
             *cmpntLookup[i] = 0.5f*root;
@@ -53,21 +53,21 @@ namespace te
             *cmpntLookup[k] = (mat[k][i] + mat[i][k])*root;
         }
 
-        normalize();
+        Normalize();
     }
 
-    void Quaternion::fromAxisAngle(const Vector3& axis, const Radian& angle)
+    void Quaternion::FromAxisAngle(const Vector3& axis, const Radian& angle)
     {
         Radian halfAngle(0.5f*angle);
-        float sin = Math::sin(halfAngle);
+        float sin = Math::Sin(halfAngle);
 
-        w = Math::cos(halfAngle);
+        w = Math::Cos(halfAngle);
         x = sin * axis.x;
         y = sin * axis.y;
         z = sin * axis.z;
     }
 
-    void Quaternion::fromAxes(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
+    void Quaternion::FromAxes(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
     {
         Matrix3 kRot;
 
@@ -83,23 +83,23 @@ namespace te
         kRot[1][2] = zaxis.y;
         kRot[2][2] = zaxis.z;
 
-        fromRotationMatrix(kRot);
+        FromRotationMatrix(kRot);
     }
 
-    void Quaternion::fromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle)
+    void Quaternion::FromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle)
     {
         Radian halfXAngle = xAngle * 0.5f;
         Radian halfYAngle = yAngle * 0.5f;
         Radian halfZAngle = zAngle * 0.5f;
 
-        float cx = Math::cos(halfXAngle);
-        float sx = Math::sin(halfXAngle);
+        float cx = Math::Cos(halfXAngle);
+        float sx = Math::Sin(halfXAngle);
 
-        float cy = Math::cos(halfYAngle);
-        float sy = Math::sin(halfYAngle);
+        float cy = Math::Cos(halfYAngle);
+        float sy = Math::Sin(halfYAngle);
 
-        float cz = Math::cos(halfZAngle);
-        float sz = Math::sin(halfZAngle);
+        float cz = Math::Cos(halfZAngle);
+        float sz = Math::Sin(halfZAngle);
 
         Quaternion quatX(cx, sx, 0.0f, 0.0f);
         Quaternion quatY(cy, 0.0f, sy, 0.0f);
@@ -108,7 +108,7 @@ namespace te
         *this = (quatZ * quatX) * quatY;
     }
 
-    void Quaternion::fromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle, EulerAngleOrder order)
+    void Quaternion::FromEulerAngles(const Radian& xAngle, const Radian& yAngle, const Radian& zAngle, EulerAngleOrder order)
     {
         static constexpr const EulerAngleOrderData EA_LOOKUP[6] = { { 0, 1, 2}, { 0, 2, 1}, { 1, 0, 2},
                                         { 1, 2, 0}, { 2, 0, 1}, { 2, 1, 0} };
@@ -118,14 +118,14 @@ namespace te
         Radian halfYAngle = yAngle * 0.5f;
         Radian halfZAngle = zAngle * 0.5f;
 
-        float cx = Math::cos(halfXAngle);
-        float sx = Math::sin(halfXAngle);
+        float cx = Math::Cos(halfXAngle);
+        float sx = Math::Sin(halfXAngle);
 
-        float cy = Math::cos(halfYAngle);
-        float sy = Math::sin(halfYAngle);
+        float cy = Math::Cos(halfYAngle);
+        float sy = Math::Sin(halfYAngle);
 
-        float cz = Math::cos(halfZAngle);
-        float sz = Math::sin(halfZAngle);
+        float cz = Math::Cos(halfZAngle);
+        float sz = Math::Sin(halfZAngle);
 
         Quaternion quats[3];
         quats[0] = Quaternion(cx, sx, 0.0f, 0.0f);
@@ -135,7 +135,7 @@ namespace te
         *this = (quats[l.c] * quats[l.b]) * quats[l.a];
     }
 
-    void Quaternion::toRotationMatrix(Matrix3& mat) const
+    void Quaternion::ToRotationMatrix(Matrix3& mat) const
     {
         float tx = x + x;
         float ty = y + y;
@@ -161,13 +161,13 @@ namespace te
         mat[2][2] = 1.0f - (txx + tyy);
     }
 
-    void Quaternion::toAxisAngle(Vector3& axis, Radian& angle) const
+    void Quaternion::ToAxisAngle(Vector3& axis, Radian& angle) const
     {
         float sqrLength = x * x + y * y + z * z;
         if (sqrLength > 0.0)
         {
-            angle = 2.0*Math::acos(w);
-            float invLength = Math::invSqrt(sqrLength);
+            angle = 2.0*Math::Acos(w);
+            float invLength = Math::InvSqrt(sqrLength);
             axis.x = x * invLength;
             axis.y = y * invLength;
             axis.z = z * invLength;
@@ -182,10 +182,10 @@ namespace te
         }
     }
 
-    void Quaternion::toAxes(Vector3& xaxis, Vector3& yaxis, Vector3& zaxis) const
+    void Quaternion::ToAxes(Vector3& xaxis, Vector3& yaxis, Vector3& zaxis) const
     {
         Matrix3 matRot;
-        toRotationMatrix(matRot);
+        ToRotationMatrix(matRot);
 
         xaxis.x = matRot[0][0];
         xaxis.y = matRot[1][0];
@@ -200,14 +200,14 @@ namespace te
         zaxis.z = matRot[2][2];
     }
 
-    bool Quaternion::toEulerAngles(Radian& xAngle, Radian& yAngle, Radian& zAngle) const
+    bool Quaternion::ToEulerAngles(Radian& xAngle, Radian& yAngle, Radian& zAngle) const
     {
         Matrix3 matRot;
-        toRotationMatrix(matRot);
-        return matRot.toEulerAngles(xAngle, yAngle, zAngle);
+        ToRotationMatrix(matRot);
+        return matRot.ToEulerAngles(xAngle, yAngle, zAngle);
     }
 
-    Vector3 Quaternion::xAxis() const
+    Vector3 Quaternion::XAxis() const
     {
         float fTy = 2.0f*y;
         float fTz = 2.0f*z;
@@ -221,7 +221,7 @@ namespace te
         return Vector3(1.0f - (fTyy + fTzz), fTxy + fTwz, fTxz - fTwy);
     }
 
-    Vector3 Quaternion::yAxis() const
+    Vector3 Quaternion::YAxis() const
     {
         float fTx = 2.0f*x;
         float fTy = 2.0f*y;
@@ -236,7 +236,7 @@ namespace te
         return Vector3(fTxy - fTwz, 1.0f - (fTxx + fTzz), fTyz + fTwx);
     }
 
-    Vector3 Quaternion::zAxis() const
+    Vector3 Quaternion::ZAxis() const
     {
         float fTx = 2.0f*x;
         float fTy = 2.0f*y;
@@ -251,7 +251,7 @@ namespace te
         return Vector3(fTxz + fTwy, fTyz - fTwx, 1.0f - (fTxx + fTyy));
     }
 
-    Quaternion Quaternion::inverse() const
+    Quaternion Quaternion::Inverse() const
     {
         float fNorm = w * w + x * x + y * y + z * z;
         if (fNorm > 0.0f)
@@ -266,24 +266,24 @@ namespace te
         }
     }
 
-    Vector3 Quaternion::rotate(const Vector3& v) const
+    Vector3 Quaternion::Rotate(const Vector3& v) const
     {
         // Note: Does compiler generate fast code here? Perhaps its better to pull all code locally without constructing
         //       an intermediate matrix.
         Matrix3 rot;
-        toRotationMatrix(rot);
-        return rot.multiply(v);
+        ToRotationMatrix(rot);
+        return rot.Multiply(v);
     }
 
-    void Quaternion::lookRotation(const Vector3& forwardDir)
+    void Quaternion::LookRotation(const Vector3& forwardDir)
     {
         if (forwardDir == Vector3::ZERO)
             return;
 
-        Vector3 nrmForwardDir = Vector3::normalize(forwardDir);
-        Vector3 currentForwardDir = -zAxis();
+        Vector3 nrmForwardDir = Vector3::Normalize(forwardDir);
+        Vector3 currentForwardDir = -ZAxis();
 
-        if ((nrmForwardDir + currentForwardDir).squaredLength() < 0.00005f)
+        if ((nrmForwardDir + currentForwardDir).SquaredLength() < 0.00005f)
         {
             // Oops, a 180 degree turn (infinite possible rotation axes)
             // Default to yaw i.e. use current UP
@@ -292,34 +292,34 @@ namespace te
         else
         {
             // Derive shortest arc to new direction
-            Quaternion rotQuat = getRotationFromTo(currentForwardDir, nrmForwardDir);
+            Quaternion rotQuat = GetRotationFromTo(currentForwardDir, nrmForwardDir);
             *this = rotQuat * *this;
         }
     }
 
-    void Quaternion::lookRotation(const Vector3& forwardDir, const Vector3& upDir)
+    void Quaternion::LookRotation(const Vector3& forwardDir, const Vector3& upDir)
     {
-        Vector3 forward = Vector3::normalize(forwardDir);
-        Vector3 up = Vector3::normalize(upDir);
+        Vector3 forward = Vector3::Normalize(forwardDir);
+        Vector3 up = Vector3::Normalize(upDir);
 
-        if (Math::approxEquals(Vector3::dot(forward, up), 1.0f))
+        if (Math::ApproxEquals(Vector3::Dot(forward, up), 1.0f))
         {
-            lookRotation(forward);
+            LookRotation(forward);
             return;
         }
 
-        Vector3 x = Vector3::cross(forward, up);
-        Vector3 y = Vector3::cross(x, forward);
+        Vector3 x = Vector3::Cross(forward, up);
+        Vector3 y = Vector3::Cross(x, forward);
 
-        x.normalize();
-        y.normalize();
+        x.Normalize();
+        y.Normalize();
 
         *this = Quaternion(x, y, -forward);
     }
 
-    Quaternion Quaternion::slerp(float t, const Quaternion& p, const Quaternion& q, bool shortestPath)
+    Quaternion Quaternion::Slerp(float t, const Quaternion& p, const Quaternion& q, bool shortestPath)
     {
-        float cos = p.dot(q);
+        float cos = p.Dot(q);
         Quaternion quat;
 
         if (cos < 0.0f && shortestPath)
@@ -332,14 +332,14 @@ namespace te
             quat = q;
         }
 
-        if (Math::abs(cos) < 1 - EPSILON)
+        if (Math::Abs(cos) < 1 - EPSILON)
         {
             // Standard case (slerp)
-            float sin = Math::sqrt(1 - Math::sqr(cos));
-            Radian angle = Math::atan2(sin, cos);
+            float sin = Math::Sqrt(1 - Math::Sqr(cos));
+            Radian angle = Math::Atan2(sin, cos);
             float invSin = 1.0f / sin;
-            float coeff0 = Math::sin((1.0f - t) * angle) * invSin;
-            float coeff1 = Math::sin(t * angle) * invSin;
+            float coeff0 = Math::Sin((1.0f - t) * angle) * invSin;
+            float coeff1 = Math::Sin(t * angle) * invSin;
             return coeff0 * p + coeff1 * quat;
         }
         else
@@ -353,22 +353,22 @@ namespace te
             Quaternion ret = (1.0f - t) * p + t * quat;
 
             // Taking the complement requires renormalization
-            ret.normalize();
+            ret.Normalize();
             return ret;
         }
     }
 
-    Quaternion Quaternion::getRotationFromTo(const Vector3& from, const Vector3& dest, const Vector3& fallbackAxis)
+    Quaternion Quaternion::GetRotationFromTo(const Vector3& from, const Vector3& dest, const Vector3& fallbackAxis)
     {
         // Based on Stan Melax's article in Game Programming Gems
         Quaternion q;
 
         Vector3 v0 = from;
         Vector3 v1 = dest;
-        v0.normalize();
-        v1.normalize();
+        v0.Normalize();
+        v1.Normalize();
 
-        float d = v0.dot(v1);
+        float d = v0.Dot(v1);
 
         // If dot == 1, vectors are the same
         if (d >= 1.0f)
@@ -379,30 +379,30 @@ namespace te
             if (fallbackAxis != Vector3::ZERO)
             {
                 // Rotate 180 degrees about the fallback axis
-                q.fromAxisAngle(fallbackAxis, Radian(Math::PI));
+                q.FromAxisAngle(fallbackAxis, Radian(Math::PI));
             }
             else
             {
                 // Generate an axis
-                Vector3 axis = Vector3::UNIT_X.cross(from);
-                if (axis.isZeroLength()) // Pick another if colinear
-                    axis = Vector3::UNIT_Y.cross(from);
-                axis.normalize();
-                q.fromAxisAngle(axis, Radian(Math::PI));
+                Vector3 axis = Vector3::UNIT_X.Cross(from);
+                if (axis.IsZeroLength()) // Pick another if colinear
+                    axis = Vector3::UNIT_Y.Cross(from);
+                axis.Normalize();
+                q.FromAxisAngle(axis, Radian(Math::PI));
             }
         }
         else
         {
-            float s = Math::sqrt((1 + d) * 2);
+            float s = Math::Sqrt((1 + d) * 2);
             float invs = 1 / s;
 
-            Vector3 c = v0.cross(v1);
+            Vector3 c = v0.Cross(v1);
 
             q.x = c.x * invs;
             q.y = c.y * invs;
             q.z = c.z * invs;
             q.w = s * 0.5f;
-            q.normalize();
+            q.Normalize();
         }
 
         return q;

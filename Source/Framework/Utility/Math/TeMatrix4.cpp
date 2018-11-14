@@ -6,8 +6,8 @@
 
 namespace te
 {
-    const Matrix4 Matrix4::ZERO{ TE_ZERO() };
-    const Matrix4 Matrix4::IDENTITY{ TE_IDENTITY() };
+    const Matrix4 Matrix4::ZERO { TE_ZERO() };
+    const Matrix4 Matrix4::IDENTITY { TE_IDENTITY() };
 
     static float MINOR(const Matrix4& m, const UINT32 r0, const UINT32 r1, const UINT32 r2,
         const UINT32 c0, const UINT32 c1, const UINT32 c2)
@@ -17,7 +17,7 @@ namespace te
             m[r0][c2] * (m[r1][c0] * m[r2][c1] - m[r2][c0] * m[r1][c1]);
     }
 
-    Matrix4 Matrix4::adjoint() const
+    Matrix4 Matrix4::Adjoint() const
     {
         return Matrix4(MINOR(*this, 1, 2, 3, 1, 2, 3),
             -MINOR(*this, 0, 2, 3, 1, 2, 3),
@@ -40,7 +40,7 @@ namespace te
             MINOR(*this, 0, 1, 2, 0, 1, 2));
     }
 
-    float Matrix4::determinant() const
+    float Matrix4::Determinant() const
     {
         return m[0][0] * MINOR(*this, 1, 2, 3, 1, 2, 3) -
             m[0][1] * MINOR(*this, 1, 2, 3, 0, 2, 3) +
@@ -48,7 +48,7 @@ namespace te
             m[0][3] * MINOR(*this, 1, 2, 3, 0, 1, 2);
     }
 
-    float Matrix4::determinant3x3() const
+    float Matrix4::Determinant3x3() const
     {
         float cofactor00 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
         float cofactor10 = m[1][2] * m[2][0] - m[1][0] * m[2][2];
@@ -59,7 +59,7 @@ namespace te
         return det;
     }
 
-    Matrix4 Matrix4::inverse() const
+    Matrix4 Matrix4::Inverse() const
     {
         float m00 = m[0][0], m01 = m[0][1], m02 = m[0][2], m03 = m[0][3];
         float m10 = m[1][0], m11 = m[1][1], m12 = m[1][2], m13 = m[1][3];
@@ -121,7 +121,7 @@ namespace te
             d30, d31, d32, d33);
     }
 
-    Matrix4 Matrix4::inverseAffine() const
+    Matrix4 Matrix4::InverseAffine() const
     {
         float m10 = m[1][0], m11 = m[1][1], m12 = m[1][2];
         float m20 = m[2][0], m21 = m[2][1], m22 = m[2][2];
@@ -163,10 +163,10 @@ namespace te
             0, 0, 0, 1);
     }
 
-    void Matrix4::setTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+    void Matrix4::SetTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
     {
         Matrix3 rot3x3;
-        rotation.toRotationMatrix(rot3x3);
+        rotation.ToRotationMatrix(rot3x3);
 
         m[0][0] = scale.x * rot3x3[0][0]; m[0][1] = scale.y * rot3x3[0][1]; m[0][2] = scale.z * rot3x3[0][2]; m[0][3] = translation.x;
         m[1][0] = scale.x * rot3x3[1][0]; m[1][1] = scale.y * rot3x3[1][1]; m[1][2] = scale.z * rot3x3[1][2]; m[1][3] = translation.y;
@@ -176,21 +176,21 @@ namespace te
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
 
-    void Matrix4::setInverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+    void Matrix4::SetInverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
     {
         // Invert the parameters
         Vector3 invTranslate = -translation;
         Vector3 invScale(1 / scale.x, 1 / scale.y, 1 / scale.z);
-        Quaternion invRot = rotation.inverse();
+        Quaternion invRot = rotation.Inverse();
 
         // Because we're inverting, order is translation, rotation, scale
         // So make translation relative to scale & rotation
-        invTranslate = invRot.rotate(invTranslate);
+        invTranslate = invRot.Rotate(invTranslate);
         invTranslate *= invScale;
 
         // Next, make a 3x3 rotation matrix
         Matrix3 rot3x3;
-        invRot.toRotationMatrix(rot3x3);
+        invRot.ToRotationMatrix(rot3x3);
 
         // Set up final matrix with scale, rotation and translation
         m[0][0] = invScale.x * rot3x3[0][0]; m[0][1] = invScale.x * rot3x3[0][1]; m[0][2] = invScale.x * rot3x3[0][2]; m[0][3] = invTranslate.x;
@@ -201,9 +201,9 @@ namespace te
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
 
-    void Matrix4::decomposition(Vector3& position, Quaternion& rotation, Vector3& scale) const
+    void Matrix4::Decomposition(Vector3& position, Quaternion& rotation, Vector3& scale) const
     {
-        Matrix3 m3x3 = get3x3();
+        Matrix3 m3x3 = Get3x3();
 
         Matrix3 matQ;
         Vector3 vecU;
@@ -213,7 +213,7 @@ namespace te
         position = Vector3(m[0][3], m[1][3], m[2][3]);
     }
 
-    void Matrix4::makeView(const Vector3& position, const Quaternion& orientation)
+    void Matrix4::MakeView(const Vector3& position, const Quaternion& orientation)
     {
         // View matrix is:
         //
@@ -226,11 +226,11 @@ namespace te
 
         // This is most efficiently done using 3x3 Matrices
         Matrix3 rot;
-        orientation.toRotationMatrix(rot);
+        orientation.ToRotationMatrix(rot);
 
         // Make the translation relative to new axes
-        Matrix3 rotT = rot.transpose();
-        Vector3 trans = (-rotT).multiply(position);
+        Matrix3 rotT = rot.Transpose();
+        Vector3 trans = (-rotT).Multiply(position);
 
         // Make final matrix
         *this = Matrix4(rotT);
@@ -239,7 +239,7 @@ namespace te
         m[2][3] = trans.z;
     }
 
-    void Matrix4::makeProjectionOrtho(float left, float right, float top,
+    void Matrix4::MakeProjectionOrtho(float left, float right, float top,
         float bottom, float near, float far)
     {
         // Create a matrix that transforms coordinate to normalized device coordinate in range:
@@ -281,7 +281,7 @@ namespace te
         m[3][3] = 1.0f;
     }
 
-    Matrix4 Matrix4::translation(const Vector3& translation)
+    Matrix4 Matrix4::Translation(const Vector3& translation)
     {
         Matrix4 mat;
 
@@ -293,7 +293,7 @@ namespace te
         return mat;
     }
 
-    Matrix4 Matrix4::scaling(const Vector3& scale)
+    Matrix4 Matrix4::Scaling(const Vector3& scale)
     {
         Matrix4 mat;
 
@@ -305,7 +305,7 @@ namespace te
         return mat;
     }
 
-    Matrix4 Matrix4::scaling(float scale)
+    Matrix4 Matrix4::Scaling(float scale)
     {
         Matrix4 mat;
 
@@ -317,21 +317,21 @@ namespace te
         return mat;
     }
 
-    Matrix4 Matrix4::rotation(const Quaternion& rotation)
+    Matrix4 Matrix4::Rotation(const Quaternion& rotation)
     {
         Matrix3 mat;
-        rotation.toRotationMatrix(mat);
+        rotation.ToRotationMatrix(mat);
 
         return Matrix4(mat);
     }
 
-    Matrix4 Matrix4::projectionPerspective(const Degree& horzFOV, float aspect, float near, float far, bool positiveZ)
+    Matrix4 Matrix4::ProjectionPerspective(const Degree& horzFOV, float aspect, float near, float far, bool positiveZ)
     {
         // Note: Duplicate code in Camera, bring it all here eventually
         static constexpr float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
 
         Radian thetaX(horzFOV * 0.5f);
-        float tanThetaX = Math::tan(thetaX);
+        float tanThetaX = Math::Tan(thetaX);
         float tanThetaY = tanThetaX / aspect;
 
         float half_w = tanThetaX * near;
@@ -374,18 +374,18 @@ namespace te
         return mat;
     }
 
-    Matrix4 Matrix4::projectionOrthographic(float left, float right, float top, float bottom, float near, float far)
+    Matrix4 Matrix4::ProjectionOrthographic(float left, float right, float top, float bottom, float near, float far)
     {
         Matrix4 output;
-        output.makeProjectionOrtho(left, right, top, bottom, near, far);
+        output.MakeProjectionOrtho(left, right, top, bottom, near, far);
 
         return output;
     }
 
-    Matrix4 Matrix4::view(const Vector3& position, const Quaternion& orientation)
+    Matrix4 Matrix4::View(const Vector3& position, const Quaternion& orientation)
     {
         Matrix4 mat;
-        mat.makeView(position, orientation);
+        mat.MakeView(position, orientation);
 
         return mat;
     }
@@ -393,15 +393,15 @@ namespace te
     Matrix4 Matrix4::TRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
     {
         Matrix4 mat;
-        mat.setTRS(translation, rotation, scale);
+        mat.SetTRS(translation, rotation, scale);
 
         return mat;
     }
 
-    Matrix4 Matrix4::inverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+    Matrix4 Matrix4::InverseTRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
     {
         Matrix4 mat;
-        mat.setInverseTRS(translation, rotation, scale);
+        mat.SetInverseTRS(translation, rotation, scale);
 
         return mat;
     }

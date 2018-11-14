@@ -11,10 +11,17 @@ if (WIN32)
     endif ()
 endif ()
 
-add_executable(
-    HelloWorld
-    ${TE_HELLOWORLD_SRC}
-)
+if (WIN32)
+    add_executable(
+        HelloWorld WIN32
+        ${TE_HELLOWORLD_SRC}
+    )
+else ()
+    add_executable(
+        HelloWorld
+        ${TE_HELLOWORLD_SRC}
+    )
+endif ()
 
 # Libraries
 ## Local libs

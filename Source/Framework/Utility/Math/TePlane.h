@@ -36,16 +36,16 @@ namespace te
          *
          * @note	NO_SIDE signifies the point is on the plane.
          */
-        Side getSide(const Vector3& point, float epsilon = 0.0f) const;
+        Side GetSide(const Vector3& point, float epsilon = 0.0f) const;
 
         /**
          * Returns the side where the alignedBox is. The flag BOTH_SIDE indicates an intersecting box.
          * One corner ON the plane is sufficient to consider the box and the plane intersecting.
          */
-        Side getSide(const AABox& box) const;
+        Side GetSide(const AABox& box) const;
 
         /** Returns the side where the sphere is. The flag BOTH_SIDE indicates an intersecting sphere. */
-        Side getSide(const Sphere& sphere) const;
+        Side GetSide(const Sphere& sphere) const;
 
         /**
          * Returns a distance from point to plane.
@@ -54,22 +54,22 @@ namespace te
          * 			positive side of the plane, negative if the point is on the negative
          * 			side, and zero if the point is on the plane.
          */
-        float getDistance(const Vector3& point) const;
+        float GetDistance(const Vector3& point) const;
 
         /** Project a vector onto the plane. */
-        Vector3 projectVector(const Vector3& v) const;
+        Vector3 ProjectVector(const Vector3& v) const;
 
         /** Normalizes the plane's normal and the length scale of d. */
-        float normalize();
+        float Normalize();
 
         /** Box/plane intersection. */
-        bool intersects(const AABox& box) const;
+        bool Intersects(const AABox& box) const;
 
         /** Sphere/plane intersection. */
-        bool intersects(const Sphere& sphere) const;
+        bool Intersects(const Sphere& sphere) const;
 
         /** Ray/plane intersection, returns boolean result and distance to intersection point. */
-        std::pair<bool, float> intersects(const Ray& ray) const;
+        std::pair<bool, float> Intersects(const Ray& ray) const;
 
         bool operator==(const Plane& rhs) const
         {

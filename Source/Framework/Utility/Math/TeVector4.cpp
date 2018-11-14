@@ -5,8 +5,8 @@ namespace te
 {
     const Vector4 Vector4::ZERO{ TE_ZERO() };
 
-    bool Vector4::isNaN() const
+    bool Vector4::IsNaN() const
     {
-        return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z) || Math::isNaN(w);
+        return Math::IsNaN(x) || Math::IsNaN(y) || Math::IsNaN(z) || Math::IsNaN(w);
     }
 }
