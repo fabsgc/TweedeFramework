@@ -1,10 +1,12 @@
 set (TE_D3D11RENDERAPI_INC_NOFILTER
     "TeD3D11RenderAPIPrerequisites.h"
+    "TeD3D11RenderAPIFactory.h"
     "TeD3D11RenderAPI.h"
     "TeDDSTextureLoader.h"
 )
 
 set (TE_D3D11RENDERAPI_SRC_NOFILTER
+    "TeD3D11RenderAPIFactory.cpp"
     "TeD3D11RenderAPI.cpp"
     "TeDDSTextureLoader.cpp"
 )

@@ -1,8 +1,11 @@
 #pragma once
 
+#include "TeD3D11RenderAPIPrerequisites.h"
+#include "RenderAPI/TeRenderAPI.h"
+
 namespace te
 {
-    class __declspec(dllexport) D3D11RenderAPI
+    class TE_PLUGIN_EXPORT D3D11RenderAPI: public RenderAPI
     {
     public:
         D3D11RenderAPI();

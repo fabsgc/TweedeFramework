@@ -60,6 +60,6 @@ namespace te
 
     protected:
         String        _name;
-        DYNLIB_HANDLE _handle;
+        DYNLIB_HANDLE _handle = nullptr;
     };
 }

@@ -1,8 +1,11 @@
 #pragma once
 
+#include "TeOpenAudioPrerequisites.h"
+#include "Audio/TeAudio.h"
+
 namespace te
 {
-    class __declspec(dllexport) OpenAudio
+    class TE_PLUGIN_EXPORT OpenAudio: public Audio
     {
     public:
         OpenAudio();

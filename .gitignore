@@ -16,9 +16,4 @@ CMakeFiles/
 cmake_install.cmake
 CMakeCache.txt
 
-tef.dir/
-TeRenderer.dir/
-TeGLRenderAPI.dir/
-TeD3D11RenderAPI.dir/
-
 TeEngineConfig.h

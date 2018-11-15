@@ -34,6 +34,8 @@ namespace te
                 "Could not load dynamic library " + _name +
                 ".  System Error: " + DynLibError());
         }
+
+        TE_DEBUG("Dynamic library " + _name + " has been successfully loaded");
     }
 
     void DynLib::Unload()
@@ -47,6 +49,8 @@ namespace te
                 "Could not unload dynamic library " + _name +
                 ".  System Error: " + DynLibError());
         }
+
+        TE_DEBUG("Dynamic library " + _name + " has been successfully unloaded");
     }
 
     void* DynLib::GetSymbol(const String& strName) const

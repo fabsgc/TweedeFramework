@@ -15,7 +15,23 @@ int main()
 {
     te::START_UP_DESC desc;
 
+    desc.Audio = TE_AUDIO_MODULE;
+    desc.RenderAPI = TE_RENDER_API_MODULE;
+    desc.Renderer = TE_RENDERER_MODULE;
+
+    desc.Importers = {
+        "TeFontImporter",
+        "TeFreeImgImporter",
+        "TeObjectImporter"
+    };
+
+    desc.PrimaryWindowDesc;
+
     te::CoreApplication::StartUp(desc);
+
+    te::String hello = "Hello World!";
+    std::cout << hello << std::endl;
+
     te::gCoreApplication().RunMainLoop();
     te::CoreApplication::ShutDown();
 

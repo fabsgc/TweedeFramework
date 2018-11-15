@@ -17,7 +17,7 @@ else ()
     set_property (CACHE RENDER_API_MODULE PROPERTY STRINGS "OpenGL")
 endif ()
 
-set (RENDERER_MODULE "Renderer" CACHE STRING "Renderer backend to use.")
+set (RENDERER_MODULE "RenderMan" CACHE STRING "Renderer backend to use.")
 set_property (CACHE RENDERER_MODULE PROPERTY STRINGS Renderer)
 
 ## Check dependencies built from source
@@ -27,7 +27,6 @@ if (WIN32)
 endif ()
 
 # Config file 
-## Note: Must happen before script binding generation 
 ## Set names of libraries used in the config file
 if (RENDER_API_MODULE MATCHES "DirectX 11")
     set (RENDER_API_MODULE_LIB TeD3D11RenderAPI)
@@ -36,6 +35,7 @@ else ()
 endif ()
 
 set(RENDERER_MODULE_LIB TeRenderer)
+set(AUDIO_MODULE_LIB TeOpenAudio)
 
 set(INCLUDE_ALL_IN_WORKFLOW true CACHE BOOL "If true, all libraries (even those not selected) will be included in the generated workflow (e.g. Visual Studio solution). This is useful when working on engine internals with a need for easy access to all parts of it. Only relevant for workflow generators like Visual Studio or XCode.")
 
@@ -67,7 +67,7 @@ else () # Otherwise include only chosen ones
     endif ()
 endif ()
 
-add_subdirectory (Plugins/TeRenderer)
+add_subdirectory (Plugins/TeRenderMan)
 add_subdirectory (Plugins/TeOpenAudio)
 add_subdirectory (Plugins/TeFontImporter)
 add_subdirectory (Plugins/TeObjectImporter)

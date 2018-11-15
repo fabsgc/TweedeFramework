@@ -5,6 +5,7 @@ set (TE_FONTIMPORTER_INC_NOFILTER
 
 set (TE_FONTIMPORTER_SRC_NOFILTER
     "TeFontImporter.cpp"
+    "TeFontImporterPlugin.cpp"
 )
 
 source_group ("" FILES ${TE_FONTIMPORTER_SRC_NOFILTER} ${TE_FONTIMPORTER_INC_NOFILTER})

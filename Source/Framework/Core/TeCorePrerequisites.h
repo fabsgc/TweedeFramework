@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Prerequisites/TePrerequisitesUtility.h"
+#include "TeEngineConfig.h"
 
 /** Maximum number of color surfaces that can be attached to a multi render target. */
 #define TE_MAX_MULTIPLE_RENDER_TARGETS 8
@@ -51,4 +52,14 @@ namespace te
 
     class RenderAPI;
     class RenderWindow;
+    class RenderAPIFactory;
+    class TeRenderWindow;
+    struct RENDER_WINDOW_DESC;
+    class VideoMode;
+
+    class Renderer;
+    class RendererFactory;
+
+    class Audio;
+    class AudioFactory;
 }

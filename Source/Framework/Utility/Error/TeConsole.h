@@ -8,8 +8,8 @@ namespace te
     class TE_UTILITY_EXPORT Console : public Module<Console>
     {
     public:
-        Console() {}
-        ~Console() {}
+        Console() = default;
+        ~Console() = default;
 
     protected:
         void OnStartUp() override;

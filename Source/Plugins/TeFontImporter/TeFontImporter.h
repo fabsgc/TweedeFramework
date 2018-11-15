@@ -1,8 +1,10 @@
 #pragma once
 
+#include "TeFontImporterPrerequisites.h"
+
 namespace te
 {
-    class __declspec(dllexport) FontImporter
+    class TE_PLUGIN_EXPORT FontImporter
     {
     public:
         FontImporter();

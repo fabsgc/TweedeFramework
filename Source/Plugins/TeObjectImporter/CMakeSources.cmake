@@ -5,6 +5,7 @@ set (TE_OBJECTIMPORTER_INC_NOFILTER
 
 set (TE_OBJECTIMPORTER_SRC_NOFILTER
     "TeObjectImporter.cpp"
+    "TeObjectImporterPlugin.cpp"
 )
 
 source_group ("" FILES ${TE_OBJECTIMPORTER_SRC_NOFILTER} ${TE_OBJECTIMPORTER_INC_NOFILTER})

@@ -9,16 +9,13 @@ namespace te
     /**	Structure containing parameters for starting the application. */
     struct START_UP_DESC
     {
-        String renderAPI; /**< Name of the render system plugin to use. */
-        String renderer; /**< Name of the renderer plugin to use. */
-        String physics; /**< Name of physics plugin to use. */
-        String audio; /**< Name of the audio plugin to use. */
-        String input; /**< Name of the input plugin to use. */
-        bool scripting = false; /**< True to load the scripting system. */
+        String RenderAPI; /** Name of the render system plugin to use. */
+        String Renderer; /** Name of the renderer plugin to use. */
+        String Audio; /** Name of the audio plugin to use. */
 
-        RENDER_WINDOW_DESC primaryWindowDesc; /**< Describes the window to create during start-up. */
+        RENDER_WINDOW_DESC PrimaryWindowDesc; /** Describes the window to create during start-up. */
 
-        Vector<String> importers; /**< A list of importer plugins to load. */
+        Vector<String> Importers; /** A list of importer plugins to load. */
     };
 
     /**
@@ -44,14 +41,23 @@ namespace te
         /**	Stops the (infinite) main loop from running. The loop will complete its current cycle before stopping. */
         void StopMainLoop();
 
+        /**	Pause (or not) the infinite loop */
+        void Pause(bool pause);
+
+        /**	Return if the application is on pause or not */
+        bool GetPaused();
+
         /** Changes the maximum FPS the application is allowed to run in. Zero means unlimited. */
         void SetFPSLimit(UINT32 limit);
 
-        /**
-         * Issues a request for the application to close. Application may choose to ignore the request depending on the
-         * circumstances and the implementation.
-         */
-        virtual void QuitRequested();
+        /** Check if the number of FPS has already been reached. */
+        void CheckFPSLimit();
+
+        /** Issues a request for the application to close. Application may choose to ignore the request */
+        virtual void OnStopRequested();
+
+        /** Issues a request for the application to pause. Application may choose to ignore the request */
+        virtual void OnPauseRequested();
 
         /**	Returns the main window that was created on application start-up. */
         SPtr<RenderWindow> GetPrimaryWindow() const { return _primaryWindow; }
@@ -96,15 +102,15 @@ namespace te
         UINT64 _lastFrameTime = 0; // Microseconds
 
         DynLib* _rendererPlugin;
-
         Map<DynLib*, UpdatePluginFunc> _pluginUpdateFunctions;
 
         bool _isFrameRenderingFinished;
 
         volatile bool _runMainLoop;
-
+        volatile bool _pause;
     };
 
     /**	Provides easy access to CoreApplication. */
     TE_CORE_EXPORT CoreApplication& gCoreApplication();
+    TE_CORE_EXPORT CoreApplication* gCoreApplicationPtr();
 }

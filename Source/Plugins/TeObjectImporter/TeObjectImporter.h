@@ -1,8 +1,10 @@
 #pragma once
 
+#include "TeObjectImporterPrerequisites.h"
+
 namespace te
 {
-    class __declspec(dllexport) ObjectImporter
+    class TE_PLUGIN_EXPORT ObjectImporter
     {
     public:
         ObjectImporter();

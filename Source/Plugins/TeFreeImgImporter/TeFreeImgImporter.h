@@ -1,8 +1,10 @@
 #pragma once
 
+#include "TeFreeImgImporterPrerequisites.h"
+
 namespace te
 {
-    class __declspec(dllexport) FreeImgImporter
+    class TE_PLUGIN_EXPORT FreeImgImporter
     {
     public:
         FreeImgImporter();

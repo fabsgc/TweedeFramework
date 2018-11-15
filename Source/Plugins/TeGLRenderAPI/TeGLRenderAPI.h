@@ -1,8 +1,11 @@
 #pragma once
 
+#include "TeGLRenderAPIPrerequisites.h"
+#include "RenderAPI/TeRenderAPI.h"
+
 namespace te
 {
-    class __declspec(dllexport) GLRenderAPI
+    class TE_PLUGIN_EXPORT GLRenderAPI: public RenderAPI
     {
     public:
         GLRenderAPI();
