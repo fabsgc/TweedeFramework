@@ -117,8 +117,12 @@ set(TE_UTILITY_SRC_UTILITY
 
 set(TE_UTILITY_INC_THREADING
     "Utility/Threading/TeThreading.h"
+    "Utility/Threading/TeTaskScheduler.h"
+    "Utility/Threading/TeThreadPool.h"
 )
 set(TE_UTILITY_SRC_THREADING
+    "Utility/Threading/TeTaskScheduler.cpp"
+    "Utility/Threading/TeThreadPool.cpp"
 )
 
 source_group("Utility\\ThirdParty" FILES ${TE_UTILITY_INC_THIRDPARTY} ${TE_UTILITY_SRC_THIRDPARTY})

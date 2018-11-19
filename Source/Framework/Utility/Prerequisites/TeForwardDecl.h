@@ -66,4 +66,7 @@ namespace te
     class Ray;
 
     class NonCopyable;
+
+    class TaskScheduler;
+    class Task;
 }
