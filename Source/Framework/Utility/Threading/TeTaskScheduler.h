@@ -5,7 +5,7 @@
 
 namespace te
 {
-    enum class TastPriority
+    enum class TaskPriority
     {
         VeryLow = 98,
 		Low = 99,
