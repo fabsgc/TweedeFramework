@@ -13,6 +13,8 @@
 
 namespace te
 {
+    static constexpr int UNUSED_CHECK_PERIOD = 32;
+
     void PooledThread::Initialize()
     {
         _thread = te_new<Thread>(std::bind(&PooledThread::Run, this));
@@ -108,6 +110,16 @@ namespace te
             _workerEndedCond.wait(lock, [&]() { return _threadReady; });
     }
 
+    void PooledThread::OnThreadStarted(const String& name)
+    {
+        return;
+    }
+
+    void PooledThread::OnThreadEnded(const String& name)
+    {
+        return;
+    }
+
     bool PooledThread::IsIdle()
     {
         Lock lock(_mutex);
@@ -132,5 +144,167 @@ namespace te
         Lock lock(_mutex);
 
         return _id;
+    }
+
+    ThreadPool::ThreadPool(UINT32 threadCapacity, UINT32 maxCapacity, UINT32 idleTimeout)
+        : _defaultCapacity(threadCapacity)
+        , _maxCapacity(maxCapacity)
+        , _idleTimeout(idleTimeout)
+    {
+
+    }
+
+    ThreadPool::~ThreadPool()
+    {
+        StopAll();
+    }
+
+    PooledThread* ThreadPool::Run(const String& name, std::function<void()> workerMethod)
+    {
+        PooledThread* thread = GetThread(name);
+        thread->Start(workerMethod, _uniqueId++);
+
+        return thread;
+    }
+
+    void ThreadPool::StopAll()
+    {
+        Lock lock(_mutex);
+        for (auto& thread : _threads)
+        {
+            DestroyThread(thread);
+        }
+
+        _threads.clear();
+    }
+
+    void ThreadPool::ClearUnused()
+    {
+        Lock lock(_mutex);
+        _age = 0;
+
+        if (_threads.size() <= _defaultCapacity)
+            return;
+
+        Vector<PooledThread*> idleThreads;
+        Vector<PooledThread*> expiredThreads;
+        Vector<PooledThread*> activeThreads;
+
+        idleThreads.reserve(_threads.size());
+        expiredThreads.reserve(_threads.size());
+        activeThreads.reserve(_threads.size());
+
+        for (auto& thread : _threads)
+        {
+            if (thread->IsIdle())
+            {
+                if (thread->IdleTime() >= _idleTimeout)
+                    expiredThreads.push_back(thread);
+                else
+                    idleThreads.push_back(thread);
+            }
+            else
+            {
+                activeThreads.push_back(thread);
+            }
+        }
+
+        idleThreads.insert(idleThreads.end(), expiredThreads.begin(), expiredThreads.end());
+        UINT32 limit = std::min((UINT32)idleThreads.size(), _defaultCapacity);
+
+        UINT32 i = 0;
+        _threads.clear();
+
+        for (auto& thread : idleThreads)
+        {
+            if (i < limit)
+            {
+                _threads.push_back(thread);
+                i++;
+            }
+            else
+                DestroyThread(thread);
+        }
+
+        _threads.insert(_threads.end(), activeThreads.begin(), activeThreads.end());
+    }
+
+    PooledThread* ThreadPool::CreateThread(const String& name)
+    {
+        PooledThread* newThread = te_new<PooledThread>(name);
+        newThread->Initialize();
+
+        return newThread;
+    }
+
+    void ThreadPool::DestroyThread(PooledThread* thread)
+    {
+        thread->Destroy();
+        te_delete(thread);
+    }
+
+    PooledThread* ThreadPool::GetThread(const String& name)
+    {
+        UINT32 age = 0;
+        {
+            Lock lock(_mutex);
+            age = ++_age;
+        }
+
+        if (age == UNUSED_CHECK_PERIOD)
+            ClearUnused();
+
+        Lock lock(_mutex);
+
+        for (auto& thread : _threads)
+        {
+            if (thread->IsIdle())
+            {
+                thread->SetName(name);
+                return thread;
+            }
+        }
+
+        TE_ASSERT_ERROR(_threads.size() < _maxCapacity, "Unable to create a new thread in the pool because maximum capacity has been reached.");
+
+        PooledThread* newThread = CreateThread(name);
+        _threads.push_back(newThread);
+
+        return newThread;
+    }
+
+    UINT32 ThreadPool::GetNumAvailable() const
+    {
+        UINT32 numAvailable = 0;
+
+        Lock lock(_mutex);
+        for (auto& thread : _threads)
+        {
+            if (thread->IsIdle())
+                numAvailable++;
+        }
+
+        return numAvailable;
+    }
+
+    UINT32 ThreadPool::GetNumActive() const
+    {
+        UINT32 numActive = 0;
+
+        Lock lock(_mutex);
+        for (auto& thread : _threads)
+        {
+            if (!thread->IsIdle())
+                numActive++;
+        }
+
+        return numActive;
+    }
+
+    UINT32 ThreadPool::GetNumAllocated() const
+    {
+        Lock lock(_mutex);
+
+        return (UINT32)_threads.size();
     }
 }
