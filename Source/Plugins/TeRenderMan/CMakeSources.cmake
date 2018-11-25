@@ -6,6 +6,7 @@ set (TE_RENDERMAN_INC_NOFILTER
 
 set (TE_RENDERERMAN_SRC_NOFILTER
     "TeRenderManFactory.cpp"
+    "TeRenderManPlugin.cpp"
     "TeRenderMan.cpp"
 )
 

@@ -5,4 +5,8 @@ namespace te
     Renderer::Renderer()
     {
     }
+
+    void Renderer::Initialize()
+    {
+    }
 }

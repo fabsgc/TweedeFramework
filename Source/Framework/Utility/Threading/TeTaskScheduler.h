@@ -118,6 +118,8 @@ namespace te
         /**	Method used for sorting tasks. */
         static bool TaskCompare(const SPtr<Task>& lhs, const SPtr<Task>& rhs);
 
+        void OnStartUp() override;
+
     protected:
         friend Task;
 
@@ -134,4 +136,8 @@ namespace te
         Signal _taskReadyCond;
         Signal _taskCompleteCond;
     };
+
+    /**	Provides easy access to CoreApplication. */
+    TE_UTILITY_EXPORT TaskScheduler& gTaskScheduler();
+    TE_UTILITY_EXPORT TaskScheduler* gTaskSchedulerPtr();
 }

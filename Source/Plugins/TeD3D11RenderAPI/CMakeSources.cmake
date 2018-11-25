@@ -8,6 +8,7 @@ set (TE_D3D11RENDERAPI_INC_NOFILTER
 set (TE_D3D11RENDERAPI_SRC_NOFILTER
     "TeD3D11RenderAPIFactory.cpp"
     "TeD3D11RenderAPI.cpp"
+    "TeD3D11RenderAPIPlugin.cpp"
     "TeDDSTextureLoader.cpp"
 )
 

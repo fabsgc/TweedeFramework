@@ -10,8 +10,8 @@ namespace te
     public:
         static constexpr const char* SystemName = "TeRenderMan";
 
-        SPtr<Renderer> create() override;
+        SPtr<Renderer> Create() override;
 
-        const String& name() const override;
+        const String& Name() const override;
     };
 }

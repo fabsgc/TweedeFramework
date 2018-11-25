@@ -89,7 +89,7 @@ namespace te
          * @param[in]	maxCapacity   	(optional) Maximum number of threads the pool can create.
          * @param[in]	idleTimeout   	(optional) How many seconds do threads need to be idle before we remove them from the pool.
          */
-        ThreadPool(UINT32 threadCapacity, UINT32 maxCapacity = 16, UINT32 idleTimeout = 60);
+        ThreadPool(UINT32 threadCapacity = TE_THREAD_HARDWARE_CONCURRENCY, UINT32 maxCapacity = 16, UINT32 idleTimeout = 60);
         ~ThreadPool();
 
         /**

@@ -9,5 +9,7 @@ namespace te
     public:
         Renderer();
         virtual ~Renderer() = default;
+        virtual void Initialize() = 0;
+        virtual void Update() = 0;
     };
 }

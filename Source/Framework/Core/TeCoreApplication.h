@@ -11,9 +11,10 @@ namespace te
     {
         String RenderAPI; /** Name of the render system plugin to use. */
         String Renderer; /** Name of the renderer plugin to use. */
+        String Physics; /** Name of the physics plugin to use. */
         String Audio; /** Name of the audio plugin to use. */
 
-        RENDER_WINDOW_DESC PrimaryWindowDesc; /** Describes the window to create during start-up. */
+        RENDER_WINDOW_DESC WindowDesc; /** Describes the window to create during start-up. */
 
         Vector<String> Importers; /** A list of importer plugins to load. */
     };
@@ -60,7 +61,7 @@ namespace te
         virtual void OnPauseRequested();
 
         /**	Returns the main window that was created on application start-up. */
-        SPtr<RenderWindow> GetPrimaryWindow() const { return _primaryWindow; }
+        SPtr<RenderWindow> GetWindow() const { return _window; }
 
         /**
          * Loads a plugin.
@@ -94,7 +95,7 @@ namespace te
     protected:
         typedef void(*UpdatePluginFunc)();
 
-        SPtr<RenderWindow> _primaryWindow;
+        SPtr<RenderWindow> _window;
         START_UP_DESC _startUpDesc;
 
         // Frame limiting
@@ -102,6 +103,7 @@ namespace te
         UINT64 _lastFrameTime = 0; // Microseconds
 
         DynLib* _rendererPlugin;
+        DynLib* _renderAPIPlugin;
         Map<DynLib*, UpdatePluginFunc> _pluginUpdateFunctions;
 
         bool _isFrameRenderingFinished;

@@ -9,6 +9,7 @@ namespace te
     {
     public:
         virtual ~Audio() = default;
+        virtual void Update() = 0;
     };
 
     /** Provides easier access to Audio. */

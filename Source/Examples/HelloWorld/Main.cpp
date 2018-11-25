@@ -15,9 +15,10 @@ int main()
 {
     te::START_UP_DESC desc;
 
-    desc.Audio = TE_AUDIO_MODULE;
     desc.RenderAPI = TE_RENDER_API_MODULE;
     desc.Renderer = TE_RENDERER_MODULE;
+    desc.Physics = TE_PHYSICS_MODULE;
+    desc.Audio = TE_AUDIO_MODULE;
 
     desc.Importers = {
         "TeFontImporter",
@@ -25,7 +26,7 @@ int main()
         "TeObjectImporter"
     };
 
-    desc.PrimaryWindowDesc;
+    desc.WindowDesc;
 
     te::CoreApplication::StartUp(desc);
 

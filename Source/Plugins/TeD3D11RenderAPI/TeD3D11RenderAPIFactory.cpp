@@ -3,12 +3,12 @@
 
 namespace te
 {
-    SPtr<RenderAPI> D3D11RenderAPIFactory::create()
+    SPtr<RenderAPI> D3D11RenderAPIFactory::Create()
     {
         return te_shared_ptr_new<D3D11RenderAPI>();
     }
 
-    const String& D3D11RenderAPIFactory::name() const
+    const String& D3D11RenderAPIFactory::Name() const
     {
         static String StrSystemName = SystemName;
         return StrSystemName;

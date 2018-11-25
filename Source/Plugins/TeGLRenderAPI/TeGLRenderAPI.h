@@ -5,10 +5,13 @@
 
 namespace te
 {
-    class TE_PLUGIN_EXPORT GLRenderAPI: public RenderAPI
+    class GLRenderAPI: public RenderAPI
     {
     public:
         GLRenderAPI();
         ~GLRenderAPI();
+
+        void Initialize() override;
+        void Update() override;
     };
 }

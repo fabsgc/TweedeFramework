@@ -5,10 +5,12 @@
 
 namespace te
 {
-    class TE_PLUGIN_EXPORT OpenAudio: public Audio
+    class OpenAudio: public Audio
     {
     public:
         OpenAudio();
         ~OpenAudio();
+
+        void Update() override;
     };
 }

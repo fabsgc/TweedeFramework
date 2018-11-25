@@ -9,4 +9,8 @@ namespace te
     OpenAudio::~OpenAudio()
     {
     }
+
+    void OpenAudio::Update()
+    {
+    }
 }

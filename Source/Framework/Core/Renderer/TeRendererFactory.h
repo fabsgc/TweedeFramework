@@ -16,9 +16,9 @@ namespace te
         virtual ~RendererFactory() { }
 
         /**	Creates a new instance of the renderer. */
-        virtual SPtr<Renderer> create() = 0;
+        virtual SPtr<Renderer> Create() = 0;
 
         /**	Returns the name of the renderer this factory creates. */
-        virtual const String& name() const = 0;
+        virtual const String& Name() const = 0;
     };
 }

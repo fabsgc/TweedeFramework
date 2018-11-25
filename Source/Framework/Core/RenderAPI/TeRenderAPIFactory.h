@@ -11,9 +11,9 @@ namespace te
         virtual ~RenderAPIFactory() { }
 
 		/**	Creates and starts up the render system managed by this factory.  */
-		virtual SPtr<RenderAPI> create() = 0;
+		virtual SPtr<RenderAPI> Create() = 0;
 
 		/**	Returns the name of the render system this factory creates. */
-		virtual const String& name() const = 0;
+		virtual const String& Name() const = 0;
     };
 }

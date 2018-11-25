@@ -72,4 +72,7 @@ namespace te
 
     class ThreadPool;
     class PooledThread;
+
+    class Task;
+    class TaskScheduler;
 }

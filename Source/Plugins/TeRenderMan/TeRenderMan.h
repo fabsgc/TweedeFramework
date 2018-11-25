@@ -5,10 +5,13 @@
 
 namespace te
 {
-    class TE_PLUGIN_EXPORT RenderMan: public Renderer
+    class RenderMan: public Renderer
     {
     public:
         RenderMan();
         ~RenderMan();
+
+        void Initialize() override;
+        void Update() override;
     };
 }

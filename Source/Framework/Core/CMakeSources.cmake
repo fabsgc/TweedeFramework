@@ -20,23 +20,38 @@ set (TE_CORE_SRC_RENDERER
 
 set (TE_CORE_INC_PLATFORM_WIN32
     "Core/Private/Win32/TeWin32Window.h"
+    "Core/Private/Win32/TeWin32Input.h"
 )
 set (TE_CORE_SRC_PLATFORM_WIN32
     "Core/Private/Win32/TeWin32Window.cpp"
+    "Core/Private/Win32/TeWin32Input.cpp"
+    "Core/Private/Win32/TeWin32GamePad.cpp"
+    "Core/Private/Win32/TeWin32Keyboard.cpp"
+    "Core/Private/Win32/TeWin32Mouse.cpp"
 )
 
 set (TE_CORE_INC_PLATFORM_LINUX
-    "Core/Private/Linux/TeWin32Window.h"
+    "Core/Private/Linux/TeLinuxWindow.h"
+    "Core/Private/Linux/TeLinuxInput.h"
 )
 set (TE_CORE_SRC_PLATFORM_LINUX
-    "Core/Private/Linux/TeWin32Window.cpp"
+    "Core/Private/Linux/TeLinuxWindow.cpp"
+    "Core/Private/Linux/TeLinuxInput.cpp"
+    "Core/Private/Linux/TeLinuxGamePad.cpp"
+    "Core/Private/Linux/TeLinuxKeyboard.cpp"
+    "Core/Private/Linux/TeLinuxMouse.cpp"
 )
 
 set (TE_CORE_INC_PLATFORM_MACOS
-    "Core/Private/MacOS/TeWin32Window.h"
+    "Core/Private/MacOS/TeMacOSWindow.h"
+    "Core/Private/Linux/TeMacOSInput.h"
 )
 set (TE_CORE_SRC_PLATFORM_MACOS
-    "Core/Private/MacOS/TeWin32Window.cpp"
+    "Core/Private/MacOS/TeMacOSWindow.cpp"
+    "Core/Private/Linux/TeMacOSInput.cpp"
+    "Core/Private/Linux/TeMacOSGamePad.cpp"
+    "Core/Private/Linux/TeMacOSKeyboard.cpp"
+    "Core/Private/Linux/TeMacOSMouse.cpp"
 )
 
 set(TE_CORE_INC_NOFILTER
@@ -57,6 +72,35 @@ set (TE_CORE_SRC_AUDIO
     "Core/Audio/TeAudioFactory.cpp"
 )
 
+set (TE_CORE_INC_PHYSICS
+    "Core/Physics/TePhysics.h"
+    "Core/Physics/TePhysicsFactory.h"
+)
+set (TE_CORE_SRC_PHYSICS
+    "Core/Physics/TePhysics.cpp"
+    "Core/Physics/TePhysicsFactory.cpp"
+)
+
+set (TE_CORE_INC_INPUT
+    "Core/Input/TeInput.h"
+    "Core/Input/TeGamePad.h"
+    "Core/Input/TeKeyboard.h"
+    "Core/Input/TeMouse.h"
+)
+set (TE_CORE_SRC_INPUT
+    "Core/Input/TeInput.cpp"
+)
+
+set (TE_CORE_INC_MANAGER
+    "Core/Manager/TeRenderAPIManager.h"
+    "Core/Manager/TeRendererManager.h"
+    "Core/Manager/TePluginManager.h"
+)
+set (TE_CORE_SRC_MANAGER
+    "Core/Manager/TeRenderAPIManager.cpp"
+    "Core/Manager/TeRendererManager.cpp"
+)
+
 set(TE_CORE_INC_PLATFORM)
 
 if (WIN32)
@@ -74,6 +118,9 @@ source_group("Core\\RenderAPI" FILES ${TE_CORE_INC_RENDERAPI} ${TE_CORE_SRC_REND
 source_group("Core\\Renderer" FILES ${TE_CORE_INC_RENDERER} ${TE_CORE_SRC_RENDERER})
 source_group("Core\\Platform" FILES ${TE_CORE_INC_PLATFORM} ${TE_CORE_SRC_PLATFORM})
 source_group("Core\\Audio" FILES ${TE_CORE_INC_AUDIO} ${TE_CORE_SRC_AUDIO})
+source_group("Core\\Physics" FILES ${TE_CORE_INC_PHYSICS} ${TE_CORE_SRC_PHYSICS})
+source_group("Core\\Input" FILES ${TE_CORE_INC_INPUT} ${TE_CORE_SRC_INPUT})
+source_group("Core\\Manager" FILES ${TE_CORE_INC_MANAGER} ${TE_CORE_SRC_MANAGER})
 source_group("Core" FILES ${TE_CORE_INC_NOFILTER} ${TE_CORE_SRC_NOFILTER})
 
 set(TE_CORE_SRC
@@ -87,4 +134,10 @@ set(TE_CORE_SRC
     ${TE_CORE_INC_NOFILTER}
     ${TE_CORE_INC_AUDIO}
     ${TE_CORE_SRC_AUDIO}
+    ${TE_CORE_INC_PHYSICS}
+    ${TE_CORE_SRC_PHYSICS}
+    ${TE_CORE_INC_INPUT}
+    ${TE_CORE_SRC_INPUT}
+    ${TE_CORE_INC_MANAGER}
+    ${TE_CORE_SRC_MANAGER}
 )

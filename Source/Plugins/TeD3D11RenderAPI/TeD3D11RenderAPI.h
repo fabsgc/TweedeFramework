@@ -5,10 +5,13 @@
 
 namespace te
 {
-    class TE_PLUGIN_EXPORT D3D11RenderAPI: public RenderAPI
+    class D3D11RenderAPI: public RenderAPI
     {
     public:
         D3D11RenderAPI();
         ~D3D11RenderAPI();
+
+        void Initialize() override;
+        void Update() override;
     };
 }

@@ -9,4 +9,12 @@ namespace te
     GLRenderAPI::~GLRenderAPI()
     {
     }
+
+    void GLRenderAPI::Initialize()
+    {
+    }
+
+    void GLRenderAPI::Update()
+    {
+    }
 }

@@ -1,17 +1,28 @@
 #include "TeCoreApplication.h"
 
-#include "Utility/TeTime.h"
-#include "Threading/TeThreading.h"
 #include "Utility/TeDynLibManager.h"
 #include "Utility/TeDynLib.h"
+#include "Threading/TeThreading.h"
+#include "Threading/TeThreadPool.h"
+#include "Threading/TeTaskScheduler.h"
+#include "Manager/TePluginManager.h"
+#include "Manager/TeRenderAPIManager.h"
+#include "Manager/TeRendererManager.h"
 #include "Error/TeConsole.h"
+#include "Utility/TeTime.h"
+#include "Input/TeInput.h"
+#include "Physics/TePhysics.h"
+#include "Audio/TeAudio.h"
+#include "RenderAPI/TeRenderAPI.h"
+#include "Renderer/TeRenderer.h"
 
 namespace te
 {
     CoreApplication::CoreApplication(START_UP_DESC desc)
-        : _primaryWindow(nullptr)
+        : _window(nullptr)
         , _startUpDesc(desc)
         , _rendererPlugin(nullptr)
+        , _renderAPIPlugin(nullptr)
         , _isFrameRenderingFinished(true)
         , _runMainLoop(false)
         , _pause(false)
@@ -26,8 +37,26 @@ namespace te
     {
         Console::StartUp();
         Time::StartUp();
+        ThreadPool::StartUp();
         DynLibManager::StartUp();
+        TaskScheduler::StartUp();
+        Input::StartUp();
 
+        PluginManager<AudioFactory>::StartUp(_startUpDesc.Audio);
+        PluginManager<PhysicsFactory>::StartUp(_startUpDesc.Physics);
+
+        RenderAPIManager::StartUp();
+        RendererManager::StartUp();
+
+        LoadPlugin(_startUpDesc.Renderer, &_rendererPlugin);
+        LoadPlugin(_startUpDesc.RenderAPI, &_renderAPIPlugin);
+
+        RenderAPIManager::Instance().Initialize(_startUpDesc.RenderAPI, _startUpDesc.WindowDesc);
+        RendererManager::Instance().Initialize(_startUpDesc.Renderer);
+
+        SPtr<RenderAPI> renderAPI = RenderAPIManager::Instance().GetRenderAPI();
+        SPtr<Renderer> renderer = RendererManager::Instance().GetRenderer();
+        
         for (auto& importerName : _startUpDesc.Importers)
         {
             LoadPlugin(importerName);
@@ -36,7 +65,16 @@ namespace te
     
     void CoreApplication::OnShutDown()
     {
+        RendererManager::ShutDown();
+        RenderAPIManager::ShutDown();
+        
+        PluginManager<PhysicsFactory>::ShutDown();
+        PluginManager<AudioFactory>::ShutDown();
+
+        Input::ShutDown();
+        TaskScheduler::ShutDown();
         DynLibManager::ShutDown();
+        ThreadPool::ShutDown();
         Time::ShutDown();
         Console::ShutDown();
     }
@@ -50,11 +88,17 @@ namespace te
             CheckFPSLimit();
 
             gTime().Update();
+            gInput().Update();
+            gPhysics().Update();
+            gAudio().Update();
 
             PreUpdate();
 
             for (auto& pluginUpdateFunc : _pluginUpdateFunctions)
                 pluginUpdateFunc.second();
+
+            RenderAPIManager::Instance().GetRenderAPI()->Update();
+            RendererManager::Instance().GetRenderer()->Update();
 
             PostUpdate();
         }
@@ -156,7 +200,7 @@ namespace te
             {
                 typedef void* (*LoadPluginFunc)();
 
-                LoadPluginFunc loadPluginFunc = (LoadPluginFunc)loadedLibrary->GetSymbol("loadPlugin");
+                LoadPluginFunc loadPluginFunc = (LoadPluginFunc)loadedLibrary->GetSymbol("LoadPlugin");
 
                 if (loadPluginFunc != nullptr)
                 {
@@ -167,7 +211,7 @@ namespace te
             {
                 typedef void* (*LoadPluginFunc)(void*);
 
-                LoadPluginFunc loadPluginFunc = (LoadPluginFunc)loadedLibrary->GetSymbol("loadPlugin");
+                LoadPluginFunc loadPluginFunc = (LoadPluginFunc)loadedLibrary->GetSymbol("LoadPlugin");
 
                 if (loadPluginFunc != nullptr)
                 {
@@ -175,11 +219,12 @@ namespace te
                 } 
             }
 
-            UpdatePluginFunc loadPluginFunc = (UpdatePluginFunc)loadedLibrary->GetSymbol("updatePlugin");
 
-            if (loadPluginFunc != nullptr)
+            UpdatePluginFunc updatePluginFunc = (UpdatePluginFunc)loadedLibrary->GetSymbol("UpdatePlugin");
+
+            if (updatePluginFunc != nullptr)
             {
-                _pluginUpdateFunctions[loadedLibrary] = loadPluginFunc;
+                _pluginUpdateFunctions[loadedLibrary] = updatePluginFunc;
             }  
         }
 
@@ -190,7 +235,7 @@ namespace te
     {
         typedef void(*UnloadPluginFunc)();
 
-        UnloadPluginFunc unloadPluginFunc = (UnloadPluginFunc)library->GetSymbol("unloadPlugin");
+        UnloadPluginFunc unloadPluginFunc = (UnloadPluginFunc)library->GetSymbol("UnloadPlugin");
 
         if (unloadPluginFunc != nullptr)
         {

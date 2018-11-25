@@ -6,6 +6,7 @@ set (TE_GLRENDERAPI_INC_NOFILTER
 
 set (TE_GLRENDERAPI_SRC_NOFILTER
 	"TeGLRenderAPIFactory.cpp"
+	"TeGLRenderAPIPlugin.cpp"
 	"TeGLRenderAPI.cpp"
 )
 

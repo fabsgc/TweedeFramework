@@ -4,7 +4,7 @@
 
 namespace te
 {
-    class TE_PLUGIN_EXPORT FreeImgImporter
+    class FreeImgImporter
     {
     public:
         FreeImgImporter();

@@ -9,4 +9,12 @@ namespace te
     RenderMan::~RenderMan()
     {
     }
+
+    void RenderMan::Initialize()
+    {
+    }
+
+    void RenderMan::Update()
+    {
+    }
 }

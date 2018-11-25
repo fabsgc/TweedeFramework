@@ -41,9 +41,8 @@ namespace te
 
     TaskScheduler::TaskScheduler()
         : _taskQueue(&TaskScheduler::TaskCompare)
+        , _maxActiveTasks(TE_THREAD_HARDWARE_CONCURRENCY)
     {
-        _maxActiveTasks = TE_THREAD_HARDWARE_CONCURRENCY;
-        _taskSchedulerThread = ThreadPool::Instance().Run("TaskScheduler", std::bind(&TaskScheduler::RunMain, this));
     }
 
     TaskScheduler::~TaskScheduler()
@@ -203,5 +202,10 @@ namespace te
 
         // Otherwise we go by smaller id, as that task was queued earlier than the other
         return lhs->_taskId < rhs->_taskId;
+    }
+
+    void TaskScheduler::OnStartUp()
+    {
+        _taskSchedulerThread = ThreadPool::Instance().Run("TaskScheduler", std::bind(&TaskScheduler::RunMain, this));
     }
 }

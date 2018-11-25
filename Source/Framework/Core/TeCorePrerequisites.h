@@ -62,4 +62,15 @@ namespace te
 
     class Audio;
     class AudioFactory;
+
+    class Physics;
+    class PhysicsFactory;
+
+    class Input;
+    class GamePad;
+    class Keyboard;
+    class Mouse;
+
+    template<typename PluginFactory, class ...Args>
+    class PluginManager;
 }
