@@ -2,6 +2,7 @@
 
 #include "TeCorePrerequisites.h"
 #include "Utility/TeModule.h"
+#include "Utility/TeEvent.h"
 
 namespace te
 {

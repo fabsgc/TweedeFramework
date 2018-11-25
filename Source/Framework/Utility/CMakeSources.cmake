@@ -106,6 +106,7 @@ set(TE_UTILITY_INC_UTILITY
     "Utility/Utility/TeUtil.h"
     "Utility/Utility/TeUUID.h"
     "Utility/Utility/TeQueue.h"
+    "Utility/Utility/TeEvent.h"
 )
 set(TE_UTILITY_SRC_UTILITY
     "Utility/Utility/TeDynLib.cpp"

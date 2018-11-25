@@ -15,10 +15,13 @@ namespace te
     }
 
     /** Generates an MD5 hash string for the provided source string. */
-    String md5(const WString& source);
+    String Md5(const WString& source);
 
     /**	Generates an MD5 hash string for the provided source string. */
-    String md5(const String& source);
+    String Md5(const String& source);
+
+    /** Get current time and date into a char array */
+    void GetTime(char* buffer);
 
     /** Sets contents of a struct to zero. */
     template<class T>

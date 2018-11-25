@@ -3,7 +3,7 @@
 
 namespace te
 {
-    String md5(const WString& source)
+    String Md5(const WString& source)
     {
         MD5 md5;
         md5.update((UINT8*)source.data(), (UINT32)source.length() * sizeof(WString::value_type));
@@ -20,7 +20,7 @@ namespace te
         return buf;
     }
 
-    String md5(const String& source)
+    String Md5(const String& source)
     {
         MD5 md5;
         md5.update((UINT8*)source.data(), (UINT32)source.length() * sizeof(String::value_type));
@@ -35,5 +35,16 @@ namespace te
             snprintf(&(buf[0]) + i * 2, 3, "%02x", digest[i]);
 
         return buf;
+    }
+
+    void GetTime(char* buffer)
+    {
+        time_t rawtime;
+        struct tm * timeinfo;
+
+        time(&rawtime);
+        timeinfo = localtime(&rawtime);
+
+        strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", timeinfo);
     }
 }

@@ -208,4 +208,14 @@ namespace te
     {
         _taskSchedulerThread = ThreadPool::Instance().Run("TaskScheduler", std::bind(&TaskScheduler::RunMain, this));
     }
+
+    TE_UTILITY_EXPORT TaskScheduler& gTaskScheduler()
+    {
+        return TaskScheduler::Instance();
+    }
+
+    TE_UTILITY_EXPORT TaskScheduler* gTaskSchedulerPtr()
+    {
+        return TaskScheduler::InstancePtr();
+    }
 }

@@ -75,4 +75,14 @@ namespace te
 
     class Task;
     class TaskScheduler;
+
+    struct BaseConnectionData;
+    class InternalData;
+    class EventHandler;
+    template <class ReturnType, class... Args>
+    class InternalEvent;
+    template <typename Signature>
+    class Event;
+    template <class ReturnType, class... Args>
+    class Event<ReturnType(Args...) >;
 }

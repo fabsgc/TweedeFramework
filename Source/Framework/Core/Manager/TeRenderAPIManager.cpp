@@ -6,7 +6,7 @@
 
 namespace te
 {
-    void RenderAPIManager::Initialize(const String& pluginFilename, RENDER_WINDOW_DESC& primaryWindowDesc)
+    void RenderAPIManager::Initialize(const String& pluginFilename, const RENDER_WINDOW_DESC& windowDesc)
     {
         DynLib* loadedLibrary = gDynLibManager().Load(pluginFilename);
         const char* name = "";
