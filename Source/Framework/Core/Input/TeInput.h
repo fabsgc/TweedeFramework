@@ -39,6 +39,11 @@ namespace te
 
         /**	Triggers when some pointing device (mouse cursor, touch) button is double clicked. */
         Event<void(void)> OnPointerDoubleClick;
+
+    protected:
+        Mouse* _mouse;
+        Keyboard* _keyboard;
+        Vector<Gamepad*> _gamepads;
     };
 
     /**	Provides easy access to Input. */
