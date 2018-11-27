@@ -16,7 +16,7 @@ else ()
 	set (FLAC_LIBNAME FLAC)
 endif ()
 
-find_imported_includes (FLAC FLAC/all.h)
+find_imported_includes (FLAC Flac/all.h)
 
 if (UNIX)
 	find_imported_library (FLAC ${FLAC_LIBNAME})
