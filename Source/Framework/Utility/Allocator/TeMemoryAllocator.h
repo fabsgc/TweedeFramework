@@ -99,6 +99,12 @@ namespace te
         MemoryAllocator<Allocator>::Deallocate(ptr);
     }
 
+    /** Frees all the bytes allocated at the specified location. */
+    inline void te_free(void* ptr)
+    {
+        MemoryAllocator<GeneralAllocator>::Deallocate(ptr);
+    }
+
     /* ###################################################################
     *  ############# STL ALLOCATOR WRAPPER ###############################
     *  ################################################################ */
