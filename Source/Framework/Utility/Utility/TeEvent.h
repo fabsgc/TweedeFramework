@@ -166,19 +166,19 @@ namespace te
     };
 
     /** Event handler. Allows you to track to which events you subscribed to and disconnect from them when needed. */
-	class EventHandler
+	class HEvent
 	{
 	public:
-		EventHandler() = default;
+		HEvent() = default;
 
-        EventHandler(SPtr<InternalData> eventData, BaseConnectionData* connection)
+        HEvent(SPtr<InternalData> eventData, BaseConnectionData* connection)
             : _connection(connection)
             , _eventData(eventData)
         {
             connection->HandleLinks++;
         }
 
-        ~EventHandler()
+        ~HEvent()
         {
             if (_connection != nullptr)
                 _eventData->FreeHandle(_connection);
@@ -194,7 +194,7 @@ namespace te
             }
         }
 
-        EventHandler& operator=(const EventHandler& rhs)
+        HEvent& operator=(const HEvent& rhs)
         {
             _connection = rhs._connection;
             _eventData = rhs._eventData;
@@ -239,7 +239,7 @@ namespace te
         }
 
         /** Register a new callback that will get notified once the event is triggered. */
-        EventHandler Connect(std::function<ReturnType(Args...)> function)
+        HEvent Connect(std::function<ReturnType(Args...)> function)
         {
             RecursiveLock lock(_internalData->_mutex);
 
@@ -276,7 +276,7 @@ namespace te
 
             connection->Function = function;
 
-            return EventHandler(_internalData, connection);
+            return HEvent(_internalData, connection);
         }
 
         /** Trigger the event, notifying all register callback methods. */
