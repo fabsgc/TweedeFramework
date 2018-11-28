@@ -80,6 +80,8 @@ extern "C" {
 #   include <Windows.h>
 #   include <fcntl.h>
 #   include <io.h>
+#   include <iphlpapi.h>
+#   include <intrin.h>
 
 #   ifndef UNICODE
 #       define UNICODE
@@ -215,6 +217,16 @@ namespace te
     /* ###################################################################
     *  ############# UNIQUE PTR INSTANTIATION ############################
     *  ################################################################ */
+
+    /**
+	 * Create a new unique pointer from a previously constructed object.
+	 * Pointer specific data will be allocated using the provided allocator category.
+	 */
+	template<typename Type, typename Allocator = GeneralAllocator>
+	UPtr<Type, Allocator> te_unique_ptr(Type* data)
+	{
+		return std::unique_ptr<Type, decltype(&te_delete<Type, Allocator>)>(data, te_delete<Type, Allocator>);
+	}
 
     /**
     * \brief Create a new unique pointer using a custom allocator category.

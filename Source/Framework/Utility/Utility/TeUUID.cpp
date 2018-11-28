@@ -1,7 +1,4 @@
 #include "Utility/TeUUID.h"
-#include <windows.h>
-#include <iphlpapi.h>
-#include <intrin.h>
 
 namespace
 {
@@ -163,8 +160,11 @@ namespace te
         return String((const char*)output, 36);
     }
 
+    #include <uuid/uuid.h>
+
     UUID UUIDGenerator::GenerateUUID()
     {
+#if TE_PLATFORM == TE_PLATFORM_WIN32
         ::UUID uuid;
         UuidCreate(&uuid);
 
@@ -175,5 +175,15 @@ namespace te
         UINT32 data4 = uuid.Data4[2] | (uuid.Data4[3] << 8) | (uuid.Data4[4] << 16) | (uuid.Data4[5] << 24);
 
         return UUID(data1, data2, data3, data4);
+#elif TE_PLATFORM == TE_PLATFORM_LINUX
+        uuid_t nativeUUID;
+		uuid_generate(nativeUUID);
+
+		return UUID(
+				*(UINT32*)&nativeUUID[0],
+				*(UINT32*)&nativeUUID[4],
+				*(UINT32*)&nativeUUID[8],
+				*(UINT32*)&nativeUUID[12]);
+#endif
     }
 }

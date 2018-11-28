@@ -15,7 +15,7 @@ namespace te
             , HideUntilSwap(false)
         { }
 
-        VideoMode VideoMode; /**< Output monitor, frame buffer resize and refresh rate. */
+        VideoMode Mode; /**< Output monitor, frame buffer resize and refresh rate. */
         bool Fullscreen; /**< Should the window be opened in fullscreen mode. */
         bool Vsync; /**< Should the window wait for vertical sync before swapping buffers. */
         UINT32 VsyncInterval; /**< Determines how many vsync intervals occur per frame. FPS = refreshRate/interval. Usually 1 when vsync active. */
