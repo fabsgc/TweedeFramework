@@ -161,3 +161,31 @@ if (TE_TOP_LEVEL)
 
 	set_property (GLOBAL PROPERTY USE_FOLDERS TRUE)
 endif()
+
+# Look for global/system dependencies
+if (UNIX)
+	# macOS
+	if (CMAKE_SYSTEM_NAME STREQUAL Darwin)
+		# Find tools used for stripping binaries
+		find_program(DSYMUTIL_TOOL dsymutil)
+
+		if (NOT DSYMUTIL_TOOL)
+			message(FATAL_ERROR "Could not find 'dsymutil' tool.")
+		endif()
+
+		find_program(STRIP_TOOL strip)
+		if (NOT STRIP_TOOL)
+			message(FATAL_ERROR "Could not find 'strip' tool.")
+		endif()
+
+	# Linux
+	else()
+		# Find tools used for stripping binaries
+	    find_program(OBJCOPY_TOOL objcopy)
+
+	    if (NOT OBJCOPY_TOOL)
+	        message(FATAL_ERROR "Could not find 'objcopy' tool.")
+	    endif()
+
+	endif()
+endif()

@@ -58,21 +58,21 @@ target_link_libraries (tef PUBLIC ThirdParty)
 if (LINUX)
     ## External lib: X11, LibUUID, LibICU
     target_link_libraries (tef PUBLIC ${X11_LIBRARIES} ${X11_Xcursor_LIB} ${X11_Xrandr_LIB} ${X11_Xi_LIB})
-    target_link_libraries (tef PRIVATE ${LibUUID_LIBRARIES})
-    target_link_libraries (tef PRIVATE ${LibICU_LIBRARIES})
+    target_link_libraries (tef PUBLIC ${LibUUID_LIBRARIES})
+    target_link_libraries (tef PUBLIC ${LibICU_LIBRARIES})
 endif ()
 
 if (APPLE)
     ## External lib: LibUUID
-    target_link_libraries (tef PRIVATE ${LibUUID_LIBRARIES})
+    target_link_libraries (tef PUBLIC ${LibUUID_LIBRARIES})
 endif ()
 
 ## OS libs
 if (WIN32)
-    target_link_libraries (tef PRIVATE Winmm dinput8 xinput9_1_0 dxguid.lib)
-    target_link_libraries (tef PRIVATE DbgHelp IPHLPAPI Rpcrt4)
+    target_link_libraries (tef PUBLIC Winmm dinput8 xinput9_1_0 dxguid.lib)
+    target_link_libraries (tef PUBLIC DbgHelp IPHLPAPI Rpcrt4)
 elseif (LINUX)
-    target_link_libraries(tef PRIVATE dl pthread)
+    target_link_libraries(tef PUBLIC dl pthread)
 elseif (APPLE) # MacOS
     target_link_framework(tef CoreServices)
     target_link_framework(tef IOKit)

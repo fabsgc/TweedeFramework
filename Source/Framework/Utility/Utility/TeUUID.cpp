@@ -175,7 +175,7 @@ namespace te
         UINT32 data4 = uuid.Data4[2] | (uuid.Data4[3] << 8) | (uuid.Data4[4] << 16) | (uuid.Data4[5] << 24);
 
         return UUID(data1, data2, data3, data4);
-#elif TE_PLATFORM == TE_PLATFORM_LINUX
+#elif TE_PLATFORM == TE_PLATFORM_LINUX || TE_PLATFORM == TE_PLATFORM_MACOS
         uuid_t nativeUUID;
 		uuid_generate(nativeUUID);
 
