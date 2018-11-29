@@ -48,7 +48,7 @@
 #   endif
 #endif
 
-#if TE_PLAFORM == TE_PLATFORM_WIN32
+#if TE_PLATFORM == TE_PLATFORM_WIN32
 #else
 #   include <uuid/uuid.h>
 #endif

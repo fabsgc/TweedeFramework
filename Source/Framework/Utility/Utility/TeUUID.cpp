@@ -160,8 +160,6 @@ namespace te
         return String((const char*)output, 36);
     }
 
-    #include <uuid/uuid.h>
-
     UUID UUIDGenerator::GenerateUUID()
     {
 #if TE_PLATFORM == TE_PLATFORM_WIN32
