@@ -103,7 +103,7 @@ set(TE_UTILITY_INC_UTILITY
     "Utility/Utility/TeNonCopyable.h"
     "Utility/Utility/TeTime.h"
     "Utility/Utility/TeTimer.h"
-    "Utility/Utility/TeUtil.h"
+    "Utility/Utility/TeUtility.h"
     "Utility/Utility/TeUUID.h"
     "Utility/Utility/TeQueue.h"
     "Utility/Utility/TeEvent.h"
@@ -113,7 +113,7 @@ set(TE_UTILITY_SRC_UTILITY
     "Utility/Utility/TeDynLibManager.cpp"
     "Utility/Utility/TeTime.cpp"
     "Utility/Utility/TeTimer.cpp"
-    "Utility/Utility/TeUtil.cpp"
+    "Utility/Utility/TeUtility.cpp"
     "Utility/Utility/TeUUID.cpp"
 )
 
@@ -126,6 +126,35 @@ set(TE_UTILITY_SRC_THREADING
     "Utility/Threading/TeTaskScheduler.cpp"
     "Utility/Threading/TeThreadPool.cpp"
 )
+
+set(TE_UTILITY_INC_WIN32
+)
+set(TE_UTILITY_SRC_WIN32
+    "Utility/Private/Win32/TeWin32PlatformUtility.cpp"
+)
+
+set(TE_UTILITY_INC_LINUX
+)
+set(TE_UTILITY_SRC_LINUX
+    "Utility/Private/Linux/TeLinuxPlatformUtility.cpp"
+)
+
+set(TE_UTILITY_INC_MACOS
+)
+set(TE_UTILITY_SRC_MACOS
+    "Utility/Private/MacOS/TeMacOSPlatformUtility.cpp"
+)
+
+if(WIN32)
+	list(APPEND TE_UTILITY_SRC_UTILITY ${TE_UTILITY_SRC_WIN32})
+	list(APPEND TE_UTILITY_INC_UTILITY ${TE_UTILITY_INC_WIN32})
+elseif(LINUX)
+    list(APPEND TE_UTILITY_SRC_UTILITY ${TE_UTILITY_SRC_LINUX})
+    list(APPEND TE_UTILITY_INC_UTILITY ${TE_UTILITY_INC_LINUX})
+elseif(APPLE)
+    list(APPEND TE_UTILITY_SRC_UTILITY ${TE_UTILITY_SRC_MACOS})
+    list(APPEND TE_UTILITY_INC_UTILITY ${TE_UTILITY_INC_MACOS})
+endif()
 
 source_group("Utility\\ThirdParty" FILES ${TE_UTILITY_INC_THIRDPARTY} ${TE_UTILITY_SRC_THIRDPARTY})
 source_group("Utility\\Math" FILES ${TE_UTILITY_INC_MATH} ${TE_UTILITY_SRC_MATH})
@@ -154,11 +183,3 @@ set(TE_UTILITY_SRC
     ${TE_UTILITY_SRC_THREADING}
     ${TE_UTILITY_INC_THREADING}
 )
-
-if (WIN32)
-
-endif ()
-
-if (UNIX)
-
-endif ()

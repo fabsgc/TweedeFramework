@@ -78,4 +78,4 @@
 
 #include "String/TeString.h"
 
-#include "Utility/TeUtil.h"
+#include "Utility/TeUtility.h"

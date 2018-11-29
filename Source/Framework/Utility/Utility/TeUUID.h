@@ -69,7 +69,7 @@ namespace te
     {
     public:
         /**	Generate a new random universally unique identifier. */
-        static UUID GenerateUUID();
+        static UUID GenerateRandom();
     };
 }
 
