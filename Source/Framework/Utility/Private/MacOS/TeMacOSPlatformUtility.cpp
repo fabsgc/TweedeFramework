@@ -4,7 +4,7 @@
 
 namespace te
 {
-    void PlatformUtility::terminate(bool force)
+    void PlatformUtility::Terminate(bool force)
     {
         exit(0);
     }
