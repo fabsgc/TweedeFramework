@@ -167,8 +167,11 @@ namespace te
         /* This version of construct() (with a varying number of parameters)
         * seems necessary in order to use some STL data structures from
         * libstdc++-4.8, but compilation fails on OS X, hence the #if. */
+        
+#if TE_PLATFORM == TE_PLATFORM_LINUX || TE_PLATFORM == TE_PLATFORM_WIN32
         template<class U, class... Args>
         void construct(U* p, Args&&... args) { new(p) U(std::forward<Args>(args)...); }
+#endif
     };
 }
 

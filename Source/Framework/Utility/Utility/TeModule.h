@@ -30,8 +30,6 @@ namespace te
                     "Trying to access a destroyed module.");
             }
 
-            T* test = _instance();
-
             return *_instance();
         }
 
