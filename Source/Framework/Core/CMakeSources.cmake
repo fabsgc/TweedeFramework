@@ -44,14 +44,14 @@ set (TE_CORE_SRC_PLATFORM_LINUX
 
 set (TE_CORE_INC_PLATFORM_MACOS
     "Core/Private/MacOS/TeMacOSWindow.h"
-    "Core/Private/Linux/TeMacOSInput.h"
+    "Core/Private/MacOS/TeMacOSInput.h"
 )
 set (TE_CORE_SRC_PLATFORM_MACOS
     "Core/Private/MacOS/TeMacOSWindow.cpp"
-    "Core/Private/Linux/TeMacOSInput.cpp"
-    "Core/Private/Linux/TeMacOSGamePad.cpp"
-    "Core/Private/Linux/TeMacOSKeyboard.cpp"
-    "Core/Private/Linux/TeMacOSMouse.cpp"
+    "Core/Private/MacOS/TeMacOSInput.cpp"
+    "Core/Private/MacOS/TeMacOSGamePad.cpp"
+    "Core/Private/MacOS/TeMacOSKeyboard.cpp"
+    "Core/Private/MacOS/TeMacOSMouse.cpp"
 )
 
 set(TE_CORE_INC_NOFILTER
