@@ -237,7 +237,7 @@ MACRO (install_dependency_binaries FOLDER_NAME)
 
             set (SRC_RELEASE ${${LOOP_ENTRY}_LIBRARY_RELEASE})
             set (SRC_DEBUG ${${LOOP_ENTRY}_LIBRARY_DEBUG})
-            set (DESTINATION_DIR lib/)
+            set (DESTINATION_DIR lib)
         endif ()
 
         execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_SOURCE_DIR}/${DESTINATION_DIR}${PLATFORM}/Release/")
