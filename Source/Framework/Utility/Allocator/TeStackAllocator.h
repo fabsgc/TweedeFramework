@@ -51,7 +51,6 @@ namespace te
             const size_t headerAddress = currentAddress + padding;
             const size_t dataAddress = headerAddress + sizeof(StackAllocationHeader);
 
-            StackAllocationHeader allocationHeader{ padding, size };
             StackAllocationHeader * headerPtr = (StackAllocationHeader*)headerAddress;
             headerPtr->padding = padding;
             headerPtr->size = size;

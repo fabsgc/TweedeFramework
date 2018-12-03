@@ -8,7 +8,7 @@ endif ()
 if (NOT CMAKE_CONFIGURATION_TYPES) # Multiconfig generator?
 	if (NOT CMAKE_BUILD_TYPE)
 		message(STATUS "Defaulting to release build.")
-		set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE "Release")
+		set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE "Debug")
 	endif ()
 endif ()
 
