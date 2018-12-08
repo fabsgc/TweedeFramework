@@ -4,7 +4,8 @@
 
 namespace te
 {
-    GamePad::GamePad()
+    GamePad::GamePad(const String& name, const GamePadInfo& gamepadInfo, Input* owner)
+        : _name(name), _owner(owner)
     {
     }
 

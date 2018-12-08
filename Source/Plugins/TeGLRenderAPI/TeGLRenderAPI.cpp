@@ -1,4 +1,5 @@
 #include "TeGLRenderAPI.h"
+#include "TeGLRenderWindow.h"
 
 namespace te
 {
@@ -8,6 +9,11 @@ namespace te
 
     GLRenderAPI::~GLRenderAPI()
     {
+    }
+
+    SPtr<RenderWindow> GLRenderAPI::CreateRenderWindow(const RENDER_WINDOW_DESC& windowDesc)
+    {
+        return te_shared_ptr_new<GLRenderWindow>(windowDesc);
     }
 
     void GLRenderAPI::Initialize()

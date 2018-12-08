@@ -18,9 +18,16 @@ set (TE_CORE_SRC_RENDERER
     "Core/Renderer/TeRenderer.cpp"
 )
 
+set(TE_CORE_INC_PLATFORM
+    "Core/Platform/TePlatform.h"
+)
+set(TE_CORE_SRC_PLATFORM 
+)
+
 set (TE_CORE_INC_PLATFORM_WIN32
     "Core/Private/Win32/TeWin32Window.h"
     "Core/Private/Win32/TeWin32Input.h"
+    "Core/Private/Win32/TeWin32Platform.h"
 )
 set (TE_CORE_SRC_PLATFORM_WIN32
     "Core/Private/Win32/TeWin32Window.cpp"
@@ -28,6 +35,7 @@ set (TE_CORE_SRC_PLATFORM_WIN32
     "Core/Private/Win32/TeWin32GamePad.cpp"
     "Core/Private/Win32/TeWin32Keyboard.cpp"
     "Core/Private/Win32/TeWin32Mouse.cpp"
+    "Core/Private/Win32/TeWin32Platform.cpp"
 )
 
 set (TE_CORE_INC_PLATFORM_LINUX
@@ -101,8 +109,6 @@ set (TE_CORE_SRC_MANAGER
     "Core/Manager/TeRendererManager.cpp"
 )
 
-set(TE_CORE_INC_PLATFORM)
-
 if (WIN32)
     list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_WIN32})
     list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_WIN32})
@@ -113,6 +119,9 @@ elseif (APPLE)
     list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_MACOS})
     list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_MACOS})
 endif ()
+
+list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM})
+list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM})
 
 source_group("Core\\RenderAPI" FILES ${TE_CORE_INC_RENDERAPI} ${TE_CORE_SRC_RENDERAPI})
 source_group("Core\\Renderer" FILES ${TE_CORE_INC_RENDERER} ${TE_CORE_SRC_RENDERER})

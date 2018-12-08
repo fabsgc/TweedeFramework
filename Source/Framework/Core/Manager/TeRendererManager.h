@@ -12,7 +12,7 @@ namespace te
     {
     public:
         /** Initializes the renderer, making it ready to render. */
-        void Initialize(const String& pluginFilename);
+        SPtr<Renderer> Initialize(const String& pluginFilename);
 
         /**	Returns the current renderer. Null if no renderer is active. */
         SPtr<Renderer> GetRenderer() { return _renderer; }

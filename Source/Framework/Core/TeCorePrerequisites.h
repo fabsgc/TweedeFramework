@@ -53,7 +53,7 @@ namespace te
     class RenderAPI;
     class RenderWindow;
     class RenderAPIFactory;
-    class TeRenderWindow;
+    class RenderWindow;
     struct RENDER_WINDOW_DESC;
     class VideoMode;
 
@@ -71,6 +71,11 @@ namespace te
     class Keyboard;
     class Mouse;
 
+    class Win32Window;
+
     template<typename PluginFactory, class ...Args>
     class PluginManager;
+
+    class Platform;
+    struct OSPointerButtonStates;
 }

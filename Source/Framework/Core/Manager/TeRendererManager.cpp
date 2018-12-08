@@ -6,7 +6,7 @@
 
 namespace te
 {
-    void RendererManager::Initialize(const String& pluginFilename)
+    SPtr<Renderer> RendererManager::Initialize(const String& pluginFilename)
     {
         DynLib* loadedLibrary = gDynLibManager().Load(pluginFilename);
         const char* name = "";
@@ -30,11 +30,14 @@ namespace te
                         te_delete(&_renderer);
 
                     _renderer = newRenderer;
+                    return _renderer;
                 }
             }
         }
 
-        TE_ASSERT_ERROR(_renderer != nullptr, "Cannot initialize renderer. Renderer with the name '" + pluginFilename + "' cannot be found.")
+        TE_ASSERT_ERROR(_renderer != nullptr, "Cannot initialize renderer. Renderer with the name '" + pluginFilename + "' cannot be found.");
+
+        return nullptr;
     }
 
     void RendererManager::RegisterFactory(SPtr<RendererFactory> factory)

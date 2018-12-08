@@ -28,6 +28,7 @@ int main()
 
     desc.WindowDesc;
 
+
     te::CoreApplication::StartUp(desc);
 
     te::String hello = "Hello World!";

@@ -1,4 +1,5 @@
 #include "TeRenderAPI.h"
+#include "RenderAPI/TeRenderWindow.h"
 
 namespace te
 {
@@ -9,8 +10,4 @@ namespace te
 	RenderAPI::~RenderAPI()
 	{
 	}
-
-    void RenderAPI::Initialize(const RENDER_WINDOW_DESC& _windowDesc)
-    {
-    }
 }

@@ -15,6 +15,7 @@
 #include "Audio/TeAudio.h"
 #include "RenderAPI/TeRenderAPI.h"
 #include "Renderer/TeRenderer.h"
+#include "Private/Win32/TeWin32Window.h"
 
 namespace te
 {
@@ -24,7 +25,7 @@ namespace te
         , _rendererPlugin(nullptr)
         , _renderAPIPlugin(nullptr)
         , _isFrameRenderingFinished(true)
-        , _runMainLoop(false)
+        , _runMainLoop(true)
         , _pause(false)
     {
     }
@@ -40,7 +41,6 @@ namespace te
         ThreadPool::StartUp();
         DynLibManager::StartUp();
         TaskScheduler::StartUp();
-        Input::StartUp();
 
         PluginManager<AudioFactory>::StartUp(_startUpDesc.Audio);
         PluginManager<PhysicsFactory>::StartUp(_startUpDesc.Physics);
@@ -51,11 +51,12 @@ namespace te
         LoadPlugin(_startUpDesc.Renderer, &_rendererPlugin);
         LoadPlugin(_startUpDesc.RenderAPI, &_renderAPIPlugin);
 
-        RenderAPIManager::Instance().Initialize(_startUpDesc.RenderAPI, _startUpDesc.WindowDesc);
-        RendererManager::Instance().Initialize(_startUpDesc.Renderer);
+        _renderAPI = RenderAPIManager::Instance().Initialize(_startUpDesc.RenderAPI, _startUpDesc.WindowDesc);
+        _renderer = RendererManager::Instance().Initialize(_startUpDesc.Renderer);
+        _window = _renderAPI->CreateRenderWindow(_startUpDesc.WindowDesc);
+        _window->Initialize();
 
-        SPtr<RenderAPI> renderAPI = RenderAPIManager::Instance().GetRenderAPI();
-        SPtr<Renderer> renderer = RendererManager::Instance().GetRenderer();
+        //Input::StartUp();
         
         for (auto& importerName : _startUpDesc.Importers)
         {
@@ -68,20 +69,22 @@ namespace te
         };
 
         // Connect the callback to the event
-        gInput().OnButtonDown.Connect(handleButtonDown);
+        //gInput().OnButtonDown.Connect(handleButtonDown);
 
-        gInput().OnButtonDown();
+        //gInput().OnButtonDown();
     }
     
     void CoreApplication::OnShutDown()
     {
+        //_window->Destroy();
+
+        //Input::ShutDown();
         RendererManager::ShutDown();
         RenderAPIManager::ShutDown();
         
         PluginManager<PhysicsFactory>::ShutDown();
         PluginManager<AudioFactory>::ShutDown();
 
-        Input::ShutDown();
         TaskScheduler::ShutDown();
         DynLibManager::ShutDown();
         ThreadPool::ShutDown();
@@ -91,14 +94,12 @@ namespace te
 
     void CoreApplication::RunMainLoop()
     {
-        _runMainLoop = true;
-
         while (_runMainLoop && !_pause)
         {
             CheckFPSLimit();
 
             gTime().Update();
-            gInput().Update();
+            //gInput().Update();
             gPhysics().Update();
             gAudio().Update();
 
@@ -107,8 +108,11 @@ namespace te
             for (auto& pluginUpdateFunc : _pluginUpdateFunctions)
                 pluginUpdateFunc.second();
 
-            RenderAPIManager::Instance().GetRenderAPI()->Update();
-            RendererManager::Instance().GetRenderer()->Update();
+            _renderAPI->Update();
+            _renderer->Update();
+            _window->Update();
+
+            Platform::Update();
 
             PostUpdate();
         }

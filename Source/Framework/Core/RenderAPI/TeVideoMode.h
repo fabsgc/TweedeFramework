@@ -27,13 +27,13 @@ namespace te
 		bool operator== (const VideoMode& other) const;
 
 		/**	Width of the front/back buffer in pixels. */
-		UINT32 getWidth() const { return _width; }
+		UINT32 GetWidth() const { return _width; }
 
 		/**	Height of the front/back buffer in pixels. */
-		UINT32 getHeight() const { return _height; }
+		UINT32 GetHeight() const { return _height; }
 
 		/**	Returns a refresh rate in hertz. */
-		virtual float getRefreshRate() const { return _refreshRate; }
+		virtual float GetRefreshRate() const { return _refreshRate; }
 
 	protected:
 		UINT32 _width = 1280;

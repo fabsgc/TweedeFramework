@@ -4,7 +4,8 @@
 
 namespace te
 {
-    Mouse::Mouse()
+    Mouse::Mouse(const String& name, Input* owner)
+        : _name(name), _owner(owner)
     {
     }
 

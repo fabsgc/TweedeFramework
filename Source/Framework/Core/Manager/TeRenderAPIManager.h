@@ -11,6 +11,9 @@ namespace te
     class TE_CORE_EXPORT RenderAPIManager : public Module<RenderAPIManager>
     {
     public:
+        RenderAPIManager();
+        ~RenderAPIManager();
+
         /**
          * Starts the render API with the provided name and creates the primary render window.
          *
@@ -18,7 +21,7 @@ namespace te
          *									previously registered.
          * @param[in]	primaryWindowDesc	Contains options used for creating the primary window.
          */
-        void Initialize(const String& name, const RENDER_WINDOW_DESC& windowDesc);
+        SPtr<RenderAPI> Initialize(const String& name, const RENDER_WINDOW_DESC& windowDesc);
 
         /**	Registers a new render API factory responsible for creating a specific render system type. */
         void RegisterFactory(SPtr<RenderAPIFactory> factory);
@@ -28,6 +31,7 @@ namespace te
     private:
         Vector<SPtr<RenderAPIFactory>> _availableFactories;
         SPtr<RenderAPI> _renderAPI;
+        bool _renderAPIInitialized;
     };
 
     /** @} */

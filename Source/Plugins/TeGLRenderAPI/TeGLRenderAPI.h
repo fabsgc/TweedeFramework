@@ -11,6 +11,7 @@ namespace te
         GLRenderAPI();
         ~GLRenderAPI();
 
+        SPtr<RenderWindow> CreateRenderWindow(const RENDER_WINDOW_DESC& windowDesc) override;
         void Initialize() override;
         void Update() override;
     };

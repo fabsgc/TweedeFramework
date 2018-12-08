@@ -9,7 +9,13 @@ namespace te
     class TE_CORE_EXPORT Keyboard
     {
     public:
-        Keyboard();
+        Keyboard(const String& name, Input* owner);
         ~Keyboard();
+
+    private:
+        friend class Input;
+
+        String _name;
+        Input* _owner;
     };
 }

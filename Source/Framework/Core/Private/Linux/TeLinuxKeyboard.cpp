@@ -4,7 +4,8 @@
 
 namespace te
 {
-    Keyboard::Keyboard()
+    Keyboard::Keyboard(const String& name, Input* owner)
+        : _name(name), _owner(owner)
     {
     }
 

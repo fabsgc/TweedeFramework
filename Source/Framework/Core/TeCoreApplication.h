@@ -95,6 +95,8 @@ namespace te
     protected:
         typedef void(*UpdatePluginFunc)();
 
+        SPtr<Renderer> _renderer;
+        SPtr<RenderAPI> _renderAPI;
         SPtr<RenderWindow> _window;
         START_UP_DESC _startUpDesc;
 

@@ -10,7 +10,7 @@ namespace te
         RenderAPI();
         ~RenderAPI();
 
-        void Initialize(const RENDER_WINDOW_DESC& _windowDesc);
+        virtual SPtr<RenderWindow> CreateRenderWindow(const RENDER_WINDOW_DESC& windowDesc) = 0;
 
         virtual void Initialize() = 0;
         virtual void Update() = 0;
