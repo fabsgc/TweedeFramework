@@ -18,6 +18,15 @@ namespace te
         void GetCustomAttribute(const String& name, void* pData) const override;
 
     protected:
+        void CreateDevice();
+        void CheckMSAASupport();
+        void CreateSwapChain();
+        void CreateDepthStencilBuffer();
+        void CreateViewport();
+        void SetPrimitiveTopology();
+        void SetBackfaceCulling();
+
+    protected:
         RenderWindowProperties _properties;
         IDXGISwapChain* _swapChain = nullptr;
         DXGI_SWAP_CHAIN_DESC _swapChainDesc;

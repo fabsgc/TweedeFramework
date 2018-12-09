@@ -75,6 +75,34 @@ namespace te
     {
     }
 
+    void D3D11RenderWindow::CreateDevice()
+    {
+
+    }
+    void D3D11RenderWindow::CheckMSAASupport()
+    {
+    }
+
+    void D3D11RenderWindow::CreateSwapChain()
+    {
+    }
+
+    void D3D11RenderWindow::CreateDepthStencilBuffer()
+    {
+    }
+
+    void D3D11RenderWindow::CreateViewport()
+    {
+    }
+
+    void D3D11RenderWindow::SetPrimitiveTopology()
+    {
+    }
+
+    void D3D11RenderWindow::SetBackfaceCulling()
+    {
+    }
+
     void D3D11RenderWindow::GetCustomAttribute(const String& name, void* pData) const
     {
         if (name == "WINDOW")
@@ -83,7 +111,7 @@ namespace te
             *pWnd = (UINT64)_window->GetHWnd();
             return;
         }
-        
+
         RenderWindow::GetCustomAttribute(name, pData);
     }
 }

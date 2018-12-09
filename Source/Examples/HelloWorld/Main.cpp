@@ -1,4 +1,5 @@
 #include "TeCoreApplication.h"
+#include "RenderAPI/TeVideoMode.h"
 
 #if TE_PLATFORM == TE_PLATFORM_WIN32
 #include <windows.h>
@@ -26,7 +27,7 @@ int main()
         "TeObjectImporter"
     };
 
-    desc.WindowDesc;
+    desc.WindowDesc.Mode = te::VideoMode(960, 480);
 
     te::CoreApplication::StartUp(desc);
 
