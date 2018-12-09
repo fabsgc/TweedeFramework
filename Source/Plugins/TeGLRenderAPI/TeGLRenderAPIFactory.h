@@ -10,7 +10,7 @@ namespace te
     public:
         static constexpr const char* SystemName = "TeGLRenderAPI";
 
-        SPtr<RenderAPI> Create() override;
+        void Create() override;
 
         const String& Name() const override;
     };

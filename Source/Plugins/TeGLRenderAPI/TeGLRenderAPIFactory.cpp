@@ -3,9 +3,9 @@
 
 namespace te
 {
-    SPtr<RenderAPI> GLRenderAPIFactory::Create()
+    void GLRenderAPIFactory::Create()
     {
-        return te_shared_ptr_new<GLRenderAPI>();
+        RenderAPI::StartUp<GLRenderAPI>();
     }
 
     const String& GLRenderAPIFactory::Name() const

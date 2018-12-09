@@ -9,7 +9,7 @@ namespace te
     struct TE_CORE_EXPORT RENDER_WINDOW_DESC
     {
         RENDER_WINDOW_DESC()
-            : Fullscreen(false), Vsync(false), VsyncInterval(1), Hidden(false), DepthBuffer(true)
+            : Fullscreen(false), Vsync(false), Hidden(false), DepthBuffer(true)
             , MultisampleCount(0), MultisampleHint(""), Gamma(false), Left(-1), Top(-1), Title("Application")
             , ShowTitleBar(true), ShowBorder(true), AllowResize(true), ToolWindow(false), Modal(false)
             , HideUntilSwap(false)
@@ -18,7 +18,6 @@ namespace te
         VideoMode Mode; /**< Output monitor, frame buffer resize and refresh rate. */
         bool Fullscreen; /**< Should the window be opened in fullscreen mode. */
         bool Vsync; /**< Should the window wait for vertical sync before swapping buffers. */
-        UINT32 VsyncInterval; /**< Determines how many vsync intervals occur per frame. FPS = refreshRate/interval. Usually 1 when vsync active. */
         bool Hidden; /**< Should the window be hidden initially. */
         bool DepthBuffer; /**< Should the window be created with a depth/stencil buffer. */
         UINT32 MultisampleCount; /**< If higher than 1, texture containing multiple samples per pixel is created. */
@@ -35,6 +34,53 @@ namespace te
         bool HideUntilSwap; /**< Window will be created as hidden and only be shown when the first framebuffer swap happens. */
     };
 
+    /**	Contains various properties that describe a render window. */
+    class TE_CORE_EXPORT RenderWindowProperties
+    {
+    public:
+        RenderWindowProperties(const RENDER_WINDOW_DESC& desc);
+        virtual ~RenderWindowProperties() = default;
+
+        /** Width of the render target, in pixels. */
+        UINT32 Width = 0;
+
+        /** Height of the render target, in pixels. */
+        UINT32 Height = 0;
+
+        /**
+         * True if the render target will wait for vertical sync before swapping buffers. This will eliminate
+         * tearing but may increase input latency.
+         */
+        bool Vsync = false;
+
+        /** Controls how many samples are used for multisampling. (0 or 1 if multisampling is not used). */
+        UINT32 MultisampleCount = 0;
+
+        /**	True if window is running in fullscreen mode. */
+        bool IsFullScreen = false;
+
+        /**	Horizontal origin of the window in pixels. */
+        INT32 Left = 0;
+
+        /**	Vertical origin of the window in pixels. */
+        INT32 Top = 0;
+
+        /**	Indicates whether the window currently has keyboard focus. */
+        bool HasFocus = false;
+
+        /**	True if the window is hidden. */
+        bool IsHidden = false;
+
+        /**	True if the window is maximized. */
+        bool IsMaximized = false;
+
+        /**
+         * Does the texture need to be vertically flipped because of different screen space coordinate systems.	(Determines
+         * is origin top left or bottom left. Engine default is top left.)
+         */
+        bool RequiresTextureFlipping = false;
+    };
+
     class TE_CORE_EXPORT RenderWindow
     {
     public:
@@ -43,6 +89,7 @@ namespace te
 
         virtual void Update() = 0;
         virtual void Initialize() = 0;
+        virtual void Destroy() = 0;
 
         /** Queries the render target for a custom attribute. This may be anything and is implementation specific. */
         virtual void GetCustomAttribute(const String& name, void* pData) const;

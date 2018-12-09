@@ -56,6 +56,7 @@ namespace te
     class RenderWindow;
     struct RENDER_WINDOW_DESC;
     class VideoMode;
+    class RenderWindowProperties;
 
     class Renderer;
     class RendererFactory;
@@ -75,6 +76,8 @@ namespace te
 
     template<typename PluginFactory, class ...Args>
     class PluginManager;
+    class RenderAPIManager;
+    class RendererManager;
 
     class Platform;
     struct OSPointerButtonStates;

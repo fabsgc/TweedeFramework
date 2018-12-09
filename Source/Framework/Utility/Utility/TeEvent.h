@@ -87,8 +87,16 @@ namespace te
             connection->Deactivate();
             connection->HandleLinks--;
 
-            if (connection->HandleLinks == 0)
+            if (connection->HandleLinks == 0) 
+            {
                 free(connection);
+            }
+
+            //If we delete the last event, pointed value by _connections does not exist anymore
+            if (_connections == connection) 
+            {
+                _connections = nullptr;
+            }
         }
 
         /** Disconnects all connections in the event. */
@@ -173,7 +181,7 @@ namespace te
 
         HEvent(SPtr<InternalData> eventData, BaseConnectionData* connection)
             : _connection(connection)
-            , _eventData(eventData)
+            , _eventData(std::move(eventData))
         {
             connection->HandleLinks++;
         }
@@ -184,7 +192,7 @@ namespace te
                 _eventData->FreeHandle(_connection);
         }
 
-        void disconnect()
+        void Disconnect()
 		{
             if (_connection != nullptr)
             {

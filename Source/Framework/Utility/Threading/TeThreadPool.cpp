@@ -15,6 +15,39 @@ namespace te
 {
     static constexpr int UNUSED_CHECK_PERIOD = 32;
 
+    HThread::HThread(ThreadPool* pool, UINT32 threadId)
+        : _threadId(threadId), _pool(pool)
+    { }
+
+    void HThread::BlockUntilComplete()
+    {
+        PooledThread* parentThread = nullptr;
+
+        {
+            Lock lock(_pool->_mutex);
+
+            for (auto& thread : _pool->_threads)
+            {
+                if (thread->GetId() == _threadId)
+                {
+                    parentThread = thread;
+                    break;
+                }
+            }
+        }
+
+        if (parentThread != nullptr)
+        {
+            Lock lock(parentThread->_mutex);
+
+            if (parentThread->_id == _threadId) // Check again in case it changed
+            {
+                while (!parentThread->_idle)
+                    parentThread->_workerEndedCond.wait(lock);
+            }
+        }
+    }
+
     void PooledThread::Initialize()
     {
         _thread = te_new<Thread>(std::bind(&PooledThread::Run, this));
@@ -107,7 +140,7 @@ namespace te
         Lock lock(_mutex);
 
         while (!_idle)
-            _workerEndedCond.wait(lock, [&]() { return _threadReady; });
+            _workerEndedCond.wait(lock);
     }
 
     void PooledThread::OnThreadStarted(const String& name)
@@ -159,12 +192,12 @@ namespace te
         StopAll();
     }
 
-    PooledThread* ThreadPool::Run(const String& name, std::function<void()> workerMethod)
+    HThread ThreadPool::Run(const String& name, std::function<void()> workerMethod)
     {
         PooledThread* thread = GetThread(name);
         thread->Start(workerMethod, _uniqueId++);
 
-        return thread;
+        return HThread(this, thread->GetId());
     }
 
     void ThreadPool::StopAll()

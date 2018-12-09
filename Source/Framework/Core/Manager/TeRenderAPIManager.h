@@ -21,16 +21,13 @@ namespace te
          *									previously registered.
          * @param[in]	primaryWindowDesc	Contains options used for creating the primary window.
          */
-        SPtr<RenderAPI> Initialize(const String& name, const RENDER_WINDOW_DESC& windowDesc);
+        void Initialize(const String& name, const RENDER_WINDOW_DESC& windowDesc);
 
         /**	Registers a new render API factory responsible for creating a specific render system type. */
         void RegisterFactory(SPtr<RenderAPIFactory> factory);
 
-        /**	Returns the current renderer. Null if no renderer is active. */
-        SPtr<RenderAPI> GetRenderAPI() { return _renderAPI; }
     private:
         Vector<SPtr<RenderAPIFactory>> _availableFactories;
-        SPtr<RenderAPI> _renderAPI;
         bool _renderAPIInitialized;
     };
 

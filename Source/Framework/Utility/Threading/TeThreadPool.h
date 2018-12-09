@@ -6,6 +6,21 @@
 
 namespace te
 {
+    /** Handle to a thread managed by ThreadPool. */
+    class TE_UTILITY_EXPORT HThread
+    {
+    public:
+        HThread() = default;;
+        HThread(ThreadPool* pool, UINT32 threadId);
+
+        /**	Block the calling thread until the thread this handle points to completes. */
+        void BlockUntilComplete();
+
+    private:
+        UINT32 _threadId = 0;
+        ThreadPool* _pool = nullptr;
+    };
+
     /**	Wrapper around a thread that is used within ThreadPool. */
 	class TE_UTILITY_EXPORT PooledThread
 	{
@@ -56,6 +71,8 @@ namespace te
         virtual void OnThreadEnded(const String& name);
 
     protected:
+        friend class HThread;
+
         void Run();
 
     protected:
@@ -97,9 +114,9 @@ namespace te
          *
          * @param[in]	name			A name you may use for more easily identifying the thread.
          * @param[in]	workerMethod	The worker method to be called by the thread.
-         * @return						A thread
+         * @return						A thread handle
          */
-        PooledThread* Run(const String& name, std::function<void()> workerMethod);
+        HThread Run(const String& name, std::function<void()> workerMethod);
 
     protected:
         /**	Creates a new thread to be used by the pool. */
@@ -134,6 +151,8 @@ namespace te
         UINT32 GetNumAllocated() const;
 
     protected:
+        friend class HThread;
+
         Vector<PooledThread*> _threads;
 
         UINT32 _defaultCapacity;

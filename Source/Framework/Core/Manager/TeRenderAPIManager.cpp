@@ -14,10 +14,10 @@ namespace te
     {
     }
 
-    SPtr<RenderAPI> RenderAPIManager::Initialize(const String& pluginFilename, const RENDER_WINDOW_DESC& windowDesc)
+    void RenderAPIManager::Initialize(const String& pluginFilename, const RENDER_WINDOW_DESC& windowDesc)
     {
         if (_renderAPIInitialized)
-            return nullptr;
+            return;
 
         DynLib* loadedLibrary = gDynLibManager().Load(pluginFilename);
         const char* name = "";
@@ -34,21 +34,9 @@ namespace te
         {
             if ((*iter)->Name() == name)
             {
-                SPtr<RenderAPI> newRenderAPI = (*iter)->Create();
-                if (newRenderAPI != nullptr)
-                {
-                    if (_renderAPI != nullptr)
-                        te_delete(&_renderAPI);
-
-                    _renderAPI = newRenderAPI;
-                    return _renderAPI;
-                }
+                (*iter)->Create();
             }
         }
-
-        TE_ASSERT_ERROR(_renderAPI != nullptr, "Cannot initialize render API. Render API with the name '" + pluginFilename + "' cannot be found.");
-
-        return nullptr;
     }
 
     void RenderAPIManager::RegisterFactory(SPtr<RenderAPIFactory> factory)

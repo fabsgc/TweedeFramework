@@ -36,6 +36,8 @@ namespace te
     public:
         Win32Window(const WINDOW_DESC& desc);
         ~Win32Window();
+
+        void Destroy();
         
         /**	Returns position of the left-most border of the window, relative to the screen. */
         INT32 GetLeft() const;

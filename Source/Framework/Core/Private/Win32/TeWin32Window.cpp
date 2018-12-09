@@ -156,12 +156,17 @@ namespace te
 
     Win32Window::~Win32Window()
     {
+    }
+
+    void Win32Window::Destroy()
+    {
         if (_data->HWnd)
         {
             DestroyWindow(_data->HWnd);
         }
 
         te_delete(_data);
+        _data = nullptr;
     }
 
     INT32 Win32Window::GetLeft() const

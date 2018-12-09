@@ -3,8 +3,7 @@
 
 namespace te
 {
-    Task::Task(const String& name, std::function<void()> taskWorker,
-        TaskPriority priority, SPtr<Task> dependency)
+    Task::Task(const String& name, std::function<void()> taskWorker, TaskPriority priority, SPtr<Task> dependency)
         : _name(name)
         , _priority(priority)
         , _taskWorker(std::move(taskWorker))
@@ -68,7 +67,8 @@ namespace te
         }
 
         _taskReadyCond.notify_one();
-        _taskSchedulerThread->BlockUntilComplete();
+
+        _taskSchedulerThread.BlockUntilComplete();
     }
 
     void TaskScheduler::AddTask(SPtr<Task> task)

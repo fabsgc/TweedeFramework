@@ -3,9 +3,9 @@
 
 namespace te
 {
-    SPtr<RenderAPI> D3D11RenderAPIFactory::Create()
+    void D3D11RenderAPIFactory::Create()
     {
-        return te_shared_ptr_new<D3D11RenderAPI>();
+        RenderAPI::StartUp<D3D11RenderAPI>();
     }
 
     const String& D3D11RenderAPIFactory::Name() const

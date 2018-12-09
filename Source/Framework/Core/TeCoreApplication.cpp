@@ -25,7 +25,7 @@ namespace te
         , _rendererPlugin(nullptr)
         , _renderAPIPlugin(nullptr)
         , _isFrameRenderingFinished(true)
-        , _runMainLoop(true)
+        , _runMainLoop(false)
         , _pause(false)
     {
     }
@@ -51,12 +51,12 @@ namespace te
         LoadPlugin(_startUpDesc.Renderer, &_rendererPlugin);
         LoadPlugin(_startUpDesc.RenderAPI, &_renderAPIPlugin);
 
-        _renderAPI = RenderAPIManager::Instance().Initialize(_startUpDesc.RenderAPI, _startUpDesc.WindowDesc);
+        RenderAPIManager::Instance().Initialize(_startUpDesc.RenderAPI, _startUpDesc.WindowDesc);
         _renderer = RendererManager::Instance().Initialize(_startUpDesc.Renderer);
-        _window = _renderAPI->CreateRenderWindow(_startUpDesc.WindowDesc);
+        _window = RenderAPI::Instance().CreateRenderWindow(_startUpDesc.WindowDesc);
         _window->Initialize();
 
-        //Input::StartUp();
+        Input::StartUp();
         
         for (auto& importerName : _startUpDesc.Importers)
         {
@@ -68,17 +68,21 @@ namespace te
             std::cout << "Triggered" << std::endl;
         };
 
-        // Connect the callback to the event
-        //gInput().OnButtonDown.Connect(handleButtonDown);
+        //Connect the callback to the event
+        HEvent myEvent = gInput().OnButtonDown.Connect(handleButtonDown);
+        gInput().OnButtonDown();
 
-        //gInput().OnButtonDown();
+        myEvent.Disconnect();
     }
     
     void CoreApplication::OnShutDown()
     {
-        //_window->Destroy();
+        _renderer.reset();
 
-        //Input::ShutDown();
+        _window->Destroy();
+        _window.reset();
+
+        Input::ShutDown();
         RendererManager::ShutDown();
         RenderAPIManager::ShutDown();
         
@@ -94,27 +98,29 @@ namespace te
 
     void CoreApplication::RunMainLoop()
     {
+        _runMainLoop = true;
+
         while (_runMainLoop && !_pause)
         {
             CheckFPSLimit();
 
+            Platform::Update();
             gTime().Update();
-            //gInput().Update();
-            gPhysics().Update();
-            gAudio().Update();
+            gInput().Update();
+            _window->Update();
 
             PreUpdate();
+
+            gPhysics().Update();
+            gAudio().Update();
 
             for (auto& pluginUpdateFunc : _pluginUpdateFunctions)
                 pluginUpdateFunc.second();
 
-            _renderAPI->Update();
-            _renderer->Update();
-            _window->Update();
-
-            Platform::Update();
-
             PostUpdate();
+
+            RenderAPI::Instance().Update();
+            _renderer->Update();
         }
     }
 

@@ -11,8 +11,12 @@ namespace te
         GLRenderWindow(const RENDER_WINDOW_DESC& desc);
 		~GLRenderWindow() = default;
 
+        void Destroy() override;
         void Update() override;
         void Initialize() override;
         void GetCustomAttribute(const String& name, void* pData) const override;
+
+    protected:
+        RenderWindowProperties _properties;
     };
 }

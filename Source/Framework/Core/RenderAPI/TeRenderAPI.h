@@ -1,10 +1,11 @@
 #pragma once
 
 #include "TeCorePrerequisites.h"
+#include "Utility/TeModule.h"
 
 namespace te
 {
-    class TE_CORE_EXPORT RenderAPI
+    class TE_CORE_EXPORT RenderAPI : public Module<RenderAPI>
     {
     public:
         RenderAPI();

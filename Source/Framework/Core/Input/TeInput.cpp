@@ -32,12 +32,12 @@ namespace te
     {
         CleanUpRawInput();
 
-        _charInputConn.disconnect();
-        _cursorMovedConn.disconnect();
-        _cursorPressedConn.disconnect();
-        _cursorReleasedConn.disconnect();
-        _cursorDoubleClickConn.disconnect();
-        _mouseWheelScrolledConn.disconnect();
+        _charInputConn.Disconnect();
+        _cursorMovedConn.Disconnect();
+        _cursorPressedConn.Disconnect();
+        _cursorReleasedConn.Disconnect();
+        _cursorDoubleClickConn.Disconnect();
+        _mouseWheelScrolledConn.Disconnect();
     }
 
     void Input::CharInput(UINT32 chr)

@@ -123,7 +123,7 @@ namespace te
     protected:
         friend Task;
 
-        PooledThread* _taskSchedulerThread;
+        HThread _taskSchedulerThread;
         Set<SPtr<Task>, std::function<bool(const SPtr<Task>&, const SPtr<Task>&)>> _taskQueue;
         Vector<SPtr<Task>> _activeTasks;
         UINT32 _maxActiveTasks = 0;

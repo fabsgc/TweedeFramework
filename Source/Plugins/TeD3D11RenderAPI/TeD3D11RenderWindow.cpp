@@ -5,6 +5,7 @@ namespace te
 {
     D3D11RenderWindow::D3D11RenderWindow(const RENDER_WINDOW_DESC& desc)
         : RenderWindow(desc)
+        , _properties(desc)
     {
     }
 
@@ -14,8 +15,8 @@ namespace te
 
         if (_window != nullptr)
         {
+            _window->Destroy();
             te_delete(_window);
-            _window = nullptr;
         }
     }
 
@@ -42,7 +43,7 @@ namespace te
         windowDesc.Title = _desc.Title;
         windowDesc.CreationParams = this;
         windowDesc.WndProc = &Win32Platform::_win32WndProc;
-
+        
 #ifdef BS_STATIC_LIB
         windowDesc.Module = GetModuleHandle(NULL);
 #else
@@ -50,6 +51,28 @@ namespace te
 #endif
 
         _window = te_new<Win32Window>(windowDesc);
+
+        _properties.Width = _window->GetWidth();
+        _properties.Height = _window->GetHeight();
+        _properties.Top = _window->GetTop();
+        _properties.Left = _window->GetLeft();
+
+        //createSwapChain();
+
+        if (_properties.IsFullScreen)
+        {
+            /*if (outputInfo != nullptr)
+                mSwapChain->SetFullscreenState(true, outputInfo->getDXGIOutput());
+            else
+                mSwapChain->SetFullscreenState(true, nullptr);*/
+        }
+
+        //createSizeDependedD3DResources();
+        //mDXGIFactory->MakeWindowAssociation(mWindow->getHWnd(), NULL);
+    }
+
+    void D3D11RenderWindow::Destroy()
+    {
     }
 
     void D3D11RenderWindow::GetCustomAttribute(const String& name, void* pData) const
@@ -60,7 +83,7 @@ namespace te
             *pWnd = (UINT64)_window->GetHWnd();
             return;
         }
-
+        
         RenderWindow::GetCustomAttribute(name, pData);
     }
 }

@@ -70,6 +70,7 @@ namespace te
     class TaskScheduler;
     class Task;
 
+    class HThread;
     class ThreadPool;
     class PooledThread;
 
