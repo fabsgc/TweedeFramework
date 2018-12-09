@@ -17,6 +17,7 @@ namespace te
 
     RenderWindow::RenderWindow(const RENDER_WINDOW_DESC& desc)
         : _desc(desc)
+        , _properties(desc)
     {
     }
 

@@ -197,9 +197,13 @@ namespace te
     void Win32Window::SetHidden(bool hidden)
     {
         if (hidden)
+        {
             ShowWindow(_data->HWnd, SW_HIDE);
+        }  
         else
+        {
             ShowWindow(_data->HWnd, SW_SHOW);
+        } 
 
         _data->IsHidden = hidden;
     }
@@ -209,37 +213,53 @@ namespace te
         if (_data->HWnd)
         {
             if (state)
+            {
                 ShowWindow(_data->HWnd, SW_RESTORE);
+            }
             else
+            {
                 ShowWindow(_data->HWnd, SW_SHOWMINNOACTIVE);
+            }
         }
     }
 
     void Win32Window::Minimize()
     {
         if (_data->HWnd)
+        {
             ShowWindow(_data->HWnd, SW_MINIMIZE);
+        }
 
         if (_data->IsHidden)
+        {
             ShowWindow(_data->HWnd, SW_HIDE);
+        }
     }
 
     void Win32Window::Maximize()
     {
         if (_data->HWnd)
+        {
             ShowWindow(_data->HWnd, SW_MAXIMIZE);
+        }
 
         if (_data->IsHidden)
+        {
             ShowWindow(_data->HWnd, SW_HIDE);
+        }
     }
 
     void Win32Window::Restore()
     {
         if (_data->HWnd)
+        {
             ShowWindow(_data->HWnd, SW_RESTORE);
+        }
 
         if (_data->IsHidden)
+        {
             ShowWindow(_data->HWnd, SW_HIDE);
+        }
     }
 
     void Win32Window::Resize(UINT32 width, UINT32 height)
@@ -292,7 +312,9 @@ namespace te
     void Win32Window::_windowMovedOrResized()
     {
         if (!_data->HWnd || IsIconic(_data->HWnd))
+        {
             return;
+        }
 
         RECT rc;
         GetWindowRect(_data->HWnd, &rc);

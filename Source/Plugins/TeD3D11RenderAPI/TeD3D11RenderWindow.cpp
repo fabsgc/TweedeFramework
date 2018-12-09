@@ -5,7 +5,6 @@ namespace te
 {
     D3D11RenderWindow::D3D11RenderWindow(const RENDER_WINDOW_DESC& desc)
         : RenderWindow(desc)
-        , _properties(desc)
     {
     }
 
@@ -57,7 +56,7 @@ namespace te
         _properties.Top = _window->GetTop();
         _properties.Left = _window->GetLeft();
 
-        //createSwapChain();
+        CreateSwapChain();
 
         if (_properties.IsFullScreen)
         {
@@ -69,10 +68,6 @@ namespace te
 
         //createSizeDependedD3DResources();
         //mDXGIFactory->MakeWindowAssociation(mWindow->getHWnd(), NULL);
-    }
-
-    void D3D11RenderWindow::Destroy()
-    {
     }
 
     void D3D11RenderWindow::CreateDevice()

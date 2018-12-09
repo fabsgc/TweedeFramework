@@ -12,4 +12,8 @@ namespace te
     GamePad::~GamePad()
     {
     }
+
+    void GamePad::Capture()
+    {
+    }
 }

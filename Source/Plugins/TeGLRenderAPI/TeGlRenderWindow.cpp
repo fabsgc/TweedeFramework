@@ -4,11 +4,6 @@ namespace te
 {
     GLRenderWindow::GLRenderWindow(const RENDER_WINDOW_DESC& desc)
         : RenderWindow(desc)
-        , _properties(desc)
-    {
-    }
-
-    void GLRenderWindow::Destroy()
     {
     }
 

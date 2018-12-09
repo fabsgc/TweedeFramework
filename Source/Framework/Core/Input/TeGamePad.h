@@ -13,6 +13,19 @@ namespace te
         GamePad(const String& name, const GamePadInfo& gamepadInfo, Input* owner);
         ~GamePad();
 
+        /** Returns the name of the device. */
+        const String& getName() const { return _name; }
+
+        /** Captures the input since the last call and triggers the events on the parent Input. */
+        void Capture();
+
+    public:
+        /** Minimum allowed value as reported by the axis movement events. */
+        static constexpr int MIN_AXIS = -32768;
+
+        /** Maximum allowed value as reported by the axis movement events. */
+        static constexpr int MAX_AXIS = 32767;
+
     private:
         friend class Input;
 

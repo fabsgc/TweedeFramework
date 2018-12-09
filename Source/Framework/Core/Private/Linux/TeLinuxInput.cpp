@@ -3,7 +3,4 @@
 
 namespace te
 {
-    void Input::Update()
-    {
-    }
 }

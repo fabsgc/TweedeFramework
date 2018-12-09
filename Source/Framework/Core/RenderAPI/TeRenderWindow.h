@@ -89,12 +89,13 @@ namespace te
 
         virtual void Update() = 0;
         virtual void Initialize() = 0;
-        virtual void Destroy() = 0;
 
         /** Queries the render target for a custom attribute. This may be anything and is implementation specific. */
         virtual void GetCustomAttribute(const String& name, void* pData) const;
+        const RenderWindowProperties& GetRenderWindowProperties() { return _properties; }
 
     protected:
+        RenderWindowProperties _properties;
         RENDER_WINDOW_DESC _desc;
     };
 }

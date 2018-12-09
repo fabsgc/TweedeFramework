@@ -84,11 +84,11 @@ extern "C" {
 #   include <intrin.h>
 
 #   ifndef UNICODE
-#       define UNICODE
+//#       define UNICODE
 #   endif
 
 #   ifndef _UNICODE
-#       define _UNICODE
+//#       define _UNICODE
 #   endif
 #endif
 

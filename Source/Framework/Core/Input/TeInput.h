@@ -39,6 +39,8 @@ namespace te
 
         void Update();
 
+        void TriggerCallbacks();
+
         /** Returns internal, platform specific privata data. */
         InputPrivateData* GetPrivateData() const { return _platformData; }
 

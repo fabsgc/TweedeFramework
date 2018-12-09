@@ -12,4 +12,8 @@ namespace te
     Mouse::~Mouse()
     {
     }
+
+    void Mouse::Capture()
+    {
+    }
 }

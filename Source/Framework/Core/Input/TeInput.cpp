@@ -40,6 +40,15 @@ namespace te
         _mouseWheelScrolledConn.Disconnect();
     }
 
+    void Input::Update()
+    {
+    }
+
+    void Input::TriggerCallbacks()
+    {
+
+    }
+
     void Input::CharInput(UINT32 chr)
     {
     }

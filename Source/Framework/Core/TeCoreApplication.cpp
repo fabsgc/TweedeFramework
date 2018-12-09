@@ -78,8 +78,6 @@ namespace te
     void CoreApplication::OnShutDown()
     {
         _renderer.reset();
-
-        _window->Destroy();
         _window.reset();
 
         Input::ShutDown();
@@ -108,6 +106,7 @@ namespace te
             gTime().Update();
             gInput().Update();
             _window->Update();
+            gInput().TriggerCallbacks();
 
             PreUpdate();
 
