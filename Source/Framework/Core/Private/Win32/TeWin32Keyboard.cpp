@@ -82,5 +82,43 @@ namespace te
     {
         if (_data->Keyboard == nullptr)
             return;
+
+        DIDEVICEOBJECTDATA diBuff[DI_BUFFER_SIZE_KEYBOARD];
+        DWORD numEntries = DI_BUFFER_SIZE_KEYBOARD;
+
+        HRESULT hr = _data->Keyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), diBuff, &numEntries, 0);
+        if (hr != DI_OK)
+        {
+            hr = _data->Keyboard->Acquire();
+            if (hr == E_ACCESSDENIED)
+                TE_DEBUG("Keyboard access denied");
+
+            while (hr == DIERR_INPUTLOST)
+                hr = _data->Keyboard->Acquire();
+
+            return;
+        }
+
+        if (FAILED(hr))
+        {
+            TE_DEBUG("Failed to read keyboard input. Internal error. ");
+            return;
+        }
+
+        for (UINT32 i = 0; i < numEntries; ++i)
+        {
+            ButtonCode buttonCode = (ButtonCode)diBuff[i].dwOfs;
+
+            _data->KeyBuffer[buttonCode] = (UINT8)(diBuff[i].dwData);
+
+            if (diBuff[i].dwData & 0x80)
+            {
+                _owner->NotifyButtonPressed(0, buttonCode, diBuff[i].dwTimeStamp);
+            }   
+            else
+            {
+                _owner->NotifyButtonReleased(0, buttonCode, diBuff[i].dwTimeStamp);
+            }
+        }
     }
 }

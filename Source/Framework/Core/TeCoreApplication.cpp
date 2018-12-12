@@ -62,17 +62,6 @@ namespace te
         {
             LoadPlugin(importerName);
         }
-
-        auto handleButtonDown = [&]()
-        {
-            std::cout << "Triggered" << std::endl;
-        };
-
-        //Connect the callback to the event
-        HEvent myEvent = gInput().OnButtonDown.Connect(handleButtonDown);
-        gInput().OnButtonDown();
-
-        myEvent.Disconnect();
     }
     
     void CoreApplication::OnShutDown()

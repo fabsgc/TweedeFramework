@@ -177,13 +177,13 @@ namespace te
             }
         }
 
-        if (getDeviceCount(InputDevice::Keyboard) > 0)
+        if (GetDeviceCount(InputDevice::Keyboard) > 0)
             _keyboard = te_new<Keyboard>("Keyboard", this);
 
-        if (getDeviceCount(InputDevice::Mouse) > 0)
+        if (GetDeviceCount(InputDevice::Mouse) > 0)
             _mouse = te_new<Mouse>("Mouse", this);
 
-        UINT32 numGamepads = getDeviceCount(InputDevice::Gamepad);
+        UINT32 numGamepads = GetDeviceCount(InputDevice::Gamepad);
         for (UINT32 i = 0; i < numGamepads; i++)
             _gamepads.push_back(te_new<GamePad>(_platformData->GamepadInfos[i].Name, _platformData->GamepadInfos[i], this));
     }
@@ -213,7 +213,7 @@ namespace te
         te_delete(_platformData);
     }
 
-    UINT32 Input::getDeviceCount(InputDevice device) const
+    UINT32 Input::GetDeviceCount(InputDevice device) const
     {
         switch (device)
         {

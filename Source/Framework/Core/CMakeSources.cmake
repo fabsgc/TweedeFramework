@@ -94,6 +94,7 @@ set (TE_CORE_INC_INPUT
     "Core/Input/TeGamePad.h"
     "Core/Input/TeKeyboard.h"
     "Core/Input/TeMouse.h"
+    "Core/Input/TeInputData.h"
 )
 set (TE_CORE_SRC_INPUT
     "Core/Input/TeInput.cpp"
