@@ -39,25 +39,25 @@ namespace te
         if (DynLib::PREFIX != nullptr)
             filename.insert(0, DynLib::PREFIX);
 
-        const auto& iterFind = mLoadedLibraries.lower_bound(filename);
-        if (iterFind != mLoadedLibraries.end() && (*iterFind)->GetName() == filename)
+        const auto& iterFind = _loadedLibrairies.lower_bound(filename);
+        if (iterFind != _loadedLibrairies.end() && (*iterFind)->GetName() == filename)
         {
             return iterFind->get();
         }
         else
         {
             DynLib* newLib = te_new<DynLib>(std::move(filename));
-            mLoadedLibraries.emplace_hint(iterFind, newLib, &dynlib_delete);
+            _loadedLibrairies.emplace_hint(iterFind, newLib, &dynlib_delete);
             return newLib;
         }
     }
 
     void DynLibManager::Unload(DynLib* lib)
     {
-        const auto& iterFind = mLoadedLibraries.find(lib->GetName());
-        if (iterFind != mLoadedLibraries.end())
+        const auto& iterFind = _loadedLibrairies.find(lib->GetName());
+        if (iterFind != _loadedLibrairies.end())
         {
-            mLoadedLibraries.erase(iterFind);
+            _loadedLibrairies.erase(iterFind);
         }
         else
         {

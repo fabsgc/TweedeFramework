@@ -20,7 +20,7 @@ namespace te
         void Unload(DynLib* lib);
 
     protected:
-        Set<UPtr<DynLib>, std::less<>> mLoadedLibraries;
+        Set<UPtr<DynLib>, std::less<>> _loadedLibrairies;
     };
 
     /** Easy way of accessing DynLibManager. */
