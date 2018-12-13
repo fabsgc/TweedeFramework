@@ -9,20 +9,11 @@
 #include <windows.h>
 #include <windowsx.h>
 
+#define WM_TE_SETCAPTURE WM_USER + 101
+#define WM_TE_RELEASECAPTURE WM_USER + 102
+
 namespace te
 {
-    struct Platform::Pimpl
-    {
-        bool IsCursorHidden = false;
-        bool IsTrackingMouse = false;
-
-        bool CursorClipping = false;
-        HWND ClipWindow = 0;
-        RECT ClipRect;
-
-        bool IsActive = false;
-    };
-
     /** Various Win32 specific functionality. Contains the main message loop. */
     class TE_CORE_EXPORT Win32Platform : public Platform
     {

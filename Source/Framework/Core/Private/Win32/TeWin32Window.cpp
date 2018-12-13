@@ -146,7 +146,9 @@ namespace te
 
         GetClientRect(_data->HWnd, &rect);
         _data->Width = rect.right;
-        _data->Height = rect.bottom;        
+        _data->Height = rect.bottom;
+
+        SetFocus(_data->HWnd);
 
         if (desc.Hidden)
         {

@@ -5,6 +5,29 @@
 
 namespace te
 {
+    /** Types of events that a RenderWindow can be notified of. */
+    enum class WindowEventType
+    {
+        /** Triggered when window size changes. */
+        Resized,
+        /** Triggered when window position changes. */
+        Moved,
+        /** Triggered when window receives input focus. */
+        FocusReceived,
+        /** Triggered when window loses input focus. */
+        FocusLost,
+        /** Triggered when the window is minimized (iconified). */
+        Minimized,
+        /** Triggered when the window is expanded to cover the current screen. */
+        Maximized,
+        /** Triggered when the window leaves minimized or maximized state. */
+        Restored,
+        /** Triggered when the mouse pointer leaves the window area. */
+        MouseLeft,
+        /** Triggered when the user wants to close the window. */
+        CloseRequested,
+    };
+
     /** Structure that is used for initializing a render window. */
     struct TE_CORE_EXPORT RENDER_WINDOW_DESC
     {
@@ -92,7 +115,12 @@ namespace te
 
         /** Queries the render target for a custom attribute. This may be anything and is implementation specific. */
         virtual void GetCustomAttribute(const String& name, void* pData) const;
+
+        /**	Returns properties that describe the render window. */
         const RenderWindowProperties& GetRenderWindowProperties() { return _properties; }
+
+        /** Notifies the window that a specific event occurred. Usually called by the platform specific main event loop. */
+        void NotifyWindowEvent(WindowEventType type);
 
     protected:
         RenderWindowProperties _properties;

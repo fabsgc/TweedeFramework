@@ -91,8 +91,10 @@ namespace te
         {
             hr = _data->Keyboard->Acquire();
             if (hr == E_ACCESSDENIED)
-                TE_DEBUG("Keyboard access denied");
-
+            {
+                //TE_DEBUG("Keyboard access denied");
+            }
+            
             while (hr == DIERR_INPUTLOST)
                 hr = _data->Keyboard->Acquire();
 

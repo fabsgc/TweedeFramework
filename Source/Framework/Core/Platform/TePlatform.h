@@ -34,7 +34,6 @@ namespace te
         struct Pimpl;
 
         Platform() = default;
-
         virtual ~Platform();
 
         /**
