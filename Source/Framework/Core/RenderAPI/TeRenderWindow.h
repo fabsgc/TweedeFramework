@@ -2,6 +2,7 @@
 
 #include "TeCorePrerequisites.h"
 #include "RenderAPI/TeVideoMode.h"
+#include "Utility/TeEvent.h"
 
 namespace te
 {
@@ -121,6 +122,34 @@ namespace te
 
         /** Notifies the window that a specific event occurred. Usually called by the platform specific main event loop. */
         void NotifyWindowEvent(WindowEventType type);
+
+        /** Called by the core thread when window is destroyed. */
+        void NotifyWindowDestroyed();
+
+        /**	Called by the core thread when window receives focus. */
+        void NotifyFocusReceived();
+
+        /**	Called by the core thread when window loses focus. */
+        void NotifyFocusLost();
+
+        /**	Called by the core thread when window is moved or resized. */
+        void NotifyMovedOrResized();
+
+        /**	Called by the core thread when mouse leaves a window. */
+        void NotifyMouseLeft();
+
+        /** Called by the core thread when the user requests for the window to close. */
+        void NotifyCloseRequested();
+
+    public:
+        /** Event that is triggered when a window gains focus. */
+        Event<void(RenderWindow&)> OnFocusGained;
+
+        /**	Event that is triggered when a window loses focus. */
+        Event<void(RenderWindow&)> OnFocusLost;
+
+        /**	Event that is triggered when mouse leaves a window. */
+        Event<void(RenderWindow&)> OnMouseLeftWindow;
 
     protected:
         RenderWindowProperties _properties;

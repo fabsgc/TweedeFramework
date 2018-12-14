@@ -85,4 +85,28 @@ namespace te
             }
         }
     }
+
+    void RenderWindow::NotifyWindowDestroyed()
+    {
+    }
+
+    void RenderWindow::NotifyFocusReceived()
+    {
+    }
+
+    void RenderWindow::NotifyFocusLost()
+    {
+    }
+
+    void RenderWindow::NotifyMovedOrResized()
+    {
+    }
+
+    void RenderWindow::NotifyMouseLeft()
+    {
+    }
+
+    void RenderWindow::NotifyCloseRequested()
+    {
+    }
 }
