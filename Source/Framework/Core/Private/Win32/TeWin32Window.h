@@ -54,6 +54,12 @@ namespace te
         /**	Returns the native window handle. */
         HWND GetHWnd() const;
 
+        /**	Returns the window style flags used for creating it. */
+        DWORD GetStyle() const;
+
+        /**	Returns the extended window style flags used for creating it. */
+        DWORD GetStyleEx() const;
+
         /**	Hide or show the window. */
         void SetHidden(bool hidden);
 
@@ -82,7 +88,7 @@ namespace te
         Vector2I windowToScreenPos(const Vector2I& windowPos) const;
 
         /** Called when window is moved or resized externally. */
-        void _windowMovedOrResized();
+        void WindowMovedOrResized();
 
     private:
         struct Pimpl;

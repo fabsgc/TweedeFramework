@@ -30,6 +30,9 @@ namespace te
 
         _mouseWheelScrolledConn = Platform::OnMouseWheelScrolled.Connect(std::bind(&Input::MouseWheelScrolled, this, _1));
 
+        gCoreApplication().GetWindow()->OnFocusGained.Connect(std::bind(&Input::InputWindowChanged, this, _1));
+        gCoreApplication().GetWindow()->OnFocusLost.Connect(std::bind(&Input::InputFocusLost, this));
+
         for (int i = 0; i < 3; i++)
             _pointerButtonStates[i] = ButtonState::Off;
 
@@ -115,6 +118,32 @@ namespace te
 
     void Input::TriggerCallbacks()
     {
+        //TODO
+    }
+
+    void Input::InputWindowChanged(RenderWindow& win)
+    {
+        UINT64 hWnd = 0;
+        win.GetCustomAttribute("WINDOW", &hWnd);
+
+        _keyboard->ChangeCaptureContext(hWnd);
+        _mouse->ChangeCaptureContext(hWnd);
+
+        for (auto& gamepad : _gamepads)
+        {
+            gamepad->ChangeCaptureContext(hWnd);
+        } 
+    }
+
+    void Input::InputFocusLost()
+    {
+        _keyboard->ChangeCaptureContext((UINT64)-1);
+        _mouse->ChangeCaptureContext((UINT64)-1);
+
+        for (auto& gamepad : _gamepads)
+        {
+            gamepad->ChangeCaptureContext((UINT64)-1);
+        }
     }
 
     Vector2I Input::GetPointerPosition() const
@@ -124,36 +153,43 @@ namespace te
 
     float Input::GetAxisValue(UINT32 type, UINT32 deviceIdx) const
     {
+        //TODO
         return 0.0f;
     }
 
     bool Input::IsButtonHeld(ButtonCode keyCode, UINT32 deviceIdx) const
     {
+        //TODO
         return false;
     }
 
     bool Input::IsButtonUp(ButtonCode keyCode, UINT32 deviceIdx) const
     {
+        //TODO
         return false;
     }
 
     bool Input::IsButtonDown(ButtonCode keyCode, UINT32 deviceIdx) const
     {
+        //TODO
         return false;
     }
 
     bool Input::IsPointerButtonHeld(PointerEventButton pointerButton) const
     {
+        //TODO
         return false;
     }
 
     bool Input::IsPointerButtonUp(PointerEventButton pointerButton) const
     {
+        //TODO
         return false;
     }
 
     bool Input::IsPointerButtonDown(PointerEventButton pointerButton) const
     {
+        //TODO
         return false;
     }
 
@@ -164,10 +200,12 @@ namespace te
 
     void Input::NotifyMouseMoved(INT32 relX, INT32 relY, INT32 relZ)
     {
+        //TODO
     }
 
     void Input::NotifyAxisMoved(UINT32 gamepadIdx, UINT32 axisIdx, INT32 value)
     {
+        //TODO
     }
 
     void Input::NotifyButtonPressed(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
@@ -182,6 +220,7 @@ namespace te
 
     void Input::CharInput(UINT32 chr)
     {
+        //TODO
     }
 
     void Input::CursorMoved(const Vector2I& cursorPos, const OSPointerButtonStates& btnStates)
@@ -192,32 +231,41 @@ namespace te
 
     void Input::CursorPressed(const Vector2I& cursorPos, OSMouseButton button, const OSPointerButtonStates& btnStates)
     {
+        //TODO
     }
 
     void Input::CursorReleased(const Vector2I& cursorPos, OSMouseButton button, const OSPointerButtonStates& btnStates)
     {
+        //TODO
     }
 
     void Input::CursorDoubleClick(const Vector2I& cursorPos, const OSPointerButtonStates& btnStates)
     {
+        //TODO
     }
 
     void Input::MouseWheelScrolled(float scrollPos)
     {
+        //TODO
     }
 
     void Input::ButtonDown(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
         Lock lock(_mutex);
+
+        //TODO
     }
 
     void Input::ButtonUp(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
         Lock lock(_mutex);
+
+        //TODO
     }
 
     void Input::AxisMoved(UINT32 deviceIdx, float value, UINT32 axis)
     {
+        //TODO
     }
 
     Input& gInput()

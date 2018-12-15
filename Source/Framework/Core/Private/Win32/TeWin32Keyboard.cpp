@@ -123,4 +123,19 @@ namespace te
             }
         }
     }
+
+    void Keyboard::ChangeCaptureContext(UINT64 windowHandle)
+    {
+        HWND newhWnd = (HWND)windowHandle;
+
+        if (_data->HWnd != newhWnd)
+        {
+            ReleaseDirectInput(_data);
+
+            if (windowHandle != (UINT64)-1)
+                InitializeDirectInput(_data, newhWnd);
+            else
+                _data->HWnd = (HWND)-1;
+        }
+    }
 }

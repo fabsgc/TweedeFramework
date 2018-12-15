@@ -196,6 +196,16 @@ namespace te
         return _data->HWnd;
     }
 
+    DWORD Win32Window::GetStyle() const
+    {
+        return _data->Style;
+    }
+
+    DWORD Win32Window::GetStyleEx() const
+    {
+        return _data->StyleEx;
+    }
+
     void Win32Window::SetHidden(bool hidden)
     {
         if (hidden)
@@ -311,7 +321,7 @@ namespace te
         return Vector2I(pos.x, pos.y);
     }
 
-    void Win32Window::_windowMovedOrResized()
+    void Win32Window::WindowMovedOrResized()
     {
         if (!_data->HWnd || IsIconic(_data->HWnd))
         {

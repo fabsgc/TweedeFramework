@@ -174,6 +174,15 @@ namespace te
          */
         void MouseWheelScrolled(float scrollPos);
 
+        /** Called when window in focus changes, as reported by the OS. */
+        void InputWindowChanged(RenderWindow& win);
+
+        /**
+         * Called when the current window loses input focus. This might be followed by inputWindowChanged() if the focus
+         * just switched to another of this application's windows.
+         */
+        void InputFocusLost();
+
     public:
         /** Triggered whenever a button is first pressed. */
         Event<void(const ButtonEvent&)> OnButtonDown;

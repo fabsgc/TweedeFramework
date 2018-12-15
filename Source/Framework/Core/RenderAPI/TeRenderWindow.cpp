@@ -30,6 +30,71 @@ namespace te
         //NOT IMPLEMENTED
     }
 
+    void RenderWindow::Resize(UINT32 width, UINT32 height)
+    {
+        //TODO
+    }
+
+    void RenderWindow::SetHidden(bool hidden)
+    {
+        //TODO
+    }
+
+    void RenderWindow::SetActive(bool state)
+    {
+        //TODO
+    }
+
+    void RenderWindow::Move(INT32 left, INT32 top)
+    {
+        //TODO
+    }
+
+    void RenderWindow::Hide()
+    {
+        //TODO
+    }
+
+    void RenderWindow::Show()
+    {
+        //TODO
+    }
+
+    void RenderWindow::Minimize()
+    {
+        //TODO
+    }
+
+    void RenderWindow::Maximize()
+    {
+        //TODO
+    }
+
+    void RenderWindow::Restore()
+    {
+        //TODO
+    }
+
+    void RenderWindow::SetFullscreen(UINT32 width, UINT32 height, float refreshRate, UINT32 monitorIdx)
+    {
+        //TODO
+    }
+
+    void RenderWindow::SetFullscreen(const VideoMode& videoMode)
+    {
+        //TODO
+    }
+
+    void RenderWindow::SetWindowed(UINT32 width, UINT32 height)
+    {
+        //TODO
+    }
+
+    void RenderWindow::Destroy()
+    {
+        NotifyCloseRequested();
+    }
+
     void RenderWindow::NotifyWindowEvent(WindowEventType type)
     {
         //TODO
@@ -41,6 +106,10 @@ namespace te
             case WindowEventType::Resized:
             {
                 std::cout << "Event resized" << std::endl;
+
+                WindowMovedOrResized();
+                NotifyMovedOrResized();
+                
                 break;
             }
             case WindowEventType::Moved:

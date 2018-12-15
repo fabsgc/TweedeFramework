@@ -27,6 +27,10 @@ namespace te
         static constexpr int MAX_AXIS = 32767;
 
     private:
+        /** Changes the capture context. Should be called when focus is moved to a new window. */
+        void ChangeCaptureContext(UINT64 windowHandle);
+
+    private:
         friend class Input;
 
         String _name;
