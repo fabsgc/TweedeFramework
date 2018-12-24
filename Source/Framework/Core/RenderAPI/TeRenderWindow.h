@@ -115,7 +115,7 @@ namespace te
         virtual void Initialize() = 0;
 
         /** Queries the render target for a custom attribute. This may be anything and is implementation specific. */
-        virtual void GetCustomAttribute(const String& name, void* pData) const;
+        virtual void GetCustomAttribute(const String& name, void* pData) const {}
 
         /**	Returns properties that describe the render window. */
         const RenderWindowProperties& GetRenderWindowProperties() { return _properties; }
@@ -132,7 +132,7 @@ namespace te
          * @param[in]	width		Width of the window in pixels.
          * @param[in]	height		Height of the window in pixels.
          */
-        virtual void Resize(UINT32 width, UINT32 height);
+        virtual void Resize(UINT32 width, UINT32 height) {}
 
         /**	Hide or show the window. */
         virtual void SetHidden(bool hidden);
@@ -141,7 +141,7 @@ namespace te
          * Makes the render target active or inactive. (for example in the case of a window, it will hide or restore the
          * window).
          */
-        virtual void SetActive(bool state);
+        virtual void SetActive(bool state) {}
 
         /**
          * Move the window to specified screen coordinates.
@@ -149,7 +149,7 @@ namespace te
          * @param[in]	left		Position of the left border of the window on the screen.
          * @param[in]	top			Position of the top border of the window on the screen.
          */
-        virtual void Move(INT32 left, INT32 top);
+        virtual void Move(INT32 left, INT32 top) {}
 
         /**
          * Hides the window.
@@ -162,13 +162,13 @@ namespace te
         virtual void Show();
 
         /**	Minimizes the window to the taskbar. */
-        virtual void Minimize();
+        virtual void Minimize() {}
 
         /**	Maximizes the window over the entire current screen. */
-        virtual void Maximize();
+        virtual void Maximize() {}
 
         /**	Restores the window to original position and size if it is minimized or maximized. */
-        virtual void Restore();
+        virtual void Restore() {}
 
         /**
          * Switches the window to fullscreen mode. Child windows cannot go into fullscreen mode.
@@ -180,14 +180,14 @@ namespace te
          *
          * @note	If the exact provided mode isn't available, closest one is used instead.
          */
-        virtual void SetFullscreen(UINT32 width, UINT32 height, float refreshRate = 60.0f, UINT32 monitorIdx = 0);
+        virtual void SetFullscreen(UINT32 width, UINT32 height, float refreshRate = 60.0f, UINT32 monitorIdx = 0) {}
 
         /**
          * Switches the window to fullscreen mode. Child windows cannot go into fullscreen mode.
          *
          * @param[in]	videoMode	Mode retrieved from VideoModeInfo in RenderAPI.
          */
-        virtual void SetFullscreen(const VideoMode& videoMode);
+        virtual void SetFullscreen(const VideoMode& videoMode) {}
 
         /**
          * Switches the window to windowed mode.
@@ -195,7 +195,7 @@ namespace te
          * @param[in]	width	Window width in pixels.
          * @param[in]	height	Window height in pixels.
          */
-        virtual void SetWindowed(UINT32 width, UINT32 height);
+        virtual void SetWindowed(UINT32 width, UINT32 height) {}
 
         /** Closes and destroys the window. */
         void Destroy();

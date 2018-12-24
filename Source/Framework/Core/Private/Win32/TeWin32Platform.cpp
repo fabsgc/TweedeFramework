@@ -410,7 +410,6 @@ namespace te
             case WM_CLOSE:
             {
                 win->NotifyWindowEvent(WindowEventType::CloseRequested);
-                gCoreApplication().OnStopRequested();
 
                 return 0;
             }

@@ -1,4 +1,5 @@
 #include "RenderAPI/TeRenderWindow.h"
+#include "TeCoreApplication.h"
 
 namespace te
 {
@@ -23,71 +24,22 @@ namespace te
 
     RenderWindow::~RenderWindow()
     {
-    }
-
-    void RenderWindow::GetCustomAttribute(const String& name, void* pData) const
-    {
-        //NOT IMPLEMENTED
-    }
-
-    void RenderWindow::Resize(UINT32 width, UINT32 height)
-    {
-        //TODO
+        NotifyWindowDestroyed();
     }
 
     void RenderWindow::SetHidden(bool hidden)
     {
-        //TODO
-    }
-
-    void RenderWindow::SetActive(bool state)
-    {
-        //TODO
-    }
-
-    void RenderWindow::Move(INT32 left, INT32 top)
-    {
-        //TODO
+        _properties.IsHidden = hidden;
     }
 
     void RenderWindow::Hide()
     {
-        //TODO
+        SetHidden(true);
     }
 
     void RenderWindow::Show()
     {
-        //TODO
-    }
-
-    void RenderWindow::Minimize()
-    {
-        //TODO
-    }
-
-    void RenderWindow::Maximize()
-    {
-        //TODO
-    }
-
-    void RenderWindow::Restore()
-    {
-        //TODO
-    }
-
-    void RenderWindow::SetFullscreen(UINT32 width, UINT32 height, float refreshRate, UINT32 monitorIdx)
-    {
-        //TODO
-    }
-
-    void RenderWindow::SetFullscreen(const VideoMode& videoMode)
-    {
-        //TODO
-    }
-
-    void RenderWindow::SetWindowed(UINT32 width, UINT32 height)
-    {
-        //TODO
+        SetHidden(false);
     }
 
     void RenderWindow::Destroy()
@@ -97,58 +49,64 @@ namespace te
 
     void RenderWindow::NotifyWindowEvent(WindowEventType type)
     {
-        //TODO
-
         const RenderWindowProperties& props = GetRenderWindowProperties();
 
         switch (type)
         {
             case WindowEventType::Resized:
             {
-                std::cout << "Event resized" << std::endl;
-
                 WindowMovedOrResized();
                 NotifyMovedOrResized();
                 
+                std::cout << "Event resized" << std::endl;
                 break;
             }
             case WindowEventType::Moved:
             {
+                WindowMovedOrResized();
+
                 std::cout << "Event moved" << std::endl;
                 break;
             }
             case WindowEventType::FocusReceived:
             {
+                NotifyFocusReceived();
                 std::cout << "Event focus received" << std::endl;
                 break;
             }
             case WindowEventType::FocusLost:
             {
+                NotifyFocusLost();
                 std::cout << "Event fosuc lost" << std::endl;
                 break;
             }
             case WindowEventType::Minimized:
             {
+                _properties.IsMaximized = false;
                 std::cout << "Event minimized" << std::endl;
                 break;
             }
             case WindowEventType::Maximized:
             {
+                _properties.IsMaximized = true;
                 std::cout << "Event maximized" << std::endl;
                 break;
             }
             case WindowEventType::Restored:
             {
+                _properties.IsMaximized = false;
                 std::cout << "Event restored" << std::endl;
                 break;
             }
             case WindowEventType::MouseLeft:
             {
+                NotifyMouseLeft();
                 std::cout << "Event mouse left" << std::endl;
                 break;
             }
             case WindowEventType::CloseRequested:
             {
+                NotifyCloseRequested();
                 std::cout << "Event close requested" << std::endl;
                 break;
             }
@@ -157,25 +115,31 @@ namespace te
 
     void RenderWindow::NotifyWindowDestroyed()
     {
+        //TODO (nothing for my implementation)
     }
 
     void RenderWindow::NotifyFocusReceived()
     {
+        _properties.HasFocus = true;
     }
 
     void RenderWindow::NotifyFocusLost()
     {
+        _properties.HasFocus = false;
     }
 
     void RenderWindow::NotifyMovedOrResized()
     {
+        //TODO
     }
 
     void RenderWindow::NotifyMouseLeft()
     {
+        //TODO
     }
 
     void RenderWindow::NotifyCloseRequested()
     {
+        gCoreApplication().OnStopRequested();
     }
 }

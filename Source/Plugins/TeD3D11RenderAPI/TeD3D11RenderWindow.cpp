@@ -68,34 +68,42 @@ namespace te
 
         //createSizeDependedD3DResources();
         //mDXGIFactory->MakeWindowAssociation(mWindow->getHWnd(), NULL);
+
+        //TODO
     }
 
     void D3D11RenderWindow::CreateDevice()
     {
-
+        //TODO
     }
     void D3D11RenderWindow::CheckMSAASupport()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::CreateSwapChain()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::CreateDepthStencilBuffer()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::CreateViewport()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::SetPrimitiveTopology()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::SetBackfaceCulling()
     {
+        //TODO
     }
 
     void D3D11RenderWindow::GetCustomAttribute(const String& name, void* pData) const
@@ -151,12 +159,14 @@ namespace te
         if (_swapChain)
         {
             if (state)
+            {
                 _swapChain->SetFullscreenState(_properties.IsFullScreen, nullptr);
+            }
             else
+            {
                 _swapChain->SetFullscreenState(FALSE, nullptr);
+            }
         }
-
-        RenderWindow::SetActive(state);
     }
 
     void D3D11RenderWindow::Minimize()
