@@ -4,6 +4,7 @@
 #include "Input/TeGamePad.h"
 #include "Platform/TePlatform.h"
 #include "TeCoreApplication.h"
+#include "Utility/TeTime.h"
 
 using namespace std::placeholders;
 
@@ -118,7 +119,122 @@ namespace te
 
     void Input::TriggerCallbacks()
     {
-        //TODO
+        Vector2I pointerPos;
+        float mouseScroll;
+        OSPointerButtonStates pointerState;
+
+        {
+            Lock lock(_mutex);
+
+            std::swap(_queuedEvents[0], _queuedEvents[1]);
+
+            std::swap(_buttonDownEvents[0], _buttonDownEvents[1]);
+            std::swap(_buttonUpEvents[0], _buttonUpEvents[1]);
+
+            std::swap(_pointerPressedEvents[0], _pointerPressedEvents[1]);
+            std::swap(_pointerReleasedEvents[0], _pointerReleasedEvents[1]);
+            std::swap(_pointerDoubleClickEvents[0], _pointerDoubleClickEvents[1]);
+
+            std::swap(_textInputEvents[0], _textInputEvents[1]);
+
+            pointerPos = _pointerPosition;
+            mouseScroll = _mouseScroll;
+            pointerState = _pointerState;
+
+            _mouseScroll = 0.0f;
+        }
+
+        if (pointerPos != _lastPointerPosition || mouseScroll != 0.0f)
+        {
+            PointerEvent event;
+            event.alt = false;
+            event.shift = pointerState.shift;
+            event.control = pointerState.ctrl;
+            event.buttonStates[0] = pointerState.mouseButtons[0];
+            event.buttonStates[1] = pointerState.mouseButtons[1];
+            event.buttonStates[2] = pointerState.mouseButtons[2];
+            event.mouseWheelScrollAmount = mouseScroll;
+
+            event.type = PointerEventType::CursorMoved;
+            event.screenPos = pointerPos;
+
+            if (_lastPositionSet)
+                _pointerDelta = event.screenPos - _lastPointerPosition;
+
+            event.delta = _pointerDelta;
+
+            OnPointerMoved(event);
+
+            _lastPointerPosition = event.screenPos;
+            _lastPositionSet = true;
+        }
+
+        for (auto& event : _queuedEvents[1])
+        {
+            switch (event.Type)
+            {
+            case EventType::ButtonDown:
+            {
+                const ButtonEvent& eventData = _buttonDownEvents[1][event.Idx];
+
+                _devices[eventData.deviceIdx].KeyStates[eventData.buttonCode & 0x0000FFFF] = ButtonState::ToggledOn;
+                OnButtonDown(_buttonDownEvents[1][event.Idx]);
+            }
+            break;
+            case EventType::ButtonUp:
+            {
+                const ButtonEvent& eventData = _buttonUpEvents[1][event.Idx];
+
+                while (eventData.deviceIdx >= (UINT32)_devices.size())
+                    _devices.push_back(DeviceData());
+
+                if (_devices[eventData.deviceIdx].KeyStates[eventData.buttonCode & 0x0000FFFF] == ButtonState::ToggledOn)
+                    _devices[eventData.deviceIdx].KeyStates[eventData.buttonCode & 0x0000FFFF] = ButtonState::ToggledOnOff;
+                else
+                    _devices[eventData.deviceIdx].KeyStates[eventData.buttonCode & 0x0000FFFF] = ButtonState::ToggledOff;
+
+                OnButtonUp(_buttonUpEvents[1][event.Idx]);
+            }
+            break;
+            case EventType::PointerDown:
+            {
+                const PointerEvent& eventData = _pointerPressedEvents[1][event.Idx];
+                _pointerButtonStates[(UINT32)eventData.button] = ButtonState::ToggledOn;
+
+                OnPointerPressed(eventData);
+            }
+            break;
+            case EventType::PointerUp:
+            {
+                const PointerEvent& eventData = _pointerReleasedEvents[1][event.Idx];
+
+                if (_pointerButtonStates[(UINT32)eventData.button] == ButtonState::ToggledOn)
+                    _pointerButtonStates[(UINT32)eventData.button] = ButtonState::ToggledOnOff;
+                else
+                    _pointerButtonStates[(UINT32)eventData.button] = ButtonState::ToggledOff;
+
+                OnPointerReleased(eventData);
+            }
+            break;
+            case EventType::PointerDoubleClick:
+                _pointerDoubleClicked = true;
+                OnPointerDoubleClick(_pointerDoubleClickEvents[1][event.Idx]);
+                break;
+            case EventType::TextInput:
+                OnCharInput(_textInputEvents[1][event.Idx]);
+                break;
+            default:
+                break;
+            }
+        }
+
+        _queuedEvents[1].clear();
+        _buttonDownEvents[1].clear();
+        _buttonUpEvents[1].clear();
+        _pointerPressedEvents[1].clear();
+        _pointerReleasedEvents[1].clear();
+        _pointerDoubleClickEvents[1].clear();
+        _textInputEvents[1].clear();
     }
 
     void Input::InputWindowChanged(RenderWindow& win)
@@ -153,44 +269,61 @@ namespace te
 
     float Input::GetAxisValue(UINT32 type, UINT32 deviceIdx) const
     {
-        //TODO
-        return 0.0f;
+        if (deviceIdx >= (UINT32)_devices.size())
+            return 0.0f;
+
+        const Vector<float>& axes = _devices[deviceIdx].Axes;
+        if (type >= (UINT32)axes.size())
+            return 0.0f;
+
+        return axes[type];
     }
 
-    bool Input::IsButtonHeld(ButtonCode keyCode, UINT32 deviceIdx) const
+    bool Input::IsButtonHeld(ButtonCode button, UINT32 deviceIdx) const
     {
-        //TODO
-        return false;
+        if (deviceIdx >= (UINT32)_devices.size())
+            return false;
+
+        return _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::On ||
+            _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOn ||
+            _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOnOff;
     }
 
-    bool Input::IsButtonUp(ButtonCode keyCode, UINT32 deviceIdx) const
+    bool Input::IsButtonUp(ButtonCode button, UINT32 deviceIdx) const
     {
-        //TODO
-        return false;
+        if (deviceIdx >= (UINT32)_devices.size())
+            return false;
+
+        return _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOff ||
+            _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOnOff;
     }
 
-    bool Input::IsButtonDown(ButtonCode keyCode, UINT32 deviceIdx) const
+    bool Input::IsButtonDown(ButtonCode button, UINT32 deviceIdx) const
     {
-        //TODO
-        return false;
+        if (deviceIdx >= (UINT32)_devices.size())
+            return false;
+
+        return _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOn ||
+            _devices[deviceIdx].KeyStates[button & 0x0000FFFF] == ButtonState::ToggledOnOff;
     }
 
     bool Input::IsPointerButtonHeld(PointerEventButton pointerButton) const
     {
-        //TODO
-        return false;
+        return _pointerButtonStates[(UINT32)pointerButton] == ButtonState::On ||
+            _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOn ||
+            _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOnOff;
     }
 
     bool Input::IsPointerButtonUp(PointerEventButton pointerButton) const
     {
-        //TODO
-        return false;
+        return _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOff ||
+            _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOnOff;
     }
 
     bool Input::IsPointerButtonDown(PointerEventButton pointerButton) const
     {
-        //TODO
-        return false;
+        return _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOn ||
+            _pointerButtonStates[(UINT32)pointerButton] == ButtonState::ToggledOnOff;
     }
 
     bool Input::IsPointerDoubleClicked() const
@@ -200,12 +333,35 @@ namespace te
 
     void Input::NotifyMouseMoved(INT32 relX, INT32 relY, INT32 relZ)
     {
-        //TODO
+        _mouseSampleAccumulator[0] += relX;
+        _mouseSampleAccumulator[1] += relY;
+
+        _totalMouseNumSamples[0] += Math::RoundToInt(Math::Abs((float)relX));
+        _totalMouseNumSamples[1] += Math::RoundToInt(Math::Abs((float)relY));
+
+        // Update sample times used for determining sampling rate. But only if something was
+        // actually sampled, and only if this isn't the first non-zero sample.
+        if (_lastMouseUpdateFrame != gTime().GetFrameIdx())
+        {
+            if (relX != 0 && !Math::ApproxEquals(_mouseSmoothedAxis[0], 0.0f))
+                _totalMouseSamplingTime[0] += gTime().GetFrameDelta();
+
+            if (relY != 0 && !Math::ApproxEquals(_mouseSmoothedAxis[1], 0.0f))
+                _totalMouseSamplingTime[1] += gTime().GetFrameDelta();
+
+            _lastMouseUpdateFrame = gTime().GetFrameIdx();
+        }
+
+        AxisMoved(0, (float)relZ, (UINT32)InputAxis::MouseZ);
     }
 
     void Input::NotifyAxisMoved(UINT32 gamepadIdx, UINT32 axisIdx, INT32 value)
     {
-        //TODO
+        // Move axis values into [-1.0f, 1.0f] range
+        float axisRange = Math::Abs((float)GamePad::MAX_AXIS) + Math::Abs((float)GamePad::MIN_AXIS);
+
+        float axisValue = ((value + Math::Abs((float)GamePad::MIN_AXIS)) / axisRange) * 2.0f - 1.0f;
+        AxisMoved(gamepadIdx, axisValue, axisIdx);
     }
 
     void Input::NotifyButtonPressed(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
@@ -220,52 +376,155 @@ namespace te
 
     void Input::CharInput(UINT32 chr)
     {
-        //TODO
+        Lock lock(_mutex);
+
+        TextInputEvent textInputEvent;
+        textInputEvent.textChar = chr;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::TextInput, (UINT32)_textInputEvents[0].size()));
+        _textInputEvents[0].push_back(textInputEvent);
     }
 
     void Input::CursorMoved(const Vector2I& cursorPos, const OSPointerButtonStates& btnStates)
     {
+        Lock lock(_mutex);
+
         _pointerPosition = cursorPos;
         _pointerState = btnStates;
     }
 
     void Input::CursorPressed(const Vector2I& cursorPos, OSMouseButton button, const OSPointerButtonStates& btnStates)
     {
-        //TODO
+        Lock lock(_mutex);
+
+        PointerEvent event;
+        event.alt = false;
+        event.shift = btnStates.shift;
+        event.control = btnStates.ctrl;
+        event.buttonStates[0] = btnStates.mouseButtons[0];
+        event.buttonStates[1] = btnStates.mouseButtons[1];
+        event.buttonStates[2] = btnStates.mouseButtons[2];
+
+        switch (button)
+        {
+        case OSMouseButton::Left:
+            event.button = PointerEventButton::Left;
+            break;
+        case OSMouseButton::Middle:
+            event.button = PointerEventButton::Middle;
+            break;
+        case OSMouseButton::Right:
+            event.button = PointerEventButton::Right;
+            break;
+        default:
+            break;
+        }
+
+        event.screenPos = cursorPos;
+        event.type = PointerEventType::ButtonPressed;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::PointerDown, (UINT32)_pointerPressedEvents[0].size()));
+        _pointerPressedEvents[0].push_back(event);
     }
 
     void Input::CursorReleased(const Vector2I& cursorPos, OSMouseButton button, const OSPointerButtonStates& btnStates)
     {
-        //TODO
+        Lock lock(_mutex);
+
+        PointerEvent event;
+        event.alt = false;
+        event.shift = btnStates.shift;
+        event.control = btnStates.ctrl;
+        event.buttonStates[0] = btnStates.mouseButtons[0];
+        event.buttonStates[1] = btnStates.mouseButtons[1];
+        event.buttonStates[2] = btnStates.mouseButtons[2];
+
+        switch (button)
+        {
+        case OSMouseButton::Left:
+            event.button = PointerEventButton::Left;
+            break;
+        case OSMouseButton::Middle:
+            event.button = PointerEventButton::Middle;
+            break;
+        case OSMouseButton::Right:
+            event.button = PointerEventButton::Right;
+            break;
+        default:
+            break;
+        }
+
+        event.screenPos = cursorPos;
+        event.type = PointerEventType::ButtonReleased;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::PointerUp, (UINT32)_pointerReleasedEvents[0].size()));
+        _pointerReleasedEvents[0].push_back(event);
     }
 
     void Input::CursorDoubleClick(const Vector2I& cursorPos, const OSPointerButtonStates& btnStates)
     {
-        //TODO
+        Lock lock(_mutex);
+
+        PointerEvent event;
+        event.alt = false;
+        event.shift = btnStates.shift;
+        event.control = btnStates.ctrl;
+        event.buttonStates[0] = btnStates.mouseButtons[0];
+        event.buttonStates[1] = btnStates.mouseButtons[1];
+        event.buttonStates[2] = btnStates.mouseButtons[2];
+        event.button = PointerEventButton::Left;
+        event.screenPos = cursorPos;
+        event.type = PointerEventType::DoubleClick;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::PointerDoubleClick, (UINT32)_pointerDoubleClickEvents[0].size()));
+        _pointerDoubleClickEvents[0].push_back(event);
     }
 
     void Input::MouseWheelScrolled(float scrollPos)
     {
-        //TODO
+        _mouseScroll = scrollPos;
     }
 
     void Input::ButtonDown(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
         Lock lock(_mutex);
 
-        //TODO
+        while (deviceIdx >= (UINT32)_devices.size())
+            _devices.push_back(DeviceData());
+
+        ButtonEvent btnEvent;
+        btnEvent.buttonCode = code;
+        btnEvent.timestamp = timestamp;
+        btnEvent.deviceIdx = deviceIdx;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::ButtonDown, (UINT32)_buttonDownEvents[0].size()));
+        _buttonDownEvents[0].push_back(btnEvent);
     }
 
     void Input::ButtonUp(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
         Lock lock(_mutex);
 
-        //TODO
+        ButtonEvent btnEvent;
+        btnEvent.buttonCode = code;
+        btnEvent.timestamp = timestamp;
+        btnEvent.deviceIdx = deviceIdx;
+
+        _queuedEvents[0].push_back(QueuedEvent(EventType::ButtonUp, (UINT32)_buttonUpEvents[0].size()));
+        _buttonUpEvents[0].push_back(btnEvent);
     }
 
     void Input::AxisMoved(UINT32 deviceIdx, float value, UINT32 axis)
     {
-        //TODO
+        // Note: This method must only ever be called from the main thread, as we don't lock access to axis data
+        while (deviceIdx >= (UINT32)_devices.size())
+            _devices.push_back(DeviceData());
+
+        Vector<float>& axes = _devices[deviceIdx].Axes;
+        while (axis >= (UINT32)axes.size())
+            axes.push_back(0.0f);
+
+        _devices[deviceIdx].Axes[axis] = value;
     }
 
     Input& gInput()

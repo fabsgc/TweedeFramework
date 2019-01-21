@@ -111,6 +111,8 @@ namespace te
         RenderWindow(const RENDER_WINDOW_DESC& desc);
         ~RenderWindow();
 
+        void TriggerCallback();
+
         virtual void Update() = 0;
         virtual void Initialize() = 0;
 
@@ -236,10 +238,20 @@ namespace te
         Event<void(RenderWindow&)> OnMouseLeftWindow;
 
         /** Triggers when the OS requests that the window is closed (e.g. user clicks on the X button in the title bar). */
-        Event<void()> onCloseRequested;
+        Event<void()> OnCloseRequested;
+
+        /** Event that gets triggered whenever the render target is resized. */
+        Event<void()> OnResized;
 
     protected:
+        mutable Mutex _windowMutex;
         RenderWindowProperties _properties;
         RENDER_WINDOW_DESC _desc;
+
+        bool _moveOrResized;
+        bool _mouseLeft;
+        bool _closeRequested;
+        bool _focusReceived;
+        bool _focusLost;
     };
 }

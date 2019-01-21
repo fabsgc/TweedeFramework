@@ -10,6 +10,8 @@ namespace te
     class TE_CORE_EXPORT GamePad
     {
     public:
+        struct Pimpl;
+
         GamePad(const String& name, const GamePadInfo& gamepadInfo, Input* owner);
         ~GamePad();
 
@@ -35,5 +37,7 @@ namespace te
 
         String _name;
         Input* _owner;
+
+        Pimpl* _m;
     };
 }

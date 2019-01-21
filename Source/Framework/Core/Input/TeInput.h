@@ -38,7 +38,7 @@ namespace te
         /**	Different types of possible input event callbacks. */
         enum class EventType
         {
-            ButtonUp, ButtonDown, PointerMoved, PointerUp, PointerDown, PointerDoubleClick, TextInput, Command
+            ButtonUp, ButtonDown, PointerMoved, PointerUp, PointerDown, PointerDoubleClick, TextInput
         };
 
         /**	Stores information about a queued input event that is to be triggered later. */
@@ -90,7 +90,7 @@ namespace te
          * @param[in]	keyCode		Code of the button to query.
          * @param[in]	deviceIdx	Device to query the button on (0 - primary).
          */
-        bool IsButtonHeld(ButtonCode keyCode, UINT32 deviceIdx = 0) const;
+        bool IsButtonHeld(ButtonCode button, UINT32 deviceIdx = 0) const;
 
         /**
          * Query if the provided button is currently being released (only true for one frame).
@@ -98,7 +98,7 @@ namespace te
          * @param[in]	keyCode		Code of the button to query.
          * @param[in]	deviceIdx	Device to query the button on (0 - primary).
          */
-        bool IsButtonUp(ButtonCode keyCode, UINT32 deviceIdx = 0) const;
+        bool IsButtonUp(ButtonCode button, UINT32 deviceIdx = 0) const;
 
         /**
          * Query if the provided button is currently being pressed (only true for one frame).
@@ -106,7 +106,7 @@ namespace te
          * @param[in]	keyCode		Code of the button to query.
          * @param[in]	deviceIdx	Device to query the button on (0 - primary).
          */
-        bool IsButtonDown(ButtonCode keyCode, UINT32 deviceIdx = 0) const;
+        bool IsButtonDown(ButtonCode button, UINT32 deviceIdx = 0) const;
 
         /**
          * Query if the provided pointer button is currently being held (this frame or previous frames).

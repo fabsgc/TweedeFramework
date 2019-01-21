@@ -19,12 +19,46 @@ namespace te
     RenderWindow::RenderWindow(const RENDER_WINDOW_DESC& desc)
         : _desc(desc)
         , _properties(desc)
+        , _moveOrResized(false)
+        , _mouseLeft(false)
+        , _closeRequested(false)
+        , _focusReceived(false)
+        , _focusLost(false)
     {
     }
 
     RenderWindow::~RenderWindow()
     {
         NotifyWindowDestroyed();
+    }
+
+    void RenderWindow::TriggerCallback()
+    {
+        Lock lock(_windowMutex);
+
+        if(_moveOrResized)
+            OnResized();
+
+        if (_mouseLeft)
+            OnMouseLeftWindow(*this);
+
+        if (_closeRequested)
+        {
+            OnCloseRequested();
+            gCoreApplication().OnStopRequested();
+        }
+
+        if(_focusReceived)
+            OnFocusGained(*this);
+
+        if(_focusLost)
+            OnFocusLost(*this);
+
+        _moveOrResized = false;
+        _mouseLeft = false;
+        _closeRequested = false;
+        _focusReceived = false;
+        _focusLost = false;
     }
 
     void RenderWindow::SetHidden(bool hidden)
@@ -121,25 +155,27 @@ namespace te
     void RenderWindow::NotifyFocusReceived()
     {
         _properties.HasFocus = true;
+        _focusReceived = true;
     }
 
     void RenderWindow::NotifyFocusLost()
     {
         _properties.HasFocus = false;
+        _focusLost = true;
     }
 
     void RenderWindow::NotifyMovedOrResized()
     {
-        //TODO
+        _moveOrResized = true;
     }
 
     void RenderWindow::NotifyMouseLeft()
     {
-        //TODO
+        _mouseLeft = true;
     }
 
     void RenderWindow::NotifyCloseRequested()
     {
-        gCoreApplication().OnStopRequested();
+        _closeRequested = true;
     }
 }

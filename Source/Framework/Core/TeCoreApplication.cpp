@@ -94,6 +94,7 @@ namespace te
             Platform::Update();
             gTime().Update();
             gInput().Update();
+            _window->TriggerCallback();
             _window->Update();
             gInput().TriggerCallbacks();
 

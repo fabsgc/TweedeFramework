@@ -4,6 +4,27 @@
 
 namespace te
 {
+    /** Contains state of a POV (DPad). */
+    struct POVState
+    {
+        ButtonCode code;
+        bool pressed;
+    };
+
+    /** Contains private data for the Win32 Gamepad implementation. */
+    struct GamePad::Pimpl
+    {
+        IDirectInput8* DirectInput;
+        IDirectInputDevice8* Gamepad;
+        GamePadInfo Info;
+        DWORD CoopSettings;
+        HWND HWnd;
+
+        POVState PovState[4];
+        INT32 AxisState[6]; // Only for XInput
+        bool ButtonState[16]; // Only for XInput
+    };
+
     GamePad::GamePad(const String& name, const GamePadInfo& gamepadInfo, Input* owner)
         : _name(name), _owner(owner)
     {
