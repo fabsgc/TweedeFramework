@@ -38,6 +38,6 @@ namespace te
         String _name;
         Input* _owner;
 
-        Pimpl* _m;
+        Pimpl* _data;
     };
 }

@@ -333,6 +333,8 @@ namespace te
 
     void Input::NotifyMouseMoved(INT32 relX, INT32 relY, INT32 relZ)
     {
+        std::cout << "Mouse moved : " << relX << ":" << relY << ":" << relZ << std::endl;
+
         _mouseSampleAccumulator[0] += relX;
         _mouseSampleAccumulator[1] += relY;
 
@@ -357,6 +359,8 @@ namespace te
 
     void Input::NotifyAxisMoved(UINT32 gamepadIdx, UINT32 axisIdx, INT32 value)
     {
+        std::cout << "Axis moved : " << axisIdx << ":" << value << std::endl;
+
         // Move axis values into [-1.0f, 1.0f] range
         float axisRange = Math::Abs((float)GamePad::MAX_AXIS) + Math::Abs((float)GamePad::MIN_AXIS);
 
@@ -366,16 +370,22 @@ namespace te
 
     void Input::NotifyButtonPressed(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
+        std::cout << "Button pressed : " << code << ":" << timestamp << std::endl;
+
         ButtonDown(deviceIdx, code, timestamp);
     }
 
     void Input::NotifyButtonReleased(UINT32 deviceIdx, ButtonCode code, UINT64 timestamp)
     {
+        std::cout << "Button released : " << code << ":" << timestamp << std::endl;
+
         ButtonUp(deviceIdx, code, timestamp);
     }
 
     void Input::CharInput(UINT32 chr)
     {
+        std::cout << "Char input : " << chr << std::endl;
+
         Lock lock(_mutex);
 
         TextInputEvent textInputEvent;

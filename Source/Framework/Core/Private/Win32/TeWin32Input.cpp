@@ -109,12 +109,13 @@ namespace te
 
                         // Compare the VID/PID to the DInput device
                         DWORD dwVidPid = MAKELONG(dwVid, dwPid);
-                        for (auto entry : infos)
+
+                        for (auto entry = infos.begin(); entry != infos.end(); entry++)
                         {
-                            if (dwVidPid == entry.GuidProduct.Data1)
+                            if (dwVidPid == entry->GuidProduct.Data1)
                             {
-                                entry.IsXInput = true;
-                                entry.XInputDev = (int)entry.Id; // Note: These might not match and I might need to get the XInput id differently
+                                entry->IsXInput = true;
+                                entry->XInputDev = (int)entry->Id; // Note: These might not match and I might need to get the XInput id differently
                             }
                         }
                     }

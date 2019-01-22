@@ -8,6 +8,8 @@ namespace te
     class TE_CORE_EXPORT Mouse
     {
     public:
+        struct Pimpl;
+
         Mouse(const String& name, Input* owner);
         ~Mouse();
 
@@ -26,5 +28,7 @@ namespace te
 
         String _name;
         Input* _owner;
+
+        Pimpl* _data;
     };
 }

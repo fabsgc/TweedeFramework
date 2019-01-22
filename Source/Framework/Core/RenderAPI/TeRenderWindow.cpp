@@ -111,7 +111,7 @@ namespace te
             case WindowEventType::FocusLost:
             {
                 NotifyFocusLost();
-                std::cout << "Event fosuc lost" << std::endl;
+                std::cout << "Event focus lost" << std::endl;
                 break;
             }
             case WindowEventType::Minimized:
