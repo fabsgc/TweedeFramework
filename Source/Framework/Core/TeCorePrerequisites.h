@@ -71,6 +71,12 @@ namespace te
     class GamePad;
     class Keyboard;
     class Mouse;
+    struct VIRTUAL_BUTTON_DESC;
+    struct VIRTUAL_AXIS_DESC;
+    class VirtualButton;
+    class VirtualAxis;
+    class InputConfiguration;
+    class VirtualInput;
 
     class Win32Window;
 

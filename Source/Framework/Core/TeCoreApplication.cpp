@@ -11,6 +11,7 @@
 #include "Error/TeConsole.h"
 #include "Utility/TeTime.h"
 #include "Input/TeInput.h"
+#include "Input/TeVirtualInput.h"
 #include "Physics/TePhysics.h"
 #include "Audio/TeAudio.h"
 #include "RenderAPI/TeRenderAPI.h"
@@ -57,6 +58,25 @@ namespace te
         _window->Initialize();
 
         Input::StartUp();
+        VirtualInput::StartUp();
+
+        SPtr<InputConfiguration> inputConfig = gVirtualInput().GetConfiguration();
+
+        inputConfig->RegisterButton("Forward", BC_A);
+        inputConfig->RegisterButton("Forward", BC_U);
+        inputConfig->RegisterButton("Forward", BC_UP);
+
+        auto handleButtonHeld = [&](const VirtualButton& btn, UINT32 deviceIdx)
+        {
+            std::cout << btn.ButtonIdentifier << std::endl;
+        };
+
+        gVirtualInput().OnButtonDown.Connect(handleButtonHeld);
+
+        VIRTUAL_AXIS_DESC desc;
+        desc.Type = (int)InputAxis::RightStickX;
+
+        inputConfig->RegisterAxis("LookLeftRight", desc);
         
         for (auto& importerName : _startUpDesc.Importers)
         {
@@ -69,6 +89,7 @@ namespace te
         _renderer.reset();
         _window.reset();
 
+        VirtualInput::ShutDown();
         Input::ShutDown();
         RendererManager::ShutDown();
         RenderAPIManager::ShutDown();
@@ -97,8 +118,16 @@ namespace te
             _window->TriggerCallback();
             _window->Update();
             gInput().TriggerCallbacks();
+            gVirtualInput().Update();
 
             PreUpdate();
+
+            VirtualAxis lookLeftRightAxis("LookLeftRight");
+
+            float value = gVirtualInput().GetAxisValue(lookLeftRightAxis);
+
+            if(value != 0.0f)
+                std::cout << value << std::endl;
 
             gPhysics().Update();
             gAudio().Update();

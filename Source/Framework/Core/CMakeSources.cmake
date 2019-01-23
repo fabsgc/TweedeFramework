@@ -95,9 +95,13 @@ set (TE_CORE_INC_INPUT
     "Core/Input/TeKeyboard.h"
     "Core/Input/TeMouse.h"
     "Core/Input/TeInputData.h"
+    "Core/Input/TeVirtualInput.h"
+    "Core/Input/TeInputConfiguration.h"
 )
 set (TE_CORE_SRC_INPUT
     "Core/Input/TeInput.cpp"
+    "Core/Input/TeVirtualInput.cpp"
+    "Core/Input/TeInputConfiguration.cpp"
 )
 
 set (TE_CORE_INC_MANAGER
