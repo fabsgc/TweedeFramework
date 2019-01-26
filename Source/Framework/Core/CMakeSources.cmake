@@ -114,6 +114,40 @@ set (TE_CORE_SRC_MANAGER
     "Core/Manager/TeRendererManager.cpp"
 )
 
+set (TE_CORE_INC_RESOURCES
+    "Core/Resources/TeResource.h"
+)
+set (TE_CORE_SRC_RESOURCES
+    "Core/Resources/TeResource.cpp"
+)
+
+set (TE_CORE_INC_TEXT
+    "Core/Text/TeFont.h"
+    "Core/Text/TeFontImportOptions.h"
+)
+set (TE_CORE_SRC_TEXT
+    "Core/Text/TeFont.cpp"
+    "Core/Text/TeFontImportOptions.cpp"
+)
+
+set (TE_CORE_INC_IMPORTER
+    "Core/Importer/TeImporter.h"
+    "Core/Importer/TeImportOptions.h"
+    "Core/Importer/TeTextureImportOptions.cpp"
+)
+set (TE_CORE_SRC_IMPORTER
+    "Core/Importer/TeImporter.cpp"
+    "Core/Importer/TeImportOptions.h"
+    "Core/Importer/TeTextureImportOptions.h"
+)
+
+set (TE_CORE_INC_IMAGE
+    "Core/Image/TeTexture.h"
+)
+set (TE_CORE_SRC_IMAGE
+    "Core/Image/TeTexture.cpp"
+)
+
 if (WIN32)
     list(APPEND TE_CORE_INC_PLATFORM ${TE_CORE_INC_PLATFORM_WIN32})
     list(APPEND TE_CORE_SRC_PLATFORM ${TE_CORE_SRC_PLATFORM_WIN32})
@@ -135,6 +169,10 @@ source_group("Core\\Audio" FILES ${TE_CORE_INC_AUDIO} ${TE_CORE_SRC_AUDIO})
 source_group("Core\\Physics" FILES ${TE_CORE_INC_PHYSICS} ${TE_CORE_SRC_PHYSICS})
 source_group("Core\\Input" FILES ${TE_CORE_INC_INPUT} ${TE_CORE_SRC_INPUT})
 source_group("Core\\Manager" FILES ${TE_CORE_INC_MANAGER} ${TE_CORE_SRC_MANAGER})
+source_group("Core\\Resources" FILES ${TE_CORE_INC_RESOURCES} ${TE_CORE_SRC_RESOURCES})
+source_group("Core\\Text" FILES ${TE_CORE_INC_TEXT} ${TE_CORE_SRC_TEXT})
+source_group("Core\\Importer" FILES ${TE_CORE_INC_IMPORTER} ${TE_CORE_SRC_IMPORTER})
+source_group("Core\\Image" FILES ${TE_CORE_INC_IMAGE} ${TE_CORE_SRC_IMAGE})
 source_group("Core" FILES ${TE_CORE_INC_NOFILTER} ${TE_CORE_SRC_NOFILTER})
 
 set(TE_CORE_SRC

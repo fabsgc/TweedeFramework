@@ -16,7 +16,7 @@
 #include "Audio/TeAudio.h"
 #include "RenderAPI/TeRenderAPI.h"
 #include "Renderer/TeRenderer.h"
-#include "Private/Win32/TeWin32Window.h"
+#include "Importer/TeImporter.h"
 
 namespace te
 {
@@ -74,9 +74,13 @@ namespace te
         gVirtualInput().OnButtonDown.Connect(handleButtonHeld);
 
         VIRTUAL_AXIS_DESC desc;
+        desc.DeadZone = 0.1f;
+        desc.Normalize = true;
         desc.Type = (int)InputAxis::RightStickX;
 
         inputConfig->RegisterAxis("LookLeftRight", desc);
+
+        Importer::StartUp();
         
         for (auto& importerName : _startUpDesc.Importers)
         {
@@ -89,6 +93,7 @@ namespace te
         _renderer.reset();
         _window.reset();
 
+        Importer::ShutDown();
         VirtualInput::ShutDown();
         Input::ShutDown();
         RendererManager::ShutDown();

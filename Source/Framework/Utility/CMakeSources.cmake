@@ -128,6 +128,13 @@ set(TE_UTILITY_SRC_THREADING
     "Utility/Threading/TeThreadPool.cpp"
 )
 
+set(TE_UTILITY_INC_FILESYSTEM
+    "Utility/FileSystem/TeFileSystem.h"
+)
+set(TE_UTILITY_SRC_FILESYSTEM
+    "Utility/FileSystem/TeFileSystem.cpp"
+)
+
 set(TE_UTILITY_INC_WIN32
 )
 set(TE_UTILITY_SRC_WIN32
@@ -165,6 +172,7 @@ source_group("Utility\\Error" FILES ${TE_UTILITY_INC_ERROR} ${TE_UTILITY_SRC_ERR
 source_group("Utility\\String" FILES ${TE_UTILITY_INC_STRING} ${TE_UTILITY_SRC_STRING})
 source_group("Utility\\Utility" FILES ${TE_UTILITY_INC_UTILITY} ${TE_UTILITY_SRC_UTILITY})
 source_group("Utility\\Threading" FILES ${TE_UTILITY_INC_THREADING} ${TE_UTILITY_SRC_THREADING})
+source_group("Utility\\FileSystem" FILES ${TE_UTILITY_INC_FILESYSTEM} ${TE_UTILITY_SRC_FILESYSTEM})
 
 if(WIN32)
     source_group("Utility\\Win32" FILES ${TE_UTILITY_INC_PRIVATE} ${TE_UTILITY_SRC_PRIVATE})
@@ -193,4 +201,6 @@ set(TE_UTILITY_SRC
     ${TE_UTILITY_INC_THREADING}
     ${TE_UTILITY_INC_PRIVATE}
     ${TE_UTILITY_SRC_PRIVATE}
+    ${TE_UTILITY_SRC_FILESYSTEM}
+    ${TE_UTILITY_INC_FILESYSTEM}
 )
