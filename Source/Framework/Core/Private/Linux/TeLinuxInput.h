@@ -4,4 +4,11 @@
 
 namespace te
 {
+    struct GamePadInfo
+    {
+    };
+
+    struct InputPrivateData
+    {
+    };
 }

@@ -13,8 +13,7 @@ namespace te
 	/**	Entry point to the plugin. Called by the engine when the plugin is loaded. */
 	extern "C" TE_PLUGIN_EXPORT void* LoadPlugin()
 	{
-		FontImporter* importer = te_new<FontImporter>();
-
+		te_new<FontImporter>();
 		return nullptr;
 	}
 }
