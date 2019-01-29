@@ -134,11 +134,13 @@ set (TE_CORE_INC_IMPORTER
     "Core/Importer/TeImporter.h"
     "Core/Importer/TeImportOptions.h"
     "Core/Importer/TeTextureImportOptions.cpp"
+    "Core/Importer/TeBaseImporter.cpp"
 )
 set (TE_CORE_SRC_IMPORTER
     "Core/Importer/TeImporter.cpp"
     "Core/Importer/TeImportOptions.h"
     "Core/Importer/TeTextureImportOptions.h"
+    "Core/Importer/TeBaseImporter.h"
 )
 
 set (TE_CORE_INC_IMAGE

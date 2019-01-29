@@ -1,10 +1,11 @@
 #pragma once
 
 #include "TeObjectImporterPrerequisites.h"
+#include "Importer/BaseImporter.h"
 
 namespace te
 {
-    class ObjectImporter
+    class ObjectImporter: public BaseImporter
     {
     public:
         ObjectImporter();
