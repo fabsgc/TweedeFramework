@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TeFreeImgImporterPrerequisites.h"
-#include "Importer/BaseImporter.h"
+#include "Importer/TeBaseImporter.h"
 
 namespace te
 {

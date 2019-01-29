@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Input/TeVirtualInput.h"
 #include "Input/TeInput.h"
 #include "Math/TeMath.h"

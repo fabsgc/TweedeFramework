@@ -244,9 +244,9 @@ namespace te
         Event<void()> OnResized;
 
     protected:
+        RENDER_WINDOW_DESC _desc;
         mutable Mutex _windowMutex;
         RenderWindowProperties _properties;
-        RENDER_WINDOW_DESC _desc;
 
         bool _moveOrResized;
         bool _mouseLeft;

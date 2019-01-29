@@ -83,8 +83,6 @@ namespace te
 
     void RenderWindow::NotifyWindowEvent(WindowEventType type)
     {
-        const RenderWindowProperties& props = GetRenderWindowProperties();
-
         switch (type)
         {
             case WindowEventType::Resized:

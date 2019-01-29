@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TeObjectPrerequisites.h"
-#include "Importer/BaseImporter.h"
+#include "TeOpenAudioPrerequisites.h"
+#include "Importer/TeBaseImporter.h"
 
 namespace te
 {
