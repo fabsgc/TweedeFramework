@@ -1,6 +1,7 @@
 #include "Input/TeMouse.h"
 #include "Input/TeInput.h"
 #include "Private/Linux/TeLinuxInput.h"
+#include "Private/Linux/TeLinuxPlatform.h"
 
 namespace te
 {

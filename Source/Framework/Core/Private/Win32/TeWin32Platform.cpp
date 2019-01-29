@@ -6,7 +6,6 @@
 #include "Threading/TeThreading.h"
 #include "Utility/TeEvent.h"
 #include "Utility/TePlatformUtility.h"
-#include "TeCoreApplication.h"
 #include <shellapi.h>
 
 namespace te
