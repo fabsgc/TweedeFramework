@@ -41,6 +41,7 @@ set (TE_CORE_SRC_PLATFORM_WIN32
 set (TE_CORE_INC_PLATFORM_LINUX
     "Core/Private/Linux/TeLinuxWindow.h"
     "Core/Private/Linux/TeLinuxInput.h"
+    "Core/Private/Linux/TeLinuxPlatform.h"
 )
 set (TE_CORE_SRC_PLATFORM_LINUX
     "Core/Private/Linux/TeLinuxWindow.cpp"
@@ -48,11 +49,13 @@ set (TE_CORE_SRC_PLATFORM_LINUX
     "Core/Private/Linux/TeLinuxGamePad.cpp"
     "Core/Private/Linux/TeLinuxKeyboard.cpp"
     "Core/Private/Linux/TeLinuxMouse.cpp"
+    "Core/Private/Linux/TeLinuxPlatform.cpp"
 )
 
 set (TE_CORE_INC_PLATFORM_MACOS
     "Core/Private/MacOS/TeMacOSWindow.h"
     "Core/Private/MacOS/TeMacOSInput.h"
+    "Core/Private/MacOS/TeMacOSPlatform.h"
 )
 set (TE_CORE_SRC_PLATFORM_MACOS
     "Core/Private/MacOS/TeMacOSWindow.cpp"
@@ -60,6 +63,7 @@ set (TE_CORE_SRC_PLATFORM_MACOS
     "Core/Private/MacOS/TeMacOSGamePad.cpp"
     "Core/Private/MacOS/TeMacOSKeyboard.cpp"
     "Core/Private/MacOS/TeMacOSMouse.cpp"
+    "Core/Private/MacOS/TeMacOSPlatform.cpp"
 )
 
 set(TE_CORE_INC_NOFILTER
