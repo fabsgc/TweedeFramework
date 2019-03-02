@@ -10,5 +10,13 @@ namespace te
 	public:
 		Resource() = default;
 		virtual ~Resource() = default;
+
+        void SetName(const String& name);
+        const String& GetName() const;
+
+        bool AreDependenciesLoaded() const;
+
+    protected:
+        String _name;
     };
 }

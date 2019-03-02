@@ -120,9 +120,11 @@ set (TE_CORE_SRC_MANAGER
 
 set (TE_CORE_INC_RESOURCES
     "Core/Resources/TeResource.h"
+    "Core/Resources/TeResourceHandle.h"
 )
 set (TE_CORE_SRC_RESOURCES
     "Core/Resources/TeResource.cpp"
+    "Core/Resources/TeResourceHandle.cpp"
 )
 
 set (TE_CORE_INC_TEXT
@@ -200,4 +202,6 @@ set(TE_CORE_SRC
     ${TE_CORE_SRC_MANAGER}
     ${TE_CORE_INC_IMPORTER}
     ${TE_CORE_SRC_IMPORTER}
+    ${TE_CORE_INC_RESOURCES}
+    ${TE_CORE_SRC_RESOURCES}
 )

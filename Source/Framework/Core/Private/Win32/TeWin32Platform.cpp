@@ -616,8 +616,6 @@ namespace te
             }
             case WM_CHAR:
             {
-                // TODO - Not handling IME input
-
                 // Ignore rarely used special command characters, usually triggered by ctrl+key
                 // combinations. (We want to keep ctrl+key free for shortcuts instead)
                 if (wParam <= 23)

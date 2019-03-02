@@ -147,7 +147,7 @@ namespace te
 
     void RenderWindow::NotifyWindowDestroyed()
     {
-        //TODO (nothing for my implementation)
+        // Nothing because only one window in my implementation
     }
 
     void RenderWindow::NotifyFocusReceived()

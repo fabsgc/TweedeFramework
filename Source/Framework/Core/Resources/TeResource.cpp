@@ -2,5 +2,19 @@
 
 namespace te
 {
-    // TODO
+    const String& Resource::GetName() const
+    {
+        return _name;
+    }
+
+    void Resource::SetName(const String& name)
+    {
+        _name = name;
+    }
+
+    bool Resource::AreDependenciesLoaded() const
+    {
+        //TODO
+        return true;
+    }
 }
