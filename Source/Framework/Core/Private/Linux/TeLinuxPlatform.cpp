@@ -16,4 +16,8 @@ namespace te
     struct Platform::Pimpl
 	{
     };
+
+	void Platform::Update()
+	{
+	}
 }
