@@ -4,6 +4,11 @@
 #include <iphlpapi.h>
 #include <intrin.h>
 
+#if defined(TE_WIN_SDK_10)
+#   include <Rpc.h>
+#   pragma comment(lib, "Rpcrt4.lib")
+#endif
+
 namespace te
 {
     void PlatformUtility::Terminate(bool force)
