@@ -1,4 +1,5 @@
 #include "TeGLRenderWindow.h"
+#include "Private/Linux/TeLinuxPlatform.h"
 
 namespace te
 {
