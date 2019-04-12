@@ -4,8 +4,6 @@ language: cpp
 matrix:
   include:
     - os: linux
-      compiler:
-        - gcc
       addons:
         apt:
           sources:
@@ -19,13 +17,17 @@ matrix:
             - libxrandr-dev
             - libxi-dev
             - uuid-dev
+            - gcc-8
             - g++-8
-      env:
-         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+      env: 
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
     - os: osx
       compiler:
         - clang
       osx_image: xcode9
+
+before_install:
+  - eval "${MATRIX_EVAL}"
   
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/Dependencies"
@@ -57,7 +59,7 @@ script:
   - mkdir Build && cd Build
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      CC=gcc CXX=g++ cmake -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ -DCMAKE_INSTALL_PREFIX:STRING=${INSTALL_DIR} .. 
+      CC=gcc-8 CXX=g++-8 cmake -D CMAKE_C_COMPILER=gcc-8 -D CMAKE_CXX_COMPILER=g++-8 -DCMAKE_INSTALL_PREFIX:STRING=${INSTALL_DIR} .. 
     else
       cmake -DCMAKE_INSTALL_PREFIX:STRING=${INSTALL_DIR} ..
     fi
