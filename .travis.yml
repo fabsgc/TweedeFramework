@@ -19,6 +19,9 @@ matrix:
             - libxrandr-dev
             - libxi-dev
             - uuid-dev
+            - g++-8.2
+      env:
+         - MATRIX_EVAL="CC=gcc-8.2 && CXX=g++-8.2"
     - os: osx
       compiler:
         - clang
