@@ -11,9 +11,10 @@
   - `cd TweedeFramework`
   - `mkdir Build`
   - `cd Build`
-  - `cmake -G "$generator$" ..`
+  - `cmake -G "$generator$" ..` 
     - Where *$generator$* should be replaced with any of the supported generators. Some common ones:
 	  - `Visual Studio 15 2017 Win64` - Visual Studio 2017 (64-bit build)
+	  - `Visual Studio 16 2019` - Visual Studio 2019
 	  - `Unix Makefiles`
 	  - `Ninja`
 	  - `Xcode`
