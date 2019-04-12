@@ -1,6 +1,6 @@
 | CI            |
 | ------------- |
-[![Build Status](https://travis-ci.org/fabsgc/TweedeFramework.svg?branch=master)]https://travis-ci.org/fabsgc/TweedeFramework) [![Build status]
+[![Build Status](https://travis-ci.org/fabsgc/TweedeFramework.svg?branch=master)](https://travis-ci.org/fabsgc/TweedeFramework) [![Build status]
 
 # TweedeEngine Framework
 
