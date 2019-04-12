@@ -10,7 +10,7 @@ namespace te
     MacOSWindow::MacOSWindow(const WINDOW_DESC& desc)
     {
         // TODO
-    };
+    }
 
     MacOSWindow::~MacOSWindow()
     {
