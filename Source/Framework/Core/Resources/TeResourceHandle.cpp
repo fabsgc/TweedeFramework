@@ -1,4 +1,6 @@
+#include "TeCorePrerequisites.h"
 #include "Resources/TeResourceHandle.h"
+#include "Resources/TeResource.h"
 
 namespace te
 {

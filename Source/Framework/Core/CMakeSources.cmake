@@ -120,10 +120,12 @@ set (TE_CORE_SRC_MANAGER
 
 set (TE_CORE_INC_RESOURCES
     "Core/Resources/TeResource.h"
+    "Core/Resources/TeResources.h"
     "Core/Resources/TeResourceHandle.h"
 )
 set (TE_CORE_SRC_RESOURCES
     "Core/Resources/TeResource.cpp"
+    "Core/Resources/TeResources.cpp"
     "Core/Resources/TeResourceHandle.cpp"
 )
 
