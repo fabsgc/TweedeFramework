@@ -183,7 +183,7 @@ namespace te
          */
         operator int Bool_struct<T>::* () const
         {
-            return ((this->_data != nullptr && !this->_data->_uuid.empty()) ? &Bool_struct<T>::_member : 0);
+            return ((this->_data != nullptr && !this->_data->_uuid.Empty()) ? &Bool_struct<T>::_member : 0);
         }
 
         /**
@@ -212,7 +212,6 @@ namespace te
 
     protected:
         friend Resources;
-        friend class TResourceHandle;
         template<class _Ty1, class _Ty2>
         friend TResourceHandle<_Ty1> static_resource_cast(const TResourceHandle<_Ty2>& other);
 
@@ -256,7 +255,7 @@ namespace te
          */
         TResourceHandle(const UUID& uuid)
         {
-            this->_data = teshared_ptr_new<ResourceHandleData>();
+            this->_data = te_shared_ptr_new<ResourceHandleData>();
             this->_data->_uuid = uuid;
 
             this->AddRef();
