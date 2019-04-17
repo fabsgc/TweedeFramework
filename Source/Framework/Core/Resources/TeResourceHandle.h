@@ -153,7 +153,7 @@ namespace te
         /**	Copy assignment. */
         TResourceHandle<T>& operator=(const TResourceHandle<T>& rhs)
         {
-            GetHandleData(rhs.GetHandleData());
+            SetHandleData(rhs.GetHandleData());
             return *this;
         }
 
