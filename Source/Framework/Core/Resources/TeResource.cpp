@@ -1,20 +1,42 @@
 #include "Resources/TeResource.h"
+#include "Resources/TeResourceMetaData.h"
 
 namespace te
 {
-    const String& Resource::GetName() const
-    {
-        return _name;
-    }
+	Resource::Resource()
+		: mSize(0)
+        , _keepSourceData(true)
+	{ 
+		_metaData = te_shared_ptr_new<ResourceMetaData>();
+	}
 
-    void Resource::SetName(const String& name)
-    {
-        _name = name;
-    }
+	const String& Resource::GetName() const 
+	{ 
+		return _metaData->DisplayName; 
+	}
 
-    bool Resource::AreDependenciesLoaded() const
-    {
-        //TODO
-        return true;
-    }
+	void Resource::SetName(const String& name) 
+	{ 
+		_metaData->DisplayName = name; 
+	}
+
+	bool Resource::AreDependenciesLoaded() const
+	{
+		bool areLoaded = true;
+		{
+			Vector<HResource> dependencies;
+			GetResourceDependencies(dependencies);
+
+			for (auto& dependency : dependencies)
+			{
+				if (dependency != nullptr && !dependency.IsLoaded())
+				{
+					areLoaded = false;
+					break;
+				}
+			}
+		}
+
+		return areLoaded;
+	}
 }

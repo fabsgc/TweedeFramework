@@ -17,7 +17,7 @@
 #include "RenderAPI/TeRenderAPI.h"
 #include "Renderer/TeRenderer.h"
 #include "Importer/TeImporter.h"
-#include "Resources/TeResources.h"
+#include "Resources/TeResourceManager.h"
 
 namespace te
 {
@@ -43,7 +43,7 @@ namespace te
         ThreadPool::StartUp();
         DynLibManager::StartUp();
         TaskScheduler::StartUp();
-        Resources::StartUp();
+        ResourceManager::StartUp();
 
         PluginManager<AudioFactory>::StartUp(_startUpDesc.Audio);
         PluginManager<PhysicsFactory>::StartUp(_startUpDesc.Physics);

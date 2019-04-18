@@ -120,12 +120,13 @@ set (TE_CORE_SRC_MANAGER
 
 set (TE_CORE_INC_RESOURCES
     "Core/Resources/TeResource.h"
-    "Core/Resources/TeResources.h"
+    "Core/Resources/TeResourceManager.h"
     "Core/Resources/TeResourceHandle.h"
+    "Core/Resources/TeResourceMetaData.h"
 )
 set (TE_CORE_SRC_RESOURCES
     "Core/Resources/TeResource.cpp"
-    "Core/Resources/TeResources.cpp"
+    "Core/Resources/TeResourceManager.cpp"
     "Core/Resources/TeResourceHandle.cpp"
 )
 

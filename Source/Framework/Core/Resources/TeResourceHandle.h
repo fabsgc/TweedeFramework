@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Prerequisites/TePrerequisitesUtility.h"
-#include "Resources/TeResource.h"
 #include "Threading/TeThreading.h"
 #include "Utility/TeUUID.h"
 

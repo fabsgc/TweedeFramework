@@ -89,7 +89,7 @@ namespace te
     struct OSPointerButtonStates;
 
     class Resource;
-    class Resources;
+    class ResourceManager;
     class ResourceMetaData;
 }
 
