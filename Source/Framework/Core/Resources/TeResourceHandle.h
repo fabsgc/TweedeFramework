@@ -87,7 +87,7 @@ namespace te
 		SPtr<ResourceHandleData> _data;
 
 	private:
-		friend class Resources;
+		friend class ResourceManager;
 
 		static Signal _resourceCreatedCondition;
 		static Mutex _resourceCreatedMutex;
@@ -210,7 +210,7 @@ namespace te
         }
 
     protected:
-        friend Resources;
+        friend ResourceManager;
         template<class _Ty1, class _Ty2>
         friend TResourceHandle<_Ty1> static_resource_cast(const TResourceHandle<_Ty2>& other);
 
