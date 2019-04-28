@@ -45,7 +45,7 @@ You can choose to use a different *CMake* generator than those specified above, 
     - Linux
     - macOS 10.11 or newer
   - Supported compilers:
-    - MSVC++ 15.0 (Visual Studio 2017)
+    - MSVC++ 15.0 (Visual Studio 2017) (or newer)
     - GCC 7.0 (or newer)
     - Clang 5.0 (or newer)
 	- Apple LLVM 9.0.0 (XCode 9)

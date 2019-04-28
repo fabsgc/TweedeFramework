@@ -86,4 +86,9 @@ namespace te
     class Event;
     template <class ReturnType, class... Args>
     class Event<ReturnType(Args...) >;
+
+    class DataStream;
+
+    template<typename Enum, typename Storage = UINT32>
+    class Flags;
 }

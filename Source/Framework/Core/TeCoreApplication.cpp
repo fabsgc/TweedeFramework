@@ -73,7 +73,7 @@ namespace te
             std::cout << btn.ButtonIdentifier << std::endl;
         };
 
-        gVirtualInput().OnButtonDown.Connect(handleButtonHeld);
+        HEvent event = gVirtualInput().OnButtonDown.Connect(handleButtonHeld);
 
         VIRTUAL_AXIS_DESC desc;
         desc.DeadZone = 0.1f;

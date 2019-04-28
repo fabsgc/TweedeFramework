@@ -79,3 +79,5 @@
 #include "String/TeString.h"
 
 #include "Utility/TeUtility.h"
+
+#include "Utility/TeFlags.h"

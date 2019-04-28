@@ -91,6 +91,7 @@ set(TE_UTILITY_SRC_ERROR
 
 set(TE_UTILITY_INC_STRING
     "Utility/String/TeString.h"
+    "Utility/String/TeUnicode.h"
 )
 set(TE_UTILITY_SRC_STRING
     "Utility/String/TeString.cpp"
@@ -108,6 +109,7 @@ set(TE_UTILITY_INC_UTILITY
     "Utility/Utility/TeQueue.h"
     "Utility/Utility/TeEvent.h"
     "Utility/Utility/TePlatformUtility.h"
+    "Utility/Utility/TeFlags.h"
 )
 set(TE_UTILITY_SRC_UTILITY
     "Utility/Utility/TeDynLib.cpp"
@@ -130,9 +132,11 @@ set(TE_UTILITY_SRC_THREADING
 
 set(TE_UTILITY_INC_FILESYSTEM
     "Utility/FileSystem/TeFileSystem.h"
+    "Utility/FileSystem/TeDataStream.h"
 )
 set(TE_UTILITY_SRC_FILESYSTEM
     "Utility/FileSystem/TeFileSystem.cpp"
+    "Utility/FileSystem/TeDataStream.cpp"
 )
 
 set(TE_UTILITY_INC_WIN32
