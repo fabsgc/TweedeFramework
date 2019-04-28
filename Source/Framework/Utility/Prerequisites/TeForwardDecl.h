@@ -89,6 +89,6 @@ namespace te
 
     class DataStream;
 
-    template<typename Enum, typename Storage = UINT32>
+    template<typename Enum, typename Storage>
     class Flags;
 }
